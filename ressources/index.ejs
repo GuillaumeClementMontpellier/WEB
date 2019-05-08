@@ -2,22 +2,43 @@
 <html>
   <head>
 
-    <title> <%= title %> </title>
+    <title> Magic-project v0 </title>
 
     <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+
 
   </head>
   <body>
 
-  	<div class="w3-container">
+    <div id="header">
+      
+    </div>
 
-        <h1> <%= title %> </h1>
 
-        <p>Welcome to <%= title %></p>
-    
+    <div id="app">
+
+  	  <div class="w3-container">
+
+        <h1> Welcome to Magic-Project v{{ nombre }} </h1>
+
+        <carte v-for="nom in nomCartes" :nom="nom" @btnappuye="augmenterNombre"></carte>
+
+      </div>
+
+      
+
+    </div>
+
+
+    <div id="footer">
+      
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="javascripts/vue.js"></script>
 
   </body>
 </html>
