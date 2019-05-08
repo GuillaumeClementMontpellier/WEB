@@ -69,6 +69,13 @@ Vue.component('review',{
 
       <h3>Ajouter un commentaire : </h3>
 
+      <p v-if="error.length > 0">
+        Please correct these errors :
+        <ul>
+          <li v-for="err in error"> {{ err }} </li>
+        </ul>
+      </p>
+
       <p>
         <label for="name">Name:</label>
         <input id="name" v-model="name" placeholder="name">
@@ -100,24 +107,35 @@ Vue.component('review',{
 		return{
 			name: null,
 			comment: null,
-			rating: null
+			rating: null,
+			error: []
 		}
 	},
 	methods:{
 
 		onSubmit(){
 
-			let carteReview = {
-				name: this.name,
-				comment: this.comment,
-				rating: this.rating
-			}		
+		    this.error = []
 
-		    this.name = null
-		    this.comment = null
-		    this.rating = null
+			if(this.name && this.comment && this.rating){
 
-		    this.$emit('review-submitted', carteReview)
+			    let carteReview = {
+			        name: this.name,
+				    comment: this.comment,
+				    rating: this.rating
+			    }		
+
+                this.name = null
+		        this.comment = null
+		        this.rating = null
+
+		        this.$emit('review-submitted', carteReview)
+		    } else {
+		    	if(!this.name) this.error.push("Name Required")
+		    	if(!this.comment) this.error.push("Comment Required")
+		    	if(!this.rating) this.error.push("Rating Required")
+
+		    }
 
 	    }
 
