@@ -10,6 +10,14 @@ var usersRouter = require('./ressources/users/users');
 
 var app = express();
 
+//connection a la BD TODO deplacer dans CRUD
+const { Pool } = require('pg');
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+});
+
+
 // view engine setup (a changer ?)
 app.set('views', path.join(__dirname, 'ressources'));
 app.set('view engine', 'ejs');
@@ -30,6 +38,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 //routing pour les ressources
 app.use('/', indexRouter); 
 app.use('/users', usersRouter);
+
+//acces a la base de donnee TODO deplacer dans CRUD
+app.get('/db', async (req, res) => {
+    try {
+      const client = await pool.connect()
+      const result = await client.query('SELECT * FROM test_table');
+      const results = { 'results': (result) ? result.rows : null};
+      res.render('pages/db', results );
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
