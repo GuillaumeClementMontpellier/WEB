@@ -3,7 +3,9 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+
+  res.render('accueil/index',{ vue: '<script src="js/accueil_vue.js"></script>'});
+  
 });
 
 module.exports = router;

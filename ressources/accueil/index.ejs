@@ -1,0 +1,27 @@
+
+<%- include('../layout/head') %>
+<%- include('../layout/header') %>
+
+    <div id="header">
+      
+    </div>
+
+
+    <div id="app">
+
+  	  <div class="w3-container">
+
+        <h1> Welcome to Magic-Project v{{ nombre }} </h1>
+
+        <carte v-for="nom in nomCartes" :nom="nom" @btnappuye="augmenterNombre"></carte>
+
+      </div>
+
+    </div>
+
+
+    <div id="footer">
+      
+    </div>
+
+<%- include('../layout/foot',{vue: vue}) %>
