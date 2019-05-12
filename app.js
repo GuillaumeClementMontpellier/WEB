@@ -1,14 +1,14 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-//ou sont situe les modules des ressources
-var accueilRouter = require('./ressources/accueil/accueil');
-var usersRouter = require('./ressources/users/users');
+//where are ressources
+const accueilRouter = require('./ressources/accueil/accueil');
+const usersRouter = require('./ressources/users/users');
 
-var app = express();
+const app = express();
 
 // view engine setup (a changer ?)
 app.set('views', path.join(__dirname, 'ressources'));
@@ -34,7 +34,7 @@ app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+	next(createError(404));
 });
 
 // error handler
