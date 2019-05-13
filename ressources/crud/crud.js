@@ -43,7 +43,7 @@ router.get('/', function (req, res, next) {
 
   })
   
-}
+})
 /*
 router.get('/', function (req, res, next) {
   pool.connect(connectionString,function(err,client,done) {
