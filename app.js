@@ -9,7 +9,7 @@ const logger = require('morgan');
 //where are ressources
 const accueilRouter = require('./ressources/accueil/accueil');
 const usersRouter = require('./ressources/users/users');
-const dbRouter = require('./ressources/crud/crud')
+const apiRouter = require('./ressources/crud/crud')
 
 const app = express();
 
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //routing pour les ressources -------------------------
 app.use('/', accueilRouter); 
 app.use('/users', usersRouter);
-app.use('/db', dbRouter);
+app.use('/api', apiRouter);
 
 
 // catch 404 and forward to error handler
