@@ -46,7 +46,7 @@ router.get('/', function (req, res, next) {
 })
 */
 router.get('/', function (req, res, next) {
-  pool.connect(connectionString,function(err,client,done) {
+  pool.connect( function(err,client,done) {
    if(err){
      console.log("not able to get connection "+ err);
      res.status(400).send(err);
