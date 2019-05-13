@@ -18,12 +18,12 @@ pool.on('error', function (err, client){
 
   console.error('Unexpected error on idle client', err)
 
-}
+})
 
 //acces a la base de donnee 
 
 //cela marche seulement sur le heroku, pas en local (pas ssl en local) ?
-/*
+
 router.get('/', function (req, res, next) {
 
   pool.connect( function (err, client, done) {
@@ -44,23 +44,23 @@ router.get('/', function (req, res, next) {
   })
   
 }
-*/
+/*
 router.get('/', function (req, res, next) {
-    pool.connect(connectionString,function(err,client,done) {
-       if(err){
-           console.log("not able to get connection "+ err);
-           res.status(400).send(err);
-       } 
-       client.query('SELECT * FROM edition where code = $1', ["WAR"],function(err,result) {
+  pool.connect(connectionString,function(err,client,done) {
+   if(err){
+     console.log("not able to get connection "+ err);
+     res.status(400).send(err);
+   } 
+   client.query('SELECT * FROM edition where code = $1', ["WAR"],function(err,result) {
            done(); // closing the connection;
            if(err){
-               console.log(err);
-               res.status(400).send(err);
+             console.log(err);
+             res.status(400).send(err);
            }
            res.status(200).send(result.rows);
-       });
-    });
-});
+         });
+ });
+});*/
 
 
 module.exports = router
