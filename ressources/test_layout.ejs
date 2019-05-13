@@ -8,6 +8,8 @@
 
         <h1> Welcome to Magic-Project v0 </h1>
 
+        <carte v-for="nom in nomCartes" :nom="nom" @btnappuye="augmenterNombre"></carte>
+
       </div>
 
     </div>

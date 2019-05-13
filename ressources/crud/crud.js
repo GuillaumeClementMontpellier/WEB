@@ -1,27 +1,51 @@
+"use strict";
+
+const express = require('express')
+const router = express.Router()
+
 //connection a la BD TODO adapter
 const { Pool } = require('pg');
+
+//pour hasher password
+const sjcl = require('sjcl');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: true
 });
 
+pool.on('error', traitementErreur)
 
-//acces a la base de donnee TODO adapter
-app.get('/db', async (req, res) => {
-    try {
-      
-      const client = await pool.connect()
+function traitementErreur(err, client){
 
-      const result = await client.query('SELECT * FROM test');
-      const results = { 'results': (result) ? result.rows : null};
+  console.error('Unexpected error on idle client', err)
 
-      res.render('pages/db', results );
+}
 
-      client.release();
+//acces a la base de donnee 
+router.get('/',queryDb)
 
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
-    }
+
+function queryDb(req, res, next) {
+
+  pool.connect( (err, client, done) => {
+    if (err) throw err
+
+    client.query('SELECT * FROM edition WHERE id = $1', [1], (err, res) => {
+
+      done()
+
+      if (err) {
+        console.log(err.stack)
+      } else {
+        console.log(res.rows)
+        res.send(res.rows)
+      }
+    })
+
   })
+  
+}
+
+
+module.exports = router

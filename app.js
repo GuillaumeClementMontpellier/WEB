@@ -1,3 +1,5 @@
+"use strict";
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -7,6 +9,7 @@ const logger = require('morgan');
 //where are ressources
 const accueilRouter = require('./ressources/accueil/accueil');
 const usersRouter = require('./ressources/users/users');
+const dbRouter = require('./ressources/crud/crud')
 
 const app = express();
 
@@ -27,9 +30,10 @@ app.use(cookieParser());
 //permet de livrer les fichiers dans public (pour Vue, W3-CSS, et images)
 app.use(express.static(path.join(__dirname, 'public')));
 
-//routing pour les ressources
+//routing pour les ressources -------------------------
 app.use('/', accueilRouter); 
 app.use('/users', usersRouter);
+app.use('/db', dbRouter);
 
 
 // catch 404 and forward to error handler
