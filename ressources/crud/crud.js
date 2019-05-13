@@ -25,13 +25,14 @@ function traitementErreur(err, client){
 //acces a la base de donnee 
 router.get('/',queryDb)
 
+//cela marche seulement sur le heroku, pas en local (pas ssl en local)
 
 function queryDb(req, res, next) {
 
   pool.connect( (err, client, done) => {
     if (err) throw err
 
-    client.query('SELECT * FROM edition WHERE id = $1', [1], (err, res) => {
+    client.query('SELECT * FROM edition WHERE code = $1', ["WAR"], (err, res) => {
 
       done()
 
