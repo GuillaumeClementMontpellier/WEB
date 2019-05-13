@@ -23,7 +23,7 @@ pool.on('error', function (err, client){
 //acces a la base de donnee 
 
 //cela marche seulement sur le heroku, pas en local (pas ssl en local) ?
-
+/*
 router.get('/', function (req, res, next) {
 
   pool.connect( function (err, client, done) {
@@ -44,7 +44,7 @@ router.get('/', function (req, res, next) {
   })
   
 })
-/*
+*/
 router.get('/', function (req, res, next) {
   pool.connect(connectionString,function(err,client,done) {
    if(err){
@@ -60,7 +60,7 @@ router.get('/', function (req, res, next) {
            res.status(200).send(result.rows);
          });
  });
-});*/
+});
 
 
 module.exports = router
