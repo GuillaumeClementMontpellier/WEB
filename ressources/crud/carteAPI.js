@@ -14,7 +14,7 @@ const pool = new Pool({
 //GET -------------------------
 //toutes les cartes ----------
 app.get('/bytop', topReq)
-//app.get('/bynbrcomment', nbrReq)
+app.get('/bynbrcomment', nbrReq)
 
 //req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset[, desc]])
 function topReq(req, res, next) {
@@ -43,20 +43,21 @@ function topReq(req, res, next) {
     }
     console.log('result : '+typeof result + 'result.rows' + typeof result.rows)
     res.status(200);
-    res.send(result.rows);
+    res.json(result.rows);
   });
 }
-/*
+
+
 //req un certains nombre nbr de cartes, qui ont le plus de comments, avec potentiellement un offset et un ordre different
 function nbrReq(req, res, next) {
 
   if(!req.query) next(new Error(400));
   if(typeof req.query.nbr !== 'string') {
     console.log(typeof req.params.nbr)
-    next(new Error(400));
+    return next({status: 400, message: 'invalid input'});
   }
 
-  let q = 'SELECT carte_var."id", image_url, count(*) as nbr FROM carte_var, "comment" WHERE "comment".carte_id = carte_var.id GROUP BY carte_var."id", image_url ORDER BY nbr LIMIT $1'
+  let q = 'SELECT carte_var."id", image_url, count(*) as nbr FROM carte_var, "comment" WHERE "comment".carte_id = carte_var.id GROUP BY carte_var."id", image_url ORDER BY nbr LIMIT $1';
   let par = [req.query.nbr];
 
   if(typeof req.query.offset === 'string'){
@@ -68,14 +69,14 @@ function nbrReq(req, res, next) {
     q.replace('LIMIT', 'DESC LIMIT')
   }
 
-  pool.query(q, par, function(err,result) {
+  pool.query(q, par, function(err,result) {    
     if(err || result == undefined || result.rows == undefined){
-      next(new Error(404))
-    }  
+      return next({status: 400, message: 'invalid input'})
+    }
+    console.log('result : '+typeof result + 'result.rows' + typeof result.rows)
     res.status(200);
-    res.send(result.rows);
+    res.json(result.rows);
   });
-
 }
 
 //tout les types/soustypes/modeles/editions de cartes -------------
@@ -112,6 +113,6 @@ app.delete('/like/:id',)
 //DELETE admin only
 app.delete('/var/:id',)
 app.delete('/modele/:id',)
-*/
+
 
 module.exports = app
