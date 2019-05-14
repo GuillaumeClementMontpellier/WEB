@@ -78,7 +78,7 @@ function nbrReq(req, res, next) {
     res.json(result.rows);
   });
 }
-
+/*
 //tout les types/soustypes/modeles/editions de cartes -------------
 app.get('/types',typesReq)
 app.get('/sub_types',sTypesReq)
@@ -114,5 +114,5 @@ app.delete('/like/:id',)
 app.delete('/var/:id',)
 app.delete('/modele/:id',)
 
-
+*/
 module.exports = app
