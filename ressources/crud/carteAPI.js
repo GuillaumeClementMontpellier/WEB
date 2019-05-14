@@ -33,9 +33,8 @@ function topReq(req, res, next) {
   if(req.params.desc){
     q.replace('LIMIT', 'DESC LIMIT')
   }
-
-  pool.query(q, par, function(err,result) {
-    
+  console.log('start query')
+  pool.query(q, par, function(err,result) {    
     if(err) {
       res.status(400).send(err);
     }
