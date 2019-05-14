@@ -38,10 +38,7 @@ function topReq(req, res, next) {
   }
 
   pool.query(q, par, function(err,result) {    
-    if(err ) {
-      next(new Error(400))
-    }
-    if(result == undefined){
+    if(err || result == undefined || result.rows == undefined){
       next(new Error(404))
     }
     res.status(200);
@@ -71,12 +68,9 @@ function nbrReq(req, res, next) {
   }
 
   pool.query(q, par, function(err,result) {
-    if(err ) {
-      next(new Error(400))
-    }
-    if(!result){
+    if(err || result == undefined || result.rows == undefined){
       next(new Error(404))
-    }   
+    }  
     res.status(200);
     res.send(result.rows);
   });
