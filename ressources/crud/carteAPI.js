@@ -20,7 +20,10 @@ app.get('/bytop', topReq)
 function topReq(req, res, next) {
 
   if(!req.params) next(new Error(400));
-  if(typeof req.params.nbr !== 'string') next(new Error(400));
+  if(typeof req.params.nbr !== 'string') {
+    console.log(typeof req.params.nbr)
+    next(new Error(400));
+  }
 
   let q = 'SELECT "id", image_url FROM carte_var WHERE carte_like_count(id) + carte_dislike_count(id) > 0 ORDER BY score(carte_like_count(id),carte_dislike_count(id)) LIMIT $1';
   let par = [req.params.nbr];
