@@ -35,7 +35,7 @@ function topReq(req, res, next) {
   }
 
   pool.query(q, par, function(err,result) {
-    done(); // closing the connection
+    
     if(err) {
       res.status(400).send(err);
     }
@@ -61,8 +61,6 @@ function nbrReq(req, res, next) {
   }
 
   pool.query(q, par, function(err,result) {
-
-    done(); // closing the connection
 
     if(err) {
       res.status(400).send(err);
