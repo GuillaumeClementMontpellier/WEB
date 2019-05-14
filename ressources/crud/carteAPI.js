@@ -14,12 +14,12 @@ const pool = new Pool({
 //GET -------------------------
 //toutes les cartes ----------
 app.get('/bytop', topReq)
-//app.get('/bynbrcomment', nbrReq)
+app.get('/bynbrcomment', nbrReq)
 
-//req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset, ])
+//req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset, desc])
 function topReq(req, res, next) {
 
-  if(!req.params) next(new Error(400));
+  if(!req.query) next(new Error(400));
   if(typeof req.query.nbr !== 'string') {
     console.log(typeof req.params.nbr)
     next(new Error(400));
@@ -39,39 +39,42 @@ function topReq(req, res, next) {
 
   pool.query(q, par, function(err,result) {    
     if(err) {
-      throw err
+      next(new Error(400))
     }
     res.status(200);
     res.send(result.rows);
   });
 }
 
-/*
-//req un certains nombre de cartes, qui ont le plus de comments
+//req un certains nombre nbr de cartes, qui ont le plus de comments, avec potentiellement un offset et un ordre different
 function nbrReq(req, res, next) {
 
-  if(!req.params) next(new Error(400));
-  if(typeof req.params.nbr != 'number') next(new Error(400));
-
-  let q = 'SELECT carte_var."id", image_url, count(*) as nbr FROM carte_var, "comment" WHERE "comment".carte_id = carte_var.id GROUP BY carte_var."id", image_url ORDER BY nbr LIMIT $1';
-  let par = [req.params.nbr];
-
-  if(typeof req.params.offset == 'number'){
-    q += 'OFFSET $2'
-    par.push(req.params.offset)
+  if(!req.query) next(new Error(400));
+  if(typeof req.query.nbr !== 'string') {
+    console.log(typeof req.params.nbr)
+    next(new Error(400));
   }
 
-  if(req.params.desc){
+  let q = 'SELECT carte_var."id", image_url, count(*) as nbr FROM carte_var, "comment" WHERE "comment".carte_id = carte_var.id GROUP BY carte_var."id", image_url ORDER BY nbr LIMIT $1'
+  let par = [req.query.nbr];
+
+  if(typeof req.query.offset === 'string'){
+    q += 'OFFSET $2'
+    par.push(req.query.offset)
+  }
+
+  if(req.query.desc === true){
     q.replace('LIMIT', 'DESC LIMIT')
   }
 
-  pool.query(q, par, function(err,result) {
-
+  pool.query(q, par, function(err,result) {    
     if(err) {
-      res.status(400).send(err);
+      throw err
     }
-    res.status(200).send(result.rows);
+    res.status(200);
+    res.send(result.rows);
   });
+
 }
 
 //tout les types/soustypes/modeles/editions de cartes -------------
@@ -79,6 +82,9 @@ app.get('/types',typesReq)
 app.get('/sub_types',sTypesReq)
 app.get('/editions',editionReq)
 app.get('/modele',modeleReq)
+
+
+
 
 //infos sur une certaine carte (de la carte, ou ses comments) -----------------
 app.get('/:id_carte',carteInfoReq)
@@ -101,6 +107,6 @@ app.delete('/like/:id',)
 //DELETE admin only
 app.delete('/var/:id',)
 app.delete('/modele/:id',)
-*/
+
 
 module.exports = app
