@@ -39,7 +39,7 @@ function topReq(req, res, next) {
       throw err
     }
     res.status(200);
-    res.send(result.rows);
+    //res.send(result.rows);
   });
 }
 
