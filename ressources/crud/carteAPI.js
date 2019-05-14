@@ -38,8 +38,11 @@ function topReq(req, res, next) {
   }
 
   pool.query(q, par, function(err,result) {    
-    if(err || !result) {
+    if(err ) {
       next(new Error(400))
+    }
+    if(!result){
+      next(new Error(404))
     }
     res.status(200);
     res.send(result.rows);
@@ -63,14 +66,17 @@ function nbrReq(req, res, next) {
     par.push(req.query.offset)
   }
 
-  if(req.query.desc === true){
+  if(req.query.desc){
     q.replace('LIMIT', 'DESC LIMIT')
   }
 
-  pool.query(q, par, function(err,result) {    
-    if(err || !result) {
+  pool.query(q, par, function(err,result) {
+    if(err ) {
       next(new Error(400))
     }
+    if(!result){
+      next(new Error(404))
+    }   
     res.status(200);
     res.send(result.rows);
   });
