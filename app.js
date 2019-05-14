@@ -17,7 +17,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'ressources'));
 app.set('view engine', 'ejs');
 
-//mets le morgan logger
+//mets le morgan logger, ne log pas ce qui est monté avant
 app.use(logger('dev'));
 
 //middleware that parse Unicode into JSON if body content type is application/json
@@ -25,15 +25,15 @@ app.use(express.json());
 //middleware that parse request 
 app.use(express.urlencoded({ extended: false }));
 //parse les cookies
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
-//permet de livrer les fichiers dans public (pour Vue, W3-CSS, et images)
-app.use(express.static(path.join(__dirname, 'public')));
+//permet de livrer les fichiers ressource dans public (pour Vue, W3-CSS, et images) : URI doit etre /ressource/chemin du fichier a partir de public
+app.use('/ressource',express.static(path.join(__dirname, 'public')));
 
 //routing pour les ressources -------------------------
+app.use('/api', apiRouter);
 app.use('/', accueilRouter); 
 app.use('/users', usersRouter);
-app.use('/api', apiRouter);
 
 
 // catch 404 and forward to error handler
