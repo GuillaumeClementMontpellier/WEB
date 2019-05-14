@@ -41,7 +41,7 @@ function topReq(req, res, next) {
     if(err ) {
       next(new Error(400))
     }
-    if(!result){
+    if(result === undefined){
       next(new Error(404))
     }
     res.status(200);
