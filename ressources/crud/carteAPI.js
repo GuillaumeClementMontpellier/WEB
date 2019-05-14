@@ -14,7 +14,7 @@ const pool = new Pool({
 //GET -------------------------
 //toutes les cartes ----------
 app.get('/bytop', topReq)
-app.get('/bynbrcomment', nbrReq)
+//app.get('/bynbrcomment', nbrReq)
 
 //req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset, desc])
 function topReq(req, res, next) {
@@ -41,11 +41,12 @@ function topReq(req, res, next) {
     if(err || result == undefined || result.rows == undefined){
       next(new Error(404))
     }
+    console.log('result : '+typeof result + 'result.rows' + typeof result.rows)
     res.status(200);
     res.send(result.rows);
   });
 }
-
+/*
 //req un certains nombre nbr de cartes, qui ont le plus de comments, avec potentiellement un offset et un ordre different
 function nbrReq(req, res, next) {
 
@@ -76,7 +77,7 @@ function nbrReq(req, res, next) {
   });
 
 }
-/*
+
 //tout les types/soustypes/modeles/editions de cartes -------------
 app.get('/types',typesReq)
 app.get('/sub_types',sTypesReq)
