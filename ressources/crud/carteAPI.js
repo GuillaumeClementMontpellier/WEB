@@ -16,13 +16,13 @@ const pool = new Pool({
 app.get('/bytop', topReq)
 //app.get('/bynbrcomment', nbrReq)
 
-//req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset, desc])
+//req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset[, desc]])
 function topReq(req, res, next) {
 
   if(!req.query) next(new Error(400));
   if(typeof req.query.nbr !== 'string') {
     console.log(typeof req.params.nbr)
-    return next(new Error({status : 400, message: 'invalid parameter'}));
+    return next({status: 400, message: 'invalid input'});
   }
 
   let q = 'SELECT "id", image_url FROM carte_var WHERE carte_like_count(id) + carte_dislike_count(id) > 0 ORDER BY score(carte_like_count(id),carte_dislike_count(id)) LIMIT $1';
@@ -39,7 +39,7 @@ function topReq(req, res, next) {
 
   pool.query(q, par, function(err,result) {    
     if(err || result == undefined || result.rows == undefined){
-      return next(new Error({status : 400, message: 'invalid parameter'}))
+      return next({status: 400, message: 'invalid input'})
     }
     console.log('result : '+typeof result + 'result.rows' + typeof result.rows)
     res.status(200);
