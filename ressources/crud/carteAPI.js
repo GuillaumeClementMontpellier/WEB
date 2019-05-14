@@ -20,12 +20,12 @@ app.get('/bytop', topReq)
 function topReq(req, res, next) {
 
   if(!req.params) next(new Error(400));
-  if(typeof req.params.nbr != 'number') next(new Error(400));
+  if(typeof req.params.nbr !== 'string') next(new Error(400));
 
   let q = 'SELECT "id", image_url FROM carte_var WHERE carte_like_count(id) + carte_dislike_count(id) > 0 ORDER BY score(carte_like_count(id),carte_dislike_count(id)) LIMIT $1';
   let par = [req.params.nbr];
 
-  if(typeof req.params.offset == 'number'){
+  if(typeof req.params.offset === 'string'){
     q += 'OFFSET $2'
     par.push(req.params.offset)
   }
@@ -34,22 +34,15 @@ function topReq(req, res, next) {
     q.replace('LIMIT', 'DESC LIMIT')
   }
 
-  pool.connect( function(err,client,done) {
-
-    if(err){
-      console.log("not able to get connection "+ err);
-      res.status(400).send(err);
-    } 
-
-    client.query(q, par, function(err,result) {    
-      done()
-      if(err) {
-        throw err
-      }
-      res.status(200).send(result.rows);
-    });
+  pool.query(q, par, function(err,result) {    
+    if(err) {
+      throw err
+    }
+    res.status(200);
+    res.send(result.rows);
   });
 }
+
 /*
 //req un certains nombre de cartes, qui ont le plus de comments
 function nbrReq(req, res, next) {
