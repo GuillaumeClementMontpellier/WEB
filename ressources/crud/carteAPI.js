@@ -33,13 +33,12 @@ function topReq(req, res, next) {
   if(req.params.desc){
     q.replace('LIMIT', 'DESC LIMIT')
   }
-  console.log('start query')
+
   pool.query(q, par, function(err,result) {    
     if(err) {
-      res.status(400).send(err);
-    } else {
-      res.status(200).send(result.rows);
+      throw err
     }
+    res.status(200).send(result.rows);
   });
 }
 //req un certains nombre de cartes, qui ont le plus de comments
@@ -64,9 +63,8 @@ function nbrReq(req, res, next) {
 
     if(err) {
       res.status(400).send(err);
-    } else {
-      res.status(200).send(result.rows);
     }
+    res.status(200).send(result.rows);
   });
 }/*
 
