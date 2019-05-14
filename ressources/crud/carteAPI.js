@@ -13,8 +13,8 @@ const pool = new Pool({
 
 //GET -------------------------
 //toutes les cartes ----------
-app.get('/by_top', topReq)
-app.get('/by_nbr_comment', nbrReq)
+app.get('/bytop', topReq)
+app.get('/bynbrcomment', nbrReq)
 
 //req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset, ])
 function topReq(req, res, next) {
