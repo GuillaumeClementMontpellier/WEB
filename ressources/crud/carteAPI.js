@@ -38,7 +38,7 @@ function topReq(req, res, next) {
   }
 
   pool.query(q, par, function(err,result) {    
-    if(err) {
+    if(err || !result) {
       next(new Error(400))
     }
     res.status(200);
@@ -68,8 +68,8 @@ function nbrReq(req, res, next) {
   }
 
   pool.query(q, par, function(err,result) {    
-    if(err) {
-      throw err
+    if(err || !result) {
+      next(new Error(400))
     }
     res.status(200);
     res.send(result.rows);
