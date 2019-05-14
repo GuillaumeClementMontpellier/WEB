@@ -38,10 +38,11 @@ function topReq(req, res, next) {
     if(err) {
       throw err
     }
-    res.status(200)
+    res.status(200);
     res.send(result.rows);
   });
 }
+
 //req un certains nombre de cartes, qui ont le plus de comments
 function nbrReq(req, res, next) {
 
