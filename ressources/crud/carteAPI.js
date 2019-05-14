@@ -22,7 +22,7 @@ function topReq(req, res, next) {
   if(!req.query) next(new Error(400));
   if(typeof req.query.nbr !== 'string') {
     console.log(typeof req.params.nbr)
-    next(new Error(400));
+    return next(new Error(400));
   }
 
   let q = 'SELECT "id", image_url FROM carte_var WHERE carte_like_count(id) + carte_dislike_count(id) > 0 ORDER BY score(carte_like_count(id),carte_dislike_count(id)) LIMIT $1';
@@ -39,7 +39,7 @@ function topReq(req, res, next) {
 
   pool.query(q, par, function(err,result) {    
     if(err || result == undefined || result.rows == undefined){
-      next(new Error(404))
+      return next(new Error(400))
     }
     console.log('result : '+typeof result + 'result.rows' + typeof result.rows)
     res.status(200);
