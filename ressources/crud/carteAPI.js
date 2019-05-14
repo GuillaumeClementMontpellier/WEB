@@ -22,7 +22,7 @@ function topReq(req, res, next) {
   if(!req.params) next(new Error(400));
   if(typeof req.params.nbr != 'number') next(new Error(400));
 
-  let q = 'SELECT id, image_url FROM carte_var WHERE carte_like_count(id) + carte_dislike_count(id) > 0 ORDER BY score(carte_like_count(id),carte_dislike_count(id)) LIMIT $1;';
+  let q = 'SELECT "id", image_url FROM carte_var WHERE carte_like_count(id) + carte_dislike_count(id) > 0 ORDER BY score(carte_like_count(id),carte_dislike_count(id)) LIMIT $1';
   let par = [req.params.nbr];
 
   if(typeof req.params.offset == 'number'){
@@ -49,7 +49,7 @@ function nbrReq(req, res, next) {
   if(!req.params) next(new Error(400));
   if(typeof req.params.nbr != 'number') next(new Error(400));
 
-  let q = 'SELECT id, image_url, count(*) as nbr FROM carte_var, comment WHERE comment.carte_id = carte_var.id ORDER BY nbr LIMIT $1;';
+  let q = 'SELECT carte_var."id", image_url, count(*) as nbr FROM carte_var, "comment" WHERE "comment".carte_id = carte_var.id GROUP BY carte_var."id", image_url ORDER BY nbr LIMIT $1';
   let par = [req.params.nbr];
 
   if(typeof req.params.offset == 'number'){
