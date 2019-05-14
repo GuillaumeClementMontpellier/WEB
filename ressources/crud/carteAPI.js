@@ -22,7 +22,7 @@ function topReq(req, res, next) {
   if(!req.query) next(new Error(400));
   if(typeof req.query.nbr !== 'string') {
     console.log(typeof req.params.nbr)
-    return next(new Error(400));
+    return next(new Error({status : 400, message: 'invalid parameter'}));
   }
 
   let q = 'SELECT "id", image_url FROM carte_var WHERE carte_like_count(id) + carte_dislike_count(id) > 0 ORDER BY score(carte_like_count(id),carte_dislike_count(id)) LIMIT $1';
@@ -39,7 +39,7 @@ function topReq(req, res, next) {
 
   pool.query(q, par, function(err,result) {    
     if(err || result == undefined || result.rows == undefined){
-      return next(new Error(400))
+      return next(new Error({status : 400, message: 'invalid parameter'}))
     }
     console.log('result : '+typeof result + 'result.rows' + typeof result.rows)
     res.status(200);
@@ -102,6 +102,10 @@ app.put('/dislike/:id',)
 //PUT admin only
 app.put('/var',)
 app.put('/modele',)
+
+//PATCH pour changer like en dislike et vice versa
+app.patch('/like/:id',)
+app.patch('/dislike/:id',)
 
 //DELETE a besoin de transaction
 app.delete('/like/:id',)
