@@ -76,7 +76,7 @@ function nbrReq(req, res, next) {
   });
 
 }
-
+/*
 //tout les types/soustypes/modeles/editions de cartes -------------
 app.get('/types',typesReq)
 app.get('/sub_types',sTypesReq)
@@ -107,6 +107,6 @@ app.delete('/like/:id',)
 //DELETE admin only
 app.delete('/var/:id',)
 app.delete('/modele/:id',)
-
+*/
 
 module.exports = app
