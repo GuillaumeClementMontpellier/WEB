@@ -14,7 +14,7 @@ const pool = new Pool({
 //GET -------------------------
 //toutes les cartes ----------
 app.get('/bytop', topReq)
-app.get('/bynbrcomment', nbrReq)
+//app.get('/bynbrcomment', nbrReq)
 
 //req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset, ])
 function topReq(req, res, next) {
@@ -34,15 +34,23 @@ function topReq(req, res, next) {
     q.replace('LIMIT', 'DESC LIMIT')
   }
 
-  pool.query(q, par, function(err,result) {    
-    if(err) {
-      throw err
-    }
-    res.status(200);
-    res.send(result.rows);
+  pool.connect( function(err,client,done) {
+
+    if(err){
+      console.log("not able to get connection "+ err);
+      res.status(400).send(err);
+    } 
+
+    client.query(q, par, function(err,result) {    
+      done()
+      if(err) {
+        throw err
+      }
+      res.status(200)res.send(result.rows);
+    });
   });
 }
-
+/*
 //req un certains nombre de cartes, qui ont le plus de comments
 function nbrReq(req, res, next) {
 
@@ -68,7 +76,7 @@ function nbrReq(req, res, next) {
     }
     res.status(200).send(result.rows);
   });
-}/*
+}
 
 //tout les types/soustypes/modeles/editions de cartes -------------
 app.get('/types',typesReq)
