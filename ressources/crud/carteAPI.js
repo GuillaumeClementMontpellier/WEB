@@ -46,7 +46,7 @@ function topReq(req, res, next) {
       if(err) {
         throw err
       }
-      res.status(200)res.send(result.rows);
+      res.status(200).send(result.rows);
     });
   });
 }
