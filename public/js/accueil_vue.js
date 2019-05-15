@@ -15,7 +15,8 @@ let app = new Vue({
 		})
 		.then(function(reponseJSON) {
 			this.cartes_preview=reponseJSON;
-		});
+		})
+		.bind(this);
 
 	}
 

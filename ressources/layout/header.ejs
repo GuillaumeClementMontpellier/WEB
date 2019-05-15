@@ -1,5 +1,19 @@
 
 <body>
+
+	<script>
+
+		function showLinks() {
+			var x = document.getElementById("small-screen");
+			if (x.className.indexOf("w3-show") == -1) {
+				x.className += " w3-show";
+			} else { 
+				x.className = x.className.replace(" w3-show", "");
+			}
+		}
+
+	</script>
+	
 	<div id="app">
 		<!-- Mettre header : barre en haut de l'ecran -->
 		<div class="w3-bar w3-light-green w3-top">
@@ -21,18 +35,5 @@
 		</div>
 
 		<br><br>
-
-		<script>
-
-			function showLinks() {
-				var x = document.getElementById("small-screen");
-				if (x.className.indexOf("w3-show") == -1) {
-					x.className += " w3-show";
-				} else { 
-					x.className = x.className.replace(" w3-show", "");
-				}
-			}
-
-		</script>
 
 	<!-- Fin Nav bar : a faire en sorte qu'elle dependent de l'app -->
