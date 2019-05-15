@@ -359,7 +359,7 @@ function putCarteVar(req, res, next){
     return next({status: 403, message: 'Pas Authorisé'});
   }
 
-  let q = `INSERT INTO carte_var VALUES($1, $2, $3; $4, $5, $6)`;
+  let q = `INSERT INTO carte_var (image_url, flavor, scry_url, gath_url, edition_code, carte_id) VALUES($1, $2, $3; $4, $5, $6)`;
 
   let par = [req.query.image_url, req.query.flavor, req.query.scry_url, req.query.gath_url, req.query.edition_code, req.query.carte_id];
 
@@ -404,7 +404,7 @@ function putCarteType(req, res, next){
     return next({status: 403, message: 'Pas Authorisé'});
   }
 
-  let q = `INSERT INTO carte_type VALUES($1, $2, $3, $4)`;
+  let q = `INSERT INTO carte_type (carte_name, oracle, mana_cost, cmc) VALUES($1, $2, $3, $4)`;
 
   let par = [req.query.carte_name, req.query.oracle, req.query.mana_cost, req.query.cmc];
 
