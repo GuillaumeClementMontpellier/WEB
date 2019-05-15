@@ -10,13 +10,12 @@ let app = new Vue({
 	created: function(){
 
 		fetch("/api/carte/bytop?nbr=6")
-		.then(function(response) {
+		.then((response) => {
 			return response.json();
 		})
-		.then(function(reponseJSON) {
+		.then((reponseJSON) => {
 			this.cartes_preview=reponseJSON;
-		})
-		.bind(this);
+		});
 
 	}
 
