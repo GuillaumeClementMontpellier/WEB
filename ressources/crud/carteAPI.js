@@ -19,8 +19,9 @@ app.get('/modeles',modeleReq)
 
 //req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset[, desc]])
 function topReq(req, res, next) {
-
-  if(!req.query) next({status: 400, message: 'invalid input'});
+  if(!req.query) {
+    return next({status: 400, message: 'invalid input'});
+  }
   if(typeof req.query.nbr !== 'string') {
     return next({status: 400, message: 'invalid input'});
   }
@@ -49,8 +50,9 @@ function topReq(req, res, next) {
 
 //req un certains nombre nbr de cartes, qui ont le plus de comments, avec potentiellement un offset et un ordre different
 function nbrReq(req, res, next) {
-
-  if(!req.query) next({status: 400, message: 'invalid input'});
+  if(!req.query) {
+    return next({status: 400, message: 'invalid input'});
+  }
   if(typeof req.query.nbr !== 'string') {
     return next({status: 400, message: 'invalid input'});
   }
@@ -79,7 +81,9 @@ function nbrReq(req, res, next) {
 //Tout les modeles de carte, selon query
 function modeleReq(req, res, next) {
 
-  if(!req.query) next({status: 400, message: 'invalid input'});
+  if(!req.query) {
+    return next({status: 400, message: 'invalid input'});
+  }
   if(typeof req.query.nbr !== 'string') {
     return next({status: 400, message: 'invalid input'});
   }
@@ -127,8 +131,9 @@ function typesReq(req, res, next) {
 
 //tout les sub types de carte (loups, humain, guerrier, soldat, elfe, dinosaure, shaman, arcane, cartouche, dieu, ...) AVEC LIMITES ET OFFSET ET ORDRE
 function sTypesReq(req, res, next) {
-
-  if(!req.query) next({status: 400, message: 'invalid input'});
+  if(!req.query) {
+    return next({status: 400, message: 'invalid input'});
+  }
   if(typeof req.query.nbr !== 'string') {
     return next({status: 400, message: 'invalid input'});
   }
@@ -155,8 +160,9 @@ function sTypesReq(req, res, next) {
 }
 //toutes les editions de carte (WAR, M19, DAM, RNA, GRN, IXL, RIX, ...) AVEC LIMITES ET OFFSET ET ORDRE
 function editionReq(req, res, next) {
-
-  if(!req.query) next({status: 400, message: 'invalid input'});
+  if(!req.query) {
+    return next({status: 400, message: 'invalid input'});
+  }
   if(typeof req.query.nbr !== 'string') {
     return next({status: 400, message: 'invalid input'});
   }
@@ -208,7 +214,9 @@ function carteInfoReq(req, res, next) {
 //cherche les top level comments de la carte, AVEC LIMIT ET  OFFSET
 function commentsReq(req, res, next) {
 
-  if(!req.query) next({status: 400, message: 'invalid input'});
+  if(!req.query) {
+    return next({status: 400, message: 'invalid input'});
+  }
   if(typeof req.query.nbr !== 'string') {
     return next({status: 400, message: 'invalid input query'});
   }
@@ -240,23 +248,438 @@ function commentsReq(req, res, next) {
   });
 }
 
-/*
+
 //PUT a besoin de transaction
-app.put('/like/:id',)
-app.put('/dislike/:id',)
+app.put('/like/:id',likePut)
+app.put('/dislike/:id',likePut)
+
+function likePut(req, res, next){
+
+  if(!req.signedIn){
+    return next({status: 403, message: 'Pas logged in'});
+  }
+  if(typeof req.params.id !== 'string') {
+    return next({status: 400, message: 'invalid input param'});
+  }
+
+  let q = `INSERT INTO carte_like VALUES($1, $2, $3)`;
+
+  let par = [req.params.id, req.signedCookies.user_name, true];
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done();
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+      client.query( q, par, function(err,result) {  
+
+        if(shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201);
+        res.send();
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
+
+function dislikePut(req, res, next){
+
+  if(!req.signedIn){
+    return next({status: 403, message: 'Pas logged in'});
+  }
+  if(typeof req.params.id !== 'string') {
+    return next({status: 400, message: 'invalid input param'});
+  }
+
+  let q = `INSERT INTO carte_like VALUES($1, $2, $3)`;
+
+  let par = [req.params.id, req.signedCookies.user_name, false];
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done();
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+      client.query( q, par, function(err,result) {  
+
+        if (shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201);
+        res.send();
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
+
 //PUT admin only
-app.put('/var',)
-app.put('/modele',)
+app.put('/var',putCarteVar)
+app.put('/modele',putCarteType)
+
+function putCarteVar(req, res, next){
+
+  if(!req.signedInAdmin){
+    return next({status: 403, message: 'Pas Authorisé'});
+  }
+
+  let q = `INSERT INTO carte_var VALUES($1, $2, $3; $4, $5, $6)`;
+
+  let par = [req.query.image_url, req.query.flavor, req.query.scry_url, req.query.gath_url, req.query.edition_code, req.query.carte_id];
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done();
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+      client.query( q, par, function(err,result) {  
+
+        if (shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201);
+        res.send();
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
+
+function putCarteType(req, res, next){
+
+  if(!req.signedInAdmin){
+    return next({status: 403, message: 'Pas Authorisé'});
+  }
+
+  let q = `INSERT INTO carte_type VALUES($1, $2, $3, $4)`;
+
+  let par = [req.query.carte_name, req.query.oracle, req.query.mana_cost, req.query.cmc];
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done();
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+
+      client.query( q, par, function(err,result) {  
+
+        if (shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201);
+        res.send();
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
 
 //PATCH pour changer like en dislike et vice versa
-app.patch('/like/:id',)
-app.patch('/dislike/:id',)
+app.patch('/like/:id',patchLike)
+app.patch('/dislike/:id',patchDislike)
+
+function patchLike(req, res, next){
+
+  if(!req.signedIn){
+    return next({status: 403, message: 'Pas Authorisé'});
+  }
+
+  let q = `UPDATE carte_like set aime = true WHERE carte_id= $1 AND user_id = $2`;
+
+  let par = [req.params.id, req.signedCookies.user_id];
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done();
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)){
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+
+      client.query( q, par, function(err,result) {  
+
+        if (shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201);
+        res.send();
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
+function patchDislike(req, res, next){
+
+  if(!req.signedIn){
+    return next({status: 403, message: 'Pas Authorisé'});
+  }
+
+  let q = `UPDATE carte_like set aime = false WHERE carte_id= $1 AND user_id = $2`;
+
+  let par = [req.params.id, req.signedCookies.user_id];
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done();
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if(shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+
+      client.query( q, par, function(err,result) {  
+
+        if (shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201);
+        res.send();
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
 
 //DELETE a besoin de transaction
-app.delete('/like/:id',)
-//DELETE admin only
-app.delete('/var/:id',)
-app.delete('/modele/:id',)
+app.delete('/like/:id',deleteLike)
+function deleteLike(req, res, next){
 
-*/
+  if(!req.signedIn){
+    return next({status: 403, message: 'Pas Authorisé'});
+  }
+
+  let q = `DELETE FROM carte_like WHERE carte_id= $1 AND user_id = $2`;
+
+  let par = [req.params.id, req.signedCookies.user_id];
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done();
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+
+      client.query( q, par, function(err,result) {  
+
+        if(shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201);
+        res.send();
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
+//DELETE admin only
+app.delete('/var/:id',deleteVar)
+app.delete('/modele/:id',deleteModele)
+
+function deleteVar(req, res, next){
+
+  if(!req.signedInAdmin){
+    return next({status: 403, message: 'Pas Authorisé'});
+  }
+
+  let q = `DELETE FROM carte_var WHERE var_id = $1`;
+
+  let par = [req.params.id];
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done();
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)){
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+
+      client.query( q, par, function(err,result) {  
+
+        if(shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201);
+        res.send();
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
+function deleteModele(req, res, next){
+
+  if(!req.signedInAdmin){
+    return next({status: 403, message: 'Pas Authorisé'});
+  }
+
+  let q = `DELETE FROM carte_type WHERE carte_id = $1`;
+
+  let par = [req.params.id];
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done();
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+
+      client.query( q, par, function(err,result) {  
+
+        if (shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201);
+        res.send();
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
+
+
 module.exports = app
