@@ -11,10 +11,11 @@ const helmet = require('helmet')
 const auth = require('./ressources/auth/log')
 
 //where are ressources
-const accueilRouter = require('./ressources/accueil/accueil');
-const usersRouter = require('./ressources/users/users');
+const accueilRouter = require('./ressources/accueil/accueil')
+const usersRouter = require('./ressources/users/users')
+const loginRouter = require('./ressources/login/login')
 const apiRouter = require('./ressources/crud/crud')
-const carteRouter = require('./ressources/carte/carte');
+const carteRouter = require('./ressources/carte/carte')
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use('/api', apiRouter);
 app.use('/', accueilRouter); 
 app.use('/users', usersRouter);
 app.use('/carte', carteRouter);
+app.use('/login', loginRouter)
 
 
 // catch 404 and forward to error handler

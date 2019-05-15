@@ -20,10 +20,10 @@ app.get('/modeles',modeleReq)
 //req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset[, desc]])
 function topReq(req, res, next) {
   if(!req.query) {
-    return next({status: 400, message: 'invalid input'});
+    return next({status: 400, message: 'invalid input 1'});
   }
   if(typeof req.query.nbr !== 'string') {
-    return next({status: 400, message: 'invalid input'});
+    return next({status: 400, message: 'invalid input 2'});
   }
 
   let q = 'SELECT var_id, image_url FROM carte_var WHERE carte_like_count(var_id) + carte_dislike_count(var_id) > 0 ORDER BY score(carte_like_count(var_id),carte_dislike_count(var_id)) LIMIT $1';
@@ -40,7 +40,7 @@ function topReq(req, res, next) {
 
   pool.query(q, par, function(err,result) {    
     if(err || result == undefined || result.rows == undefined){
-      return next({status: 400, message: 'invalid input'})
+      return next({status: 400, message: 'invalid input 3'})
     }
     res.status(200);
     res.json(result.rows);
