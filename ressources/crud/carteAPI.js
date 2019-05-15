@@ -154,7 +154,7 @@ function sTypesReq(req, res, next) {
   });
 }
 //toutes les editions de carte (WAR, M19, DAM, RNA, GRN, IXL, RIX, ...) AVEC LIMITES ET OFFSET ET ORDRE
-function sTypesReq(req, res, next) {
+function editionReq(req, res, next) {
 
   if(!req.query) next({status: 400, message: 'invalid input'});
   if(typeof req.query.nbr !== 'string') {
@@ -240,7 +240,7 @@ function commentsReq(req, res, next) {
   });
 }
 
-
+/*
 //PUT a besoin de transaction
 app.put('/like/:id',)
 app.put('/dislike/:id',)
@@ -258,5 +258,5 @@ app.delete('/like/:id',)
 app.delete('/var/:id',)
 app.delete('/modele/:id',)
 
-
+*/
 module.exports = app
