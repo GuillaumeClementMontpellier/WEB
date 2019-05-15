@@ -5,6 +5,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const helmet = require('helmet')
 
 //middleware authorasitions
 const auth = require('./ressources/auth/log')
@@ -24,14 +25,15 @@ app.set('view engine', 'ejs');
 //mets le logger
 app.use(logger('dev'));
 
+//helmet middleware, change les headers de la reponse pour securite TODO options
+app.use(helmet())
+
 //middleware that parse Unicode into JSON if body content type is application/json
 app.use(express.json());
 //middleware that parse request 
 app.use(express.urlencoded({ extended: false }));
 //parse les cookies
 app.use(cookieParser(process.env.COOKIE_SECRET));
-
-//helmet middleware, change les headers de la reponse
 
 //auth middleware, custom => mets req.signedIn true si le cookie auth == auth de la base de donnée
 app.use(auth())
