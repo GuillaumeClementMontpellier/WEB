@@ -7,11 +7,14 @@ let app = new Vue({
 		cartes_preview : []
 	},
 
-	created: function(){ 
+	created: function(){
+
 		fetch("/api/carte/bytop?nbr=6")
-		.then(r => r.json())
-		.then(json => {
-			this.json=json;
+		.then(function(response) {
+			return response.json();
+		})
+		.then(function(reponseJSON) {
+			this.cartes_preview=reponseJSON;
 		});
 
 	}
