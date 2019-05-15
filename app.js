@@ -6,10 +6,14 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+//middleware authorasitions
+const auth = require('./ressources/auth/log')
+
 //where are ressources
 const accueilRouter = require('./ressources/accueil/accueil');
 const usersRouter = require('./ressources/users/users');
 const apiRouter = require('./ressources/crud/crud')
+const carteRouter = require('./ressources/carte/carte');
 
 const app = express();
 
@@ -17,7 +21,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'ressources'));
 app.set('view engine', 'ejs');
 
-//mets le morgan logger, ne log pas ce qui est monté avant
+//mets le logger
 app.use(logger('dev'));
 
 //middleware that parse Unicode into JSON if body content type is application/json
@@ -27,6 +31,11 @@ app.use(express.urlencoded({ extended: false }));
 //parse les cookies
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+//helmet middleware, change les headers de la reponse
+
+//auth middleware, custom => mets req.signedIn true si le cookie auth == auth de la base de donnée
+app.use(auth())
+
 //permet de livrer les fichiers ressource dans public (pour Vue, W3-CSS, et images) : URI doit etre /ressource/chemin du fichier a partir de public
 app.use('/ressource',express.static(path.join(__dirname, 'public')));
 
@@ -34,6 +43,7 @@ app.use('/ressource',express.static(path.join(__dirname, 'public')));
 app.use('/api', apiRouter);
 app.use('/', accueilRouter); 
 app.use('/users', usersRouter);
+app.use('/carte', carteRouter);
 
 
 // catch 404 and forward to error handler

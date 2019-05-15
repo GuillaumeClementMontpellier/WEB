@@ -1,3 +1,35 @@
-  <body>
 
-  	<!-- Mettre header : barre en haut de l'ecran -->
+<body>
+
+	<!-- Mettre header : barre en haut de l'ecran -->
+	<div class="w3-bar w3-light-green w3-top">
+
+		<a href="#" class="w3-bar-item w3-button"> Magic Place </a>
+		<a href="#" class="w3-bar-item w3-button w3-hide-small">Log-in</a>
+		<a href="#" class="w3-bar-item w3-button w3-hide-small">Sign in</a>
+		<a href="#" class="w3-bar-item w3-button w3-hide-small">Search</a>
+		<a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="showLinks()"> &#9776; </a>
+
+
+		<div id="small-screen" class="w3-bar-block w3-light-green w3-hide w3-hide-large w3-hide-medium">
+			<a href="#" class="w3-bar-item w3-button">Log-in</a>
+			<a href="#" class="w3-bar-item w3-button">Sign in</a>
+			<a href="#" class="w3-bar-item w3-button">Search</a>
+		</div>
+
+	</div>
+
+	<script>
+
+		function showLinks() {
+			var x = document.getElementById("small-screen");
+			if (x.className.indexOf("w3-show") == -1) {
+				x.className += " w3-show";
+			} else { 
+				x.className = x.className.replace(" w3-show", "");
+			}
+		}
+
+	</script>
+
+	<!-- Fin Nav bar : a faire en sorte qu'elle dependent de l'app -->
