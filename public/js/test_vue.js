@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 
 Vue.component('carte',{
   props: {
@@ -135,9 +135,9 @@ Vue.component('review',{
 
       } else {
 
-        if(!this.name) this.error.push("Name Required");
-        if(!this.comment) this.error.push("Comment Required");
-        if(!this.rating) this.error.push("Rating Required");
+        if(!this.name) this.error.push("Name Required")
+        if(!this.comment) this.error.push("Comment Required")
+        if(!this.rating) this.error.push("Rating Required")
 
       }
     }

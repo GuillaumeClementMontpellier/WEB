@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 
 const express = require('express')
 const router = express.Router()
@@ -6,8 +6,14 @@ const router = express.Router()
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  res.render('accueil/index',{ vue: '<script src="ressource/js/accueil_vue.js"></script>'});
-  
-});
+	if (req.signedIn){
 
-module.exports = router;
+		res.render('accueil/signed',{ vue: '<script src="ressource/js/signed_vue.js"></script>'})
+
+	} else {
+
+		res.render('accueil/index',{ vue: '<script src="ressource/js/accueil_vue.js"></script>'})
+	}
+})
+
+module.exports = router
