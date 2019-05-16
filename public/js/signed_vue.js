@@ -11,27 +11,27 @@ Vue.component('carte-preview',{
 	<div class="w3-container">
 
 	<a :href="'/carte/' + carte.var_id"> 
-	<img :src="carte.image_url" alt="Carte" class="w3-image w3-btn">
+	<img :src="carte.image_url" alt="Carte" class="w3-image w3-btn w3-border">
 	</a>
 
 	<div class="w3-row">
 
-	<div class="w3-col s4">
+	<div class="w3-col s6">
 
-	<button @click="like()" class="w3-button w3-btn"> Like </button>
-
-	</div>
-
-	<div class="w3-col s4">
-
-	<button @click="dislike()" class="w3-button w3-btn"> Disike </button>
+	<button @click="like()" class="w3-button w3-btn w3-border"> Like </button>
 
 	</div>
 
-	<div class="w3-col s4">
+	<div class="w3-col s6">
+
+	<button @click="dislike()" class="w3-button w3-btn w3-border"> Disike </button>
+
+	</div>
+
+	<div class="w3-col s12">
 
 	<a :href="'/carte/' + carte.var_id">
-	<button class="w3-button w3-btn"> Voir les commentaires </button> 
+	<button class="w3-button w3-border w3-btn  w3-block"> Voir les commentaires </button> 
 	</a>
 
 	</div>
