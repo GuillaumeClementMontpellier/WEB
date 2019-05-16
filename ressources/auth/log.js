@@ -44,11 +44,11 @@ function checkAuth() {
 
 			pool.query(q, [req.signedCookies.user_id], function(err,result) { 
 
-				console.log('result '+result.rows[0]+' auth '+req.signedCookies.auth)
-
 				if(err || result == undefined || result.rows == undefined){
 					return next()
 				}
+
+				console.log('result '+result+' auth '+req.signedCookies.auth)
 
 				if(result.rows[0].code_auth == req.signedCookies.auth){
 					req.signedIn = true
