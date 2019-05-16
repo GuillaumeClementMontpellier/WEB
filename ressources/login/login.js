@@ -133,7 +133,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 				client.query( q1, par1, function(err,result) {  
 
 					if(shouldAbort(err)){
-						return next({status: 500, message: 'Problem of insert'})
+						return next({status: 500, message: 'Problem of select'})
 					}
 
 					if(result == undefined || result.rows == undefined){
