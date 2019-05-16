@@ -1,6 +1,6 @@
 
 <%- include('../layout/head') %>
-<%- include('../layout/header') %>
+<%- include('../layout/header_logged') %>
 
 <div class="w3-container">
 
@@ -12,11 +12,23 @@
 
 	<div class="w3-container w3-center w3-border-bottom">
 
-		<h3>Previews de Cartes</h3>
+		<h3>Cartes au Top</h3>
 
 		<div class="w3-row">
 
-			<carte-preview class="w3-col s6 m4 l3" v-for="carte in cartes_preview" :key="carte.var_id" @liked='liked' @disliked='disliked'> </carte-preview> 
+			<carte-preview class="w3-col s6 m4 l3" v-for="carte in cartes_preview" :key="carte.var_id" @liked='liked_carte' @disliked='disliked_carte'> </carte-preview> 
+
+		</div>
+
+	</div>
+
+	<div class="w3-container w3-center w3-border-bottom">
+
+		<h3>Commentaires au Top</h3>
+
+		<div class="w3-row">
+
+			<comment-preview class="w3-col s6 m4 l3" v-for="comm in comments_preview" :key="comm.var_id" @liked='liked_comm' @disliked='disliked_comm'> </comment-preview> 
 
 		</div>
 
