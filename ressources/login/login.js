@@ -33,6 +33,20 @@ router.post('/logout', logout)
 
 router.put('/signin', sign)
 
+// error handler
+router.use( function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message
+  res.locals.error = req.app.get('env') === 'development' ? err : {}
+
+  // render the error page
+  res.status(err.status || 500)
+
+  res.render('login/log_form',{message : 'Erreur, pas authentifié', vue: '<script src="/ressource/js/login_vue.js"></script>'})
+
+})
+
+
 function login(req, res, next){ //post username, mot de passe, qui sont dans body de la request
 
 	if(req.body.user_name && req.body.pass){
@@ -225,7 +239,7 @@ function putAuth(user_id, auth_code ){
 			})
 		})
 	})
-}
 
+}
 
 module.exports = router

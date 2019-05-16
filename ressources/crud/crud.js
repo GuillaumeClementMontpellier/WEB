@@ -3,9 +3,6 @@
 const express = require('express')
 const router = express.Router()
 
-//pour hasher password
-//const sjcl = require('sjcl'); //dans api qui fait la verif
-
 const apiCarte = require('./carteAPI.js')
 const apiUsers = require('./usersAPI.js')
 const apiComment = require('./commentAPI.js')

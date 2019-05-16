@@ -63,7 +63,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500)
-  res.render('error',{message : err.message, status : err.status})
+  res.render('login/log_form',{message : 'Erreur, pas authentifié', vue: '<script src="/ressource/js/login_vue.js"></script>'})
+  
 })
 
 module.exports = app
