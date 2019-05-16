@@ -16,7 +16,7 @@
 
 		<div class="w3-row">
 
-			<carte-preview class="w3-col s6 m4 l3" v-for="carte in cartes_preview" :key="carte.var_id" @liked='liked_carte' @disliked='disliked_carte' :carte="carte"> </carte-preview> 
+			<carte-preview class="w3-col s12 m6 l4" v-for="carte in cartes_preview" :key="carte.var_id" @liked='liked_carte' @disliked='disliked_carte' :carte="carte"> </carte-preview> 
 
 		</div>
 
@@ -28,7 +28,7 @@
 
 		<div class="w3-row">
 
-			<comment-preview class="w3-col s6 m4 l3" v-for="comm in comments_preview" :key="comm.var_id" @liked='liked_comm' @disliked='disliked_comm' :comm="comm"> </comment-preview> 
+			<comment-preview class="w3-col s12" v-for="comm in comments_preview" :key="comm.var_id" @liked='liked_comm' @disliked='disliked_comm' :comm="comm"> </comment-preview> 
 
 		</div>
 
