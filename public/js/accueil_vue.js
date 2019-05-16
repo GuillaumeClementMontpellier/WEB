@@ -10,28 +10,28 @@ Vue.component('carte-preview',{
 	template:`
 	<div class="w3-container">
 
-	<a href="/login"> 
-	<img :src="carte.image_url" alt="Carte" class="w3-image">
+	<a href="/login/login"> 
+	<img :src="carte.image_url" alt="Carte" class="w3-image w3-btn">
 	</a>
 
 	<div class="w3-row">
 
 	<div class="w3-col s4">
 
-	<a href="/login/login"><button class="w3-button"> Like </button></a>
+	<a href="/login/login"><button class="w3-button w3-border w3-btn"> Like </button></a>
 
 	</div>
 
 	<div class="w3-col s4">
 
-	<a href="/login/login"><button class="w3-button"> Disike </button></a>
+	<a href="/login/login"><button class="w3-button w3-border w3-btn"> Disike </button></a>
 
 	</div>
 
 	<div class="w3-col s4">
 
-	<a href="/login">
-	<button class="w3-button"> Voir les commentaires </button> 
+	<a href="/login/login">
+	<button class="w3-button w3-border w3-btn"> Voir les commentaires </button> 
 	</a>
 
 	</div>
