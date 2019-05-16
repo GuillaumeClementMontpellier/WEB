@@ -37,7 +37,7 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 		pool.query(q, [req.body.user_name], function(err,result) { 
 
 			if(err || result == undefined || result.rows == undefined){
-				return next({status : 400, message : 'Error loging in'})
+				return next({status : 400, message : 'Error logging in'})
 			}
 
 			//encrypt pass passé en body
