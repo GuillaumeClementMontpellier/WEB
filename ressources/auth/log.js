@@ -21,7 +21,7 @@ function checkAuth() {
 
 		if(req.signedCookies.auth && req.signedCookies.admin_id){
 
-			let q = 'SELECT code_auth FROM user_profile, admin WHERE user_id=$1 AND user_id = admin_id'
+			let q = 'SELECT code_auth FROM user_profile, admin WHERE id_user=$1 AND user_id = admin_id'
 
 			pool.query(q, [req.signedCookies.admin_id], function(err,result) { 
 
@@ -40,7 +40,7 @@ function checkAuth() {
 
 		}else if(req.signedCookies.auth && req.signedCookies.user_id){
 
-			let q = 'SELECT code_auth FROM user_profile WHERE user_id=$1'
+			let q = 'SELECT code_auth FROM user_profile WHERE id_user=$1'
 
 			pool.query(q, [req.signedCookies.user_id], function(err,result) { 
 
