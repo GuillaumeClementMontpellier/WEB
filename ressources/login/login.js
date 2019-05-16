@@ -137,7 +137,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 						return next({status: 500, message: 'Problem of select'})
 					}
 
-					if(result == undefined || result.rows == undefined){
+					if(result == undefined || result.rows == undefined || result.rows[0] == undefined){
 						return next({status: 400, message: 'invalid input'})
 					}
 
