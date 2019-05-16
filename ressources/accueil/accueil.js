@@ -8,11 +8,11 @@ router.get('/', function(req, res, next) {
 
 	if (req.signedIn){
 
-		res.render('accueil/signed',{ vue: '<script src="ressource/js/signed_vue.js"></script>'})
+		res.render('accueil/signed',{ vue: '<script src="/ressource/js/signed_vue.js"></script>'})
 
 	} else {
 
-		res.render('accueil/index',{ vue: '<script src="ressource/js/accueil_vue.js"></script>'})
+		res.render('accueil/index',{ vue: '<script src="/ressource/js/accueil_vue.js"></script>'})
 	}
 })
 
