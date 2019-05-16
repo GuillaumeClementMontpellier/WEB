@@ -55,8 +55,9 @@ function checkAuth() {
 				return next()
 
 			})			
+		} else {
+			return	next()
 		}
-		next()
 	}
 }
 

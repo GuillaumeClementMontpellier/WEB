@@ -36,11 +36,11 @@ app.use(express.urlencoded({ extended: true })) // pour url body
 //parse les cookies
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
-//auth middleware, custom => mets req.signedIn true si le cookie auth == auth de la base de donnée
-app.use(auth())
-
 //permet de livrer les fichiers ressource dans public (pour Vue, W3-CSS, et images) : URI doit etre /ressource/chemin du fichier a partir de public
 app.use('/ressource',express.static(path.join(__dirname, 'public')))
+
+//auth middleware, custom => mets req.signedIn true si le cookie auth == auth de la base de donnée
+app.use(auth())
 
 //routing pour les ressources -------------------------
 app.use('/api', apiRouter)

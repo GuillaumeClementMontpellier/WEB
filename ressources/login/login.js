@@ -77,11 +77,9 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 				res.cookie('auth', auth_code, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				res.cookie('user_id', result.rows[0].id_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				
-				res.redirect('/')
+				return res.redirect('/')
 
 				putAuth(result.rows[0].id_user, auth_code)
-
-				return 
 
 			} 
 
