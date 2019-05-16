@@ -43,7 +43,7 @@ router.use( function(err, req, res, next) {
   res.status(err.status || 500)
 
   //res.render('login/log_form',{message : 'Erreur, pas authentifié', vue: '<script src="/ressource/js/login_vue.js"></script>'})
-  res.redirect('/login/signin', {message : err.message})
+  res.redirect('/login/signin')
 
 })
 
@@ -102,6 +102,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 	req.signedInAdmin = false
 
 	if(req.body.user_name && req.body.pass && req.body.birth_date && req.body.pass_confirm ){
+		console.log(Date.parse(req.body.birth_date))
 
 		if(req.body.pass != req.body.pass_confirm) {
 			return next({status: 400, message: 'Pas bon mdp Confirmation'})
@@ -142,17 +143,16 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 					if (res.rows[0].n == 0 ){//si user n'existe pas encore
 
 						const saltBits = sjcl.random.randomWords(8)
-						const derivedKey = sjcl.misc.pbkdf2(req.body.pass, saltBits, 1000, 256)
+					const derivedKey = sjcl.misc.pbkdf2(req.body.pass, saltBits, 1000, 256)
 
-						const key = sjcl.codec.base64.fromBits(derivedKey)
-						const salt = sjcl.codec.base64.fromBits(saltBits)
+					const key = sjcl.codec.base64.fromBits(derivedKey)
+					const salt = sjcl.codec.base64.fromBits(saltBits)
 
-						const auth_code_bits = sjcl.random.randomWords(8)
-						const auth_code = sjcl.codec.base64.fromBits(auth_code_bits)
+					const auth_code_bits = sjcl.random.randomWords(8)
+					const auth_code = sjcl.codec.base64.fromBits(auth_code_bits)
 
 						//req
 						let q = `INSERT INTO user_profile (name_user, enc_pass, salt, code_auth, birth_date) VALUES($1, $2, $3, $4, $5) RETURNING id_user`
-						console.log(Date.parse(req.body.birth_date))
 
 						let par = [req.body.user_name, key, salt, auth_code , Date.parse(req.body.birth_date)]
 
