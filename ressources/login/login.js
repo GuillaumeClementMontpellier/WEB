@@ -111,7 +111,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 			return next({status: 400, message: 'mdp pas assez long'})
 		}
 
-		let q1 = 'Select count(user_name) as n from user_profile where user_name = $1'
+		let q1 = 'Select count(*) as n from user_profile where name_user = $1'
 
 		let par1 = [req.body.user_name]
 
@@ -127,6 +127,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 			}
 
 			client.query('BEGIN', function(err){
+
 				if (shouldAbort(err)) {
 					return next({status: 500, message: 'Problem of transaction'})
 				}
