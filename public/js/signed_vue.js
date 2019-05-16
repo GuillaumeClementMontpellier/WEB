@@ -10,7 +10,7 @@ Vue.component('carte-preview',{
 	template:`
 	<div class="w3-container">
 
-	<a href="/login"> 
+	<a :href="'/carte/' + carte.var_id"> 
 	<img :src="carte.image_url" alt="Carte" class="w3-image">
 	</a>
 
@@ -88,10 +88,16 @@ let app = new Vue({
 
 	}, 
 	methods : {
-		liked(carte, deja) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete
+		liked_carte(carte, deja) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete
 			return 
 		},
-		disliked(carte, deja) {
+		disliked_carte(carte, deja) {
+			return
+		},		
+		liked_comm(comm, deja) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete
+			return 
+		},
+		disliked_comm(comm, deja) {
 			return
 		}
 

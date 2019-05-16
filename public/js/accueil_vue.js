@@ -10,7 +10,7 @@ Vue.component('carte-preview',{
 	template:`
 	<div class="w3-container">
 
-	<a :href="'/carte/' + carte.var_id"> 
+	<a href="/login"> 
 	<img :src="carte.image_url" alt="Carte" class="w3-image">
 	</a>
 
@@ -30,7 +30,7 @@ Vue.component('carte-preview',{
 
 	<div class="w3-col s4">
 
-	<a :href="'/carte/' + carte.var_id">
+	<a href="/login">
 	<button class="w3-button"> Voir les commentaires </button> 
 	</a>
 
