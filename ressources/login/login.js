@@ -16,13 +16,13 @@ const pool = new Pool({
 /* GET home page. */
 router.get('/login', function(req, res, next) {
 
-	res.render('login/log_form',{ vue: '<script src="/ressource/js/login_vue.js"></script>'})
+	res.render('login/log_form',{ vue: '<script src="/ressource/js/login_vue.js"></script>', message = false})
 	
 })
 
 router.get('/signin', function(req, res, next) {
 
-	res.render('login/sign_form',{ vue: '<script src="/ressource/js/login_vue.js"></script>'})
+	res.render('login/sign_form',{ vue: '<script src="/ressource/js/login_vue.js"></script>', message = false})
 	
 })
 
@@ -31,7 +31,7 @@ router.post('/login', login)
 
 router.post('/logout', logout)
 
-router.put('/signin', sign)
+router.post('/signin', sign)
 
 // error handler
 router.use( function(err, req, res, next) {
