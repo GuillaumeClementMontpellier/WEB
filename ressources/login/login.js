@@ -43,6 +43,7 @@ router.use( function(err, req, res, next) {
   res.status(err.status || 500)
 
   //res.render('login/log_form',{message : 'Erreur, pas authentifié', vue: '<script src="/ressource/js/login_vue.js"></script>'})
+  console.log(err.status + err.message)
   res.redirect('/users')
 
 })
@@ -104,7 +105,10 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 	if(req.body.user_name && req.body.pass && req.body.birth_date && req.body.pass_confirm ){
 
 		if(req.body.pass != req.body.pass_confirm) {
-			return next({status: 400, message: 'Pas bon mdp'})
+			return next({status: 400, message: 'Pas bon mdp Confirmation'})
+		}
+		if(req.body.pass.length < 10) {
+			return next({status: 400, message: 'mdp pas assez long'})
 		}
 
 		let q1 = 'Select count(user_name) as n from user_profile where user_name = $1'
