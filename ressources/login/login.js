@@ -43,7 +43,8 @@ router.use( function(err, req, res, next) {
   res.status(err.status || 500)
 
   //res.render('login/log_form',{message : 'Erreur, pas authentifié', vue: '<script src="/ressource/js/login_vue.js"></script>'})
-  res.redirect('/login/signin')
+  console.log(err.message)
+  res.redirect('/')
 
 })
 
