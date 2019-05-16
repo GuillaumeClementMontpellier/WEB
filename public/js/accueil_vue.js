@@ -16,25 +16,31 @@ Vue.component('carte-preview',{
 
 	<div class="w3-row">
 
-	<div class="w3-col s6">
+	<div class="w3-col s1" style="visibility: hidden">POS</div>
 
-	<a href="/login/login"><button class="w3-button w3-border w3-btn"> Like </button></a>
+	<div class="w3-col s4">
 
-	</div>
-
-	<div class="w3-col s6">
-
-	<a href="/login/login"><button class="w3-button w3-border w3-btn"> Disike </button></a>
+	<a href="/login/login"><button class="w3-button w3-border w3-btn w3-block"> Like </button></a>
 
 	</div>
 
-	<div class="w3-col s12">
+	<div class="w3-col s2" style="visibility: hidden">POS</div>
+
+	<div class="w3-col s4">
+
+	<a href="/login/login"><button class="w3-button w3-border w3-btn w3-block"> Disike </button></a>
+
+	</div>
+
+	<div class="w3-col s1" style="visibility: hidden">POS</div>
+
+	<div class="w3-col s10 w3-center">
+
+	</div>
 
 	<a href="/login/login">
-	<button class="w3-button w3-border w3-btn w3-block"> Voir les commentaires </button> 
+	<button class="w3-button w3-border w3-btn w3-block"> Commentaires </button> 
 	</a>
-
-	</div>
 
 	</div>
 
