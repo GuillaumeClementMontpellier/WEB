@@ -38,13 +38,17 @@ Vue.component('carte-preview',{
 
 	<div class="w3-row">
 
+	<div class="w3-col s1" style="visibility: hidden">POS</div>
+
 	<div class="w3-col s10">
 
 	<a :href="'/carte/' + carte.var_id">
-	<button class="w3-button w3-border w3-btn w3-block w3-center"> Voir les commentaires </button> 
+	<button class="w3-button w3-border w3-btn w3-block"> Voir les commentaires </button> 
 	</a>
 
 	</div>
+
+	<div class="w3-col s1" style="visibility: hidden">POS</div>
 
 	</div>
 
