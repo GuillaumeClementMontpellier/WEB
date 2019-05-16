@@ -141,7 +141,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 						return next({status: 400, message: 'invalid input'})
 					}
 
-					if (res.rows[0].n == 0 ){//si user n'existe pas encore
+					if (res.rows[0] == 0 ){//si user n'existe pas encore
 
 						const saltBits = sjcl.random.randomWords(8)
 				  	const derivedKey = sjcl.misc.pbkdf2(req.body.pass, saltBits, 1000, 256)
