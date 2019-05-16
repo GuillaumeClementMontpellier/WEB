@@ -29,7 +29,7 @@ router.get('/signin', function(req, res, next) {
 //log in and out
 router.post('/login', login)
 
-router.post('/logout', logout)
+router.get('/logout', logout)
 
 router.post('/signin', sign)
 
@@ -43,7 +43,7 @@ router.use( function(err, req, res, next) {
   res.status(err.status || 500)
 
   //res.render('login/log_form',{message : 'Erreur, pas authentifié', vue: '<script src="/ressource/js/login_vue.js"></script>'})
-  console.log(err.message)
+  //console.log(err.message)
   res.redirect('/')
 
 })
@@ -54,12 +54,12 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 	if(req.body.user_name && req.body.pass){
 
 		//request enc_pass et salt
-		let q = 'SELECT enc_pass, salt, user_id FROM user_profile WHERE user_name=$1 '
+		let q = 'SELECT enc_pass, salt, user_id FROM user_profile WHERE name_user=$1 '
 
 		pool.query(q, [req.body.user_name], function(err,result) { 
 
 			if(err || result == undefined || result.rows == undefined){
-				return next({status : 400, message : 'Error logging in'})
+				return res.redirect('/login/login/err')
 			}
 
 			//encrypt pass passé en body
@@ -77,20 +77,19 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 				res.cookie('auth', auth_code, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				res.cookie('user_id', result.rows[0].id_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				
-				return res.redirect('/')
+				res.redirect('/')
 
 				putAuth(result.rows[0].id_user, auth_code)
 
+				return
 			} 
 
-			res.redirect('/login/login')
-
-			return 
+			return res.redirect('/login/login/err')
 
 		})		
 
 	}	else {
-		next({status : 400, message : 'Error logging in'})
+		res.redirect('/login/login/err')
 	}
 
 }
@@ -103,10 +102,10 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 	if(req.body.user_name && req.body.pass && req.body.birth_date && req.body.pass_confirm ){
 
 		if(req.body.pass != req.body.pass_confirm) {
-			return next({status: 400, message: 'Pas bon mdp Confirmation'})
+			return res.redirect('/login/signin/err')
 		}
 		if(req.body.pass.length < 10) {
-			return next({status: 400, message: 'mdp pas assez long'})
+			return res.redirect('/login/signin/err')
 		}
 
 		let q1 = 'Select count(*) as n from user_profile where name_user = $1'
@@ -127,16 +126,16 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 			client.query('BEGIN', function(err){
 
 				if (shouldAbort(err)) {
-					return next({status: 500, message: 'Problem of transaction'})
+					return res.redirect('/login/signin/err')
 				}
 				client.query( q1, par1, function(err,result) {  
 
 					if(shouldAbort(err)){
-						return next({status: 500, message: 'Problem of select'})
+						return res.redirect('/login/signin/err')
 					}
 
 					if(result == undefined || result.rows == undefined || result.rows[0] == undefined){
-						return next({status: 400, message: 'invalid input'})
+						return res.redirect('/login/signin/err')
 					}
 
 					if (result.rows[0].n == 0 ){//si user n'existe pas encore
@@ -160,7 +159,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 						client.query( q, par, function(err,result) {
 
 							if(shouldAbort(err)){
-								return next({status: 500, message: 'Problem of insert'})
+								return res.redirect('/login/signin/err')
 							}  
 
 							res.status(201)
@@ -181,7 +180,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 							done()
 						})
 
-						return next({status: 400, message: 'User existe deja'})
+						return res.redirect('/login/signin/err')
 
 					}
 				})
@@ -189,13 +188,13 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 		})
 	} else {
 
-		return next({status: 400, message: 'invalid parameters'})
+		return res.redirect('/login/signin/err')
 
 	}
 }
 
 
-function logout(req, res, next){ //post avec cookies auth et user_id
+function logout(req, res, next){ //get avec cookies auth et user_id
 
 	if(req.signedCookie.user_id ){
 
@@ -215,7 +214,7 @@ function logout(req, res, next){ //post avec cookies auth et user_id
 
 function putAuth(user_id, auth_code ){
 
-	let q = `UPDATE user_profile SET auth = $1 WHERE user_id = $2`
+	let q = `UPDATE user_profile SET code_auth = $1 WHERE id_user = $2`
 
 	let par = [auth_code, user_id]
 

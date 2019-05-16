@@ -63,7 +63,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500)
-  res.render('error',{message : 'Erreur, pas authentifié', status: err.status})
+  res.render('error',{message : 'Erreur : ' + err.message , status: err.status})
   
   
 })
