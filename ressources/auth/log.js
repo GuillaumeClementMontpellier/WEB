@@ -44,8 +44,6 @@ function checkAuth() {
 
 			pool.query(q, [req.signedCookies.user_id], function(err,result) { 
 
-				console.log('result '+result+' auth '+req.signedCookies.auth+' err '+err)
-
 				if(err || result == undefined || result.rows == undefined){
 					return next()
 				}
