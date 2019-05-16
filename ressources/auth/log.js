@@ -16,6 +16,8 @@ function checkAuth() {
 
 	return function checkAuth(req, res, next){
 
+		console.log('test signed in 1')
+
 		req.signedIn = false
 		req.signedInAdmin = false
 
@@ -42,13 +44,20 @@ function checkAuth() {
 
 			let q = 'SELECT code_auth FROM user_profile WHERE user_id=$1'
 
+
+			console.log('test signed in 2')
+
 			pool.query(q, [req.signedCookies.user_id], function(err,result) { 
+
+				console.log('test signed in 3')
 
 				if(err || result == undefined || result.rows == undefined){
 					return next()
 				}
 
 				if(result.rows[0] == req.signedCookies.auth){
+
+					console.log('test signed in 4')
 					req.signedIn = true
 				}
 
