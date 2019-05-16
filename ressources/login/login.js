@@ -154,7 +154,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 						//req
 						let q = `INSERT INTO user_profile (name_user, enc_pass, salt, code_auth, birth_date) VALUES($1, $2, $3, $4, $5) RETURNING id_user`
 
-						let par = [req.body.user_name, key, salt, auth_code , req.body.birth_date]
+						let par = [req.body.user_name, key, salt, auth_code , Date.parse(req.body.birth_date)]
 
 						client.query( q, par, function(err,result) {
 
