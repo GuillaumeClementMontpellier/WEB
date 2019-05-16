@@ -8,7 +8,7 @@
 
 	<h2>Erreur</h2>
 
-	<p> Cette identifiant / mot de passe est erroné</p>
+	<p> Ce nom d'utilisateur est deja pris </p>
 
 </div>
 
@@ -22,15 +22,25 @@
 
 	<div class="w3-container w3-center w3-col s12 m8 l6">
 
-		<h2>Log In </h2>
+		<h2> Inscription </h2>
 
-		<form action="/login/login" method="post" name="Log">
+		<form action="/login/signin" method="post" name="Sign" onsubmit="return validateForm()">
 			
 			<label name="user_name">Nom d'utilisateur</label>
 			<input class="w3-input w3-border w3-round-large" type="text" name="user_name" required>
 
 			<label name="pass">Mot de passe</label>
-			<input class="w3-input w3-border w3-round-large" type="password" name="pass" required>		
+			<input class="w3-input w3-border w3-round-large" type="password" name="pass" required>	
+
+			<label name="pass_confirm">Confirmer Mot de passe</label>
+			<input class="w3-input w3-border w3-round-large" type="password" name="pass_confirm" required>		
+
+			<div class="w3-panel w3-palet-red" style="display: none" id="warning">
+				<p>Les mots de passe doivent correspondre</p>
+			</div>
+
+			<label name="birth_date">Date de Naissance</label>
+			<input class="w3-input w3-border w3-round-large" type="date" name="birth_date" required>		
 
 			<input type="submit" class="w3-button w3-light-green" value="Valider">
 
@@ -47,7 +57,7 @@
 
 <div class="w3-container w3-center">
 	
-	<p>Pas de compte ? <a href="/login/signin">Inscrivez-vous !</a></p>
+	<p>Deja inscrit ? <a href="/login/signin">Log in !</a></p>
 
 </div>
 

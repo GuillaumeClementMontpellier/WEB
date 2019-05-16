@@ -63,7 +63,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500)
-  res.render('error',{message : 'Erreur, pas authentifié', vue: '<script src="/ressource/js/login_vue.js"></script>'})
+  res.render('error',{message : 'Erreur, pas authentifié', status: err.status})
   
   
 })

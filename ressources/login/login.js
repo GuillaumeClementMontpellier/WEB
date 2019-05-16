@@ -16,13 +16,13 @@ const pool = new Pool({
 /* GET home page. */
 router.get('/login', function(req, res, next) {
 
-	res.render('login/log_form',{ vue: '<script src="/ressource/js/login_vue.js"></script>', message : false})
+	res.render('login/log_form',{ vue: '', message : false})
 	
 })
 
 router.get('/signin', function(req, res, next) {
 
-	res.render('login/sign_form',{ vue: '<script src="/ressource/js/login_vue.js"></script>', message : false})
+	res.render('login/sign_form',{ vue: '<script src="/ressource/js/signin_vue.js"></script>', message : false})
 	
 })
 
@@ -42,7 +42,8 @@ router.use( function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500)
 
-  res.render('login/log_form',{message : 'Erreur, pas authentifié', vue: '<script src="/ressource/js/login_vue.js"></script>'})
+  //res.render('login/log_form',{message : 'Erreur, pas authentifié', vue: '<script src="/ressource/js/login_vue.js"></script>'})
+  res.redirect('back')
 
 })
 
@@ -158,7 +159,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 							res.cookie('auth', auth_code, {maxAge : 1000*60*60*24, signed: true, secure: true})
 							res.cookie('user_id', result.rows[0].id_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
 
-							res.send()
+							res.redirect('/')
 
 							client.query('COMMIT', function(err){
 								done()
