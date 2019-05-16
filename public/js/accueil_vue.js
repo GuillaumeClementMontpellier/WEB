@@ -3,7 +3,8 @@
 Vue.component('carte-preview',{
 	props: {
 		carte:{
-			required: true
+			required: true,
+			type: Object
 		}
 	},
 	template:`
@@ -48,7 +49,7 @@ Vue.component('carte-preview',{
 		},
 	},
 
-}
+})
 
 let app = new Vue({
 
@@ -61,22 +62,23 @@ let app = new Vue({
 	created: function(){
 
 		fetch("/api/carte/bytop?nbr=6", { credentials: 'same-origin'})
-		.then((res) => {
-			return res.json();
-		})
-		.then((res) => {
-			this.cartes_preview=res;
-		}).catch(function(error) {
-			console.log('There has been a problem with initial fetch operation: ', error.message);
-		});//on sait pas si on est logged in ?
+		.then( (res) => {
+			return res.json()
+		} )
+		.then( (res) => {
+			this.cartes_preview=res
+		} )
+		.catch(function(error) {
+			console.log('There has been a problem with initial fetch operation: ', error.message)
+		})//on sait pas si on est logged in ?
 
 	}, 
 	methods : {
 		liked(carte) {
-//aussi des fetch
+			return
 		},
 		disliked(carte) {
-//aussi des fetch
+			return
 		}
 
 	}
