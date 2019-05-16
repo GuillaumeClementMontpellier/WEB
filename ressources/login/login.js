@@ -22,7 +22,7 @@ router.get('/login', function(req, res, next) {
 
 router.get('/signin', function(req, res, next) {
 
-	res.render('login/sign_form',{ vue: '<script src="/ressource/js/signin_vue.js"></script>', message : false})
+	res.render('login/sign_form',{ vue: '', message : false})
 	
 })
 
@@ -43,7 +43,7 @@ router.use( function(err, req, res, next) {
   res.status(err.status || 500)
 
   //res.render('login/log_form',{message : 'Erreur, pas authentifié', vue: '<script src="/ressource/js/login_vue.js"></script>'})
-  res.redirect('back')
+  res.redirect('/users')
 
 })
 
@@ -84,7 +84,7 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 
 			} 
 
-			res.redirect('login')
+			res.redirect('/login/login')
 
 			return 
 
@@ -101,7 +101,11 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 	req.signedIn = false
 	req.signedInAdmin = false
 
-	if(req.body.user_name && req.body.pass && req.body.birth_date){
+	if(req.body.user_name && req.body.pass && req.body.birth_date && req.body.pass_confirm ){
+
+		if(req.body.pass != req.body.pass_confirm) {
+			return next({status: 400, message: 'Pas bon mdp'})
+		}
 
 		let q1 = 'Select count(user_name) as n from user_profile where user_name = $1'
 
