@@ -152,7 +152,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 	  				const auth_code = sjcl.codec.base64.fromBits(auth_code_bits)
 
 						//req
-						let q = `INSERT INTO user_profile (name_user, enc_pass, salt, code_auth, birth_date) VALUES($1, $2, $3) RETURNING id_user`
+						let q = `INSERT INTO user_profile (name_user, enc_pass, salt, code_auth, birth_date) VALUES($1, $2, $3, $4, $5) RETURNING id_user`
 
 						let par = [req.body.user_name, key, salt, auth_code , req.body.birth_date]
 
