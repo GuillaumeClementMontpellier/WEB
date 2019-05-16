@@ -14,9 +14,14 @@ const pool = new Pool({
 })
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/login', function(req, res, next) {
 
-	res.render('login/index',{ vue: '<script src="ressource/js/login_vue.js"></script>'})
+	res.render('login/log_form',{ vue: '<script src="ressource/js/login_vue.js"></script>'})
+	
+})
+router.get('/signin', function(req, res, next) {
+
+	res.render('login/sign_form',{ vue: '<script src="ressource/js/login_vue.js"></script>'})
 	
 })
 
