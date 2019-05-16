@@ -89,6 +89,8 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 
 		})		
 
+	}	else {
+		next({status : 400, message : 'Error logging in'})
 	}
 
 }
