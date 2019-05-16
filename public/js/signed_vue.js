@@ -86,7 +86,7 @@ let app = new Vue({
 
 	created: function(){
 
-		fetch("/api/carte/bytop?nbr=6", { credentials: 'same-origin'})
+		fetch("/api/carte/bytop?nbr=12", { credentials: 'same-origin'})
 		.then( (res) => {
 			console.log(res)
 			return res.json()

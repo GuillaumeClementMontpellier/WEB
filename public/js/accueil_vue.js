@@ -16,19 +16,19 @@ Vue.component('carte-preview',{
 
 	<div class="w3-row">
 
-	<div class="w3-col s4">
+	<div class="w3-col s6">
 
 	<a href="/login/login"><button class="w3-button w3-border w3-btn"> Like </button></a>
 
 	</div>
 
-	<div class="w3-col s4">
+	<div class="w3-col s6">
 
 	<a href="/login/login"><button class="w3-button w3-border w3-btn"> Disike </button></a>
 
 	</div>
 
-	<div class="w3-col s4">
+	<div class="w3-col s12">
 
 	<a href="/login/login">
 	<button class="w3-button w3-border w3-btn"> Voir les commentaires </button> 
@@ -60,7 +60,7 @@ let app = new Vue({
 
 	created: function(){
 
-		fetch("/api/carte/bytop?nbr=6", { credentials: 'same-origin'})
+		fetch("/api/carte/bytop?nbr=12", { credentials: 'same-origin'})
 		.then( (res) => {
 			return res.json()
 		} )
