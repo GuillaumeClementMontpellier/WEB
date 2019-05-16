@@ -68,7 +68,8 @@ router.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500)
-  res.render('login/index',{message : Erreur, pas logged in})
+
+  res.render('login/log_form',{message : 'Erreur, pas logged in'})
 })
 
 module.exports = checkAuth
