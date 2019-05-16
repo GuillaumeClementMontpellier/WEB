@@ -54,7 +54,7 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 	if(req.body.user_name && req.body.pass){
 
 		//request enc_pass et salt
-		let q = 'SELECT enc_pass, salt, user_id FROM user_profile WHERE name_user=$1 '
+		let q = 'SELECT enc_pass, salt, id_user FROM user_profile WHERE name_user=$1 '
 
 		pool.query(q, [req.body.user_name], function(err,result) { 
 
