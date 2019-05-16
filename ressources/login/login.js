@@ -5,6 +5,14 @@ const router = express.Router()
 
 const sjcl = require("sjcl")
 
+const { Pool } = require('pg')
+
+//connection a la BD
+const pool = new Pool({
+	connectionString: process.env.DATABASE_URL,
+	ssl: true
+})
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
