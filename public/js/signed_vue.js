@@ -51,6 +51,30 @@ Vue.component('carte-preview',{
 
 })
 
+Vue.component('comment-preview',{
+	props: {
+		comm:{
+			required: true,
+			type: Object
+		}
+	},
+	template:`
+	<div class="w3-container">
+
+	</div>
+	`,
+	methods: {
+		like() {
+			this.$emit('liked', this.comm)
+		},
+		dislike() {
+			this.$emit('disliked', this.comm)
+		},
+	},
+
+})
+
+
 let app = new Vue({
 
 	el: '#app',
