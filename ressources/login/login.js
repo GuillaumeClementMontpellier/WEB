@@ -20,9 +20,21 @@ router.get('/login', function(req, res, next) {
 	
 })
 
+router.get('/login/err', function(req, res, next) {
+
+	res.render('login/log_form',{ vue: '', message : true})
+	
+})
+
 router.get('/signin', function(req, res, next) {
 
 	res.render('login/sign_form',{ vue: '', message : false})
+	
+})
+
+router.get('/signin/err', function(req, res, next) {
+
+	res.render('login/sign_form',{ vue: '', message : true})
 	
 })
 
@@ -141,15 +153,15 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 					if (result.rows[0].n == 0 ){//si user n'existe pas encore
 
 						const saltBits = sjcl.random.randomWords(8)
-				  	const derivedKey = sjcl.misc.pbkdf2(req.body.pass, saltBits, 1000, 256)
+					const derivedKey = sjcl.misc.pbkdf2(req.body.pass, saltBits, 1000, 256)
 
-			  		const key = sjcl.codec.base64.fromBits(derivedKey)
-		  			const salt = sjcl.codec.base64.fromBits(saltBits)
+					const key = sjcl.codec.base64.fromBits(derivedKey)
+					const salt = sjcl.codec.base64.fromBits(saltBits)
 
-		  			const auth_code_bits = sjcl.random.randomWords(8)
-		  			const auth_code = sjcl.codec.base64.fromBits(auth_code_bits)
+					const auth_code_bits = sjcl.random.randomWords(8)
+					const auth_code = sjcl.codec.base64.fromBits(auth_code_bits)
 
-		  			const bday = new Date(req.body.birth_date)
+					const bday = new Date(req.body.birth_date)
 
 						//req
 						let q = `INSERT INTO user_profile (name_user, enc_pass, salt, code_auth, birth_date) VALUES($1, $2, $3, $4, $5) RETURNING id_user`
@@ -194,25 +206,25 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 }
 
 
-function logout(req, res, next){ //get avec cookies auth et user_id
+function logout(req, res, next){ //get avec cookies auth et user_id	
 
-	if(req.signedCookie.user_id ){
+	res.clearCookie('auth', { signed: true, secure: true})
+	res.clearCookie('user_id', { signed: true, secure: true})
+
+	if(req.signedCookie.user_id){
 
 		putAuth(req.signedCookie.user_id, null)
-
-		res.clearCookie('auth', { signed: true, secure: true})
-		res.clearCookie('user_id', { signed: true, secure: true})
 
 		res.redirect('/')
 
 	}
 
-	res.redirect('/')
+	res.redirect('/users')
 
 }
 
 
-function putAuth(user_id, auth_code ){
+function putAuth(user_id, auth_code){
 
 	let q = `UPDATE user_profile SET code_auth = $1 WHERE id_user = $2`
 
@@ -236,10 +248,6 @@ function putAuth(user_id, auth_code ){
 			client.query( q, par, function(err,result) {  
 
 				if(shouldAbort(err)){
-					return 
-				}
-
-				if(result == undefined || result.rows == undefined){
 					return 
 				}
 

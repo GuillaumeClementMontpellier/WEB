@@ -2,17 +2,6 @@
 <%- include('../layout/head' ) %>
 <%- include('../layout/header') %>
 
-<% if(message) {%>
-
-<div class="w3-panel w3-pale-red w3-center">
-
-	<h2>Erreur</h2>
-
-	<p> Ce nom d'utilisateur est deja pris </p>
-
-</div>
-
-<%}%>
 
 <div class="w3-container w3-row ">
 
@@ -24,7 +13,16 @@
 
 		<h2> Inscription </h2>
 
-		<form action="/login/signin" method="post" name="Sign" onsubmit="return validateForm()">
+<% if(message==true) {%>
+
+		<div class="w3-panel w3-pale-red" >
+			<p>Les mots de passe doivent correspondre</p>
+			<p>Les mots de passe doivent faire plus de 10 characteres</p>
+		</div>
+
+<% } %>
+
+		<form action="/login/signin" method="post" name="Sign">
 			
 			<label name="user_name">Nom d'utilisateur</label>
 			<input class="w3-input w3-border w3-round-large" type="text" name="user_name" required>
@@ -34,10 +32,6 @@
 
 			<label name="pass_confirm">Confirmer Mot de passe</label>
 			<input class="w3-input w3-border w3-round-large" type="password" name="pass_confirm" required>		
-
-			<div class="w3-panel w3-palet-red" style="display: none" id="warning">
-				<p>Les mots de passe doivent correspondre</p>
-			</div>
 
 			<label name="birth_date">Date de Naissance</label>
 			<input class="w3-input w3-border w3-round-large" type="date" name="birth_date" required>		
