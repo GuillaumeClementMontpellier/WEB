@@ -304,6 +304,8 @@ function clearAuth(user_id){
 					done()
 				})
 
+				return
+
 			})
 		})
 	})
