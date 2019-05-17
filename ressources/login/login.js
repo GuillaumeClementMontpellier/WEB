@@ -301,11 +301,9 @@ function clearAuth(user_id){
 
 function logout(req, res, next){ //get avec cookies auth et user_id
 
-	console.log("Nettoyage 0")
+	console.log("Nettoyage 0 "+req.signedCookie.user_i)
 
 	if(req.signedCookies.user_id != undefined){
-
-		console.log("Nettoyage 1 "+req.signedCookie.user_id)//+" clearAuth : "+clearAuth)
 
 		clearAuth(req.signedCookie.user_id)
 
