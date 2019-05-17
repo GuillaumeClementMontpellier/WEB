@@ -70,7 +70,7 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 
 		pool.query(q, [req.body.user_name], function(err,result) { 
 
-			if(err || result == undefined || result.rows == undefined){
+			if(err || result == undefined || result.rows == undefined || result.rows[0] == undefined){
 				return res.redirect('/login/login/err')
 			}
 
