@@ -19,6 +19,10 @@ function checkAuth() {
 		req.signedIn = false
 		req.signedInAdmin = false
 
+		if(req.originalUrl == '/login/logout'){
+			return next()
+		}
+
 		if(req.signedCookies.auth && req.signedCookies.admin_id){
 
 			let q = 'SELECT code_auth FROM user_profile, admin WHERE id_user=$1 AND user_id = admin_id'
