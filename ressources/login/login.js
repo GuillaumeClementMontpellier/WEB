@@ -66,7 +66,7 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 	if(req.body.user_name && req.body.pass){
 
 		//request enc_pass et salt
-		let q = 'SELECT enc_pass, salt, id_user, name_user FROM user_profile WHERE name_user=$1 '
+		let q = 'SELECT enc_pass, salt, id_user, name_user FROM user_profile LEFT OUTER JOIN WHERE name_user=$1 '
 
 		pool.query(q, [req.body.user_name], function(err,result) { 
 
@@ -89,6 +89,12 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 				res.cookie('auth', auth_code, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				res.cookie('user_id', result.rows[0].id_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				res.cookie('user_name', result.rows[0].name_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
+
+				if(result.rows[0].admin){
+
+					res.cookie('user_id', result.rows[0].id_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
+
+				}
 				
 				res.redirect('/')
 
@@ -208,8 +214,6 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 
 
 function logout(req, res, next){ //get avec cookies auth et user_id	
-
-	console.log("Nettoyage 0")
 
 	if(req.signedCookie.user_id){
 
