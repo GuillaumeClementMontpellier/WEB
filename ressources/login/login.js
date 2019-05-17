@@ -251,15 +251,11 @@ function putAuth(user_id, auth_code){
 
 function clearAuth(user_id){
 
-	console.log("Nettoyage 2 ")
-
 	let q = `UPDATE user_profile SET code_auth = $1 WHERE id_user = $2`
 
 	let par = [null, user_id]
 
 	pool.connect(function (err, client, done){
-
-		console.log("Nettoyage 3 ")
 
 		const shouldAbort = function(err){
 			if (err) {
@@ -272,22 +268,16 @@ function clearAuth(user_id){
 
 		client.query('BEGIN', function(err){
 
-			console.log("Nettoyage 4 ")
-
 			if (shouldAbort(err)) {
 				return next({message: "Ceci n'est pas censé arriver", status: 500})
 			}
 			client.query( q, par, function(err,result) {  
-
-				console.log("Nettoyage 5 ")
 
 				if(shouldAbort(err)){
 					return next({message: "Ceci n'est pas censé arriver", status: 500})
 				}
 
 				client.query('COMMIT', function(err){
-
-					console.log("Nettoyage 6 ")
 
 					done()
 				})
@@ -301,21 +291,17 @@ function clearAuth(user_id){
 
 function logout(req, res, next){ //get avec cookies auth et user_id
 
-	console.log("Nettoyage 0 "+req.signedCookies.user_i)
-
 	if(req.signedCookies.user_id != undefined){
 
 		clearAuth(req.signedCookies.user_id)
 
 	}
 
-	console.log("Nettoyage final ")
-
 	res.clearCookie('auth', { signed: true, secure: true})
 	res.clearCookie('user_id', { signed: true, secure: true})
 	res.clearCookie('user_name', { signed: true, secure: true})
 
-	res.redirect('/users')
+	res.redirect('/')
 
 }
 
