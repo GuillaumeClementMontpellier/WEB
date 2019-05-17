@@ -252,7 +252,7 @@ function putAuth(user_id, auth_code){
 	})
 }
 
-function clearAuth(user_id){
+const clearAuth = function(user_id){
 
 	console.log("Nettoyage 2 ")
 
