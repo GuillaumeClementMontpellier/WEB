@@ -219,8 +219,8 @@ function logout(req, res, next){ //get avec cookies auth et user_id
 
 	if(req.signedCookie.user_id){
 
-		clearAuth(req.signedCookie.user_id)
 		console.log("Nettoyage 1 ")
+		clearAuth(req.signedCookie.user_id)
 
 	}
 
