@@ -18,10 +18,10 @@ function checkAuth() {
 
 		req.signedIn = false
 		req.signedInAdmin = false
-
+/*
 		if(req.originalUrl == '/login/logout'){
 			return next()
-		}
+		}*/
 
 		if(req.signedCookies.auth && req.signedCookies.admin_id){
 
