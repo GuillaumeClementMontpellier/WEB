@@ -112,7 +112,7 @@ let app = new Vue({
 			console.log('There has been a problem with initial fetch operation: ', error.message)
 		})
 		/*
-		fetch("/api/comment?nbr=6", { credentials: 'same-origin'})
+		fetch("/api/comment/top?nbr=6", { credentials: 'same-origin'})
 		.then( (res) => {
 			return res.json()
 		} )
@@ -125,16 +125,16 @@ let app = new Vue({
 
 	}, 
 	methods : {
-		liked_carte(carte, deja) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete
+		liked_carte(carte) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete
 			return 
 		},
-		disliked_carte(carte, deja) {
+		disliked_carte(carte) {
 			return
 		},		
-		liked_comm(comm, deja) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete
+		liked_comm(comm) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete
 			return 
 		},
-		disliked_comm(comm, deja) {
+		disliked_comm(comm) {
 			return
 		}
 

@@ -32,6 +32,10 @@ function checkAuth() {
 				if(result.rows[0] == req.signedCookies.auth){
 					req.signedInAdmin = true
 					req.signedIn = true
+
+			  	res.cookie('auth',  result.rows[0].code_auth, {maxAge : 1000*60*60*24, signed: true, secure: true})
+		  		res.cookie('user_id', result.rows[0].id_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
+  				res.cookie('user_name', result.rows[0].name_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				}
 
 				return next()
@@ -50,6 +54,10 @@ function checkAuth() {
 
 				if(result.rows[0].code_auth == req.signedCookies.auth){
 					req.signedIn = true
+
+			  	res.cookie('auth',  result.rows[0].code_auth, {maxAge : 1000*60*60*24, signed: true, secure: true})
+		  		res.cookie('user_id', result.rows[0].id_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
+  				res.cookie('user_name', result.rows[0].name_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				}
 
 				return next()

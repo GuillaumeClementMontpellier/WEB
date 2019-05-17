@@ -26,7 +26,7 @@ function topReq(req, res, next) {
     return next({status: 400, message: 'invalid input'})
   }
 
-  let q = 'SELECT var_id, image_url FROM carte_var WHERE carte_like_count(var_id) + carte_dislike_count(var_id) > 0 ORDER BY score(carte_like_count(var_id),carte_dislike_count(var_id)) LIMIT $1'
+  let q = 'SELECT var_id, image_url FROM carte_var ORDER BY score(carte_like_count(var_id)+1,carte_dislike_count(var_id)) LIMIT $1'
   let par = [req.query.nbr]
 
   if(typeof req.query.offset === 'string'){
@@ -211,6 +211,7 @@ function carteInfoReq(req, res, next) {
     res.json(result.rows)
   })
 }
+
 //cherche les top level comments de la carte, AVEC LIMIT ET  OFFSET
 function commentsReq(req, res, next) {
 
@@ -224,9 +225,9 @@ function commentsReq(req, res, next) {
     return next({status: 400, message: 'invalid input param'})
   }
 
-  let q = `SELECT comment_id, contenu, created, edited, author_id, name_user FROM commentaire, user_profile, reply_to 
+  let q = `SELECT comment_id, contenu, created, edited, author_id, name_user FROM commentaire, user_profile
   WHERE author_id=id_user AND comment_id NOT IN (select id_reply from reply_to) AND var_id=$1 
-  ORDER BY score(comment_like_count(comment_id),comment_dislike_count(comment_id))LIMIT $2`
+  ORDER BY score(comment_like_count(comment_id)+1,comment_dislike_count(comment_id))LIMIT $2`
 
   let par = [req.params.id_carte,req.query.nbr]
 
@@ -350,8 +351,8 @@ function dislikePut(req, res, next){
 }
 
 //PUT admin only
-app.put('/var',putCarteVar)
-app.put('/modele',putCarteType)
+app.post('/var',putCarteVar)
+app.post('/modele',putCarteType)
 
 function putCarteVar(req, res, next){
 
@@ -359,9 +360,9 @@ function putCarteVar(req, res, next){
     return next({status: 403, message: 'Pas Authorisé'})
   }
 
-  let q = `INSERT INTO carte_var (image_url, flavor, scry_url, gath_url, edition_code, carte_id) VALUES($1, $2, $3 $4, $5, $6)`
+  let q = `INSERT INTO carte_var (image_url, flavor, scry_url, gath_url, edition_code, carte_id) VALUES($1, $2, $3, $4, $5, $6)`
 
-  let par = [req.query.image_url, req.query.flavor, req.query.scry_url, req.query.gath_url, req.query.edition_code, req.query.carte_id]
+  let par = [req.body.image_url, req.body.flavor, req.body.scry_url, req.body.gath_url, req.body.edition_code, req.body.carte_id]
 
   pool.connect(function (err, client, done){
 
@@ -398,7 +399,7 @@ function putCarteVar(req, res, next){
   })
 }
 
-function putCarteType(req, res, next){
+function putCarteType(req, res, next){ //dans body
 
   if(!req.signedInAdmin){
     return next({status: 403, message: 'Pas Authorisé'})
@@ -406,7 +407,7 @@ function putCarteType(req, res, next){
 
   let q = `INSERT INTO carte_type (carte_name, oracle, mana_cost, cmc) VALUES($1, $2, $3, $4)`
 
-  let par = [req.query.carte_name, req.query.oracle, req.query.mana_cost, req.query.cmc]
+  let par = [req.body.carte_name, req.body.oracle, req.body.mana_cost, req.body.cmc]
 
   pool.connect(function (err, client, done){
 
@@ -421,101 +422,6 @@ function putCarteType(req, res, next){
 
     client.query('BEGIN', function(err){
       if (shouldAbort(err)) {
-        return next({status: 500, message: 'Problem of transaction'})
-      }
-
-      client.query( q, par, function(err,result) {  
-
-        if (shouldAbort(err)){
-          return next({status: 500, message: 'Problem of insert'})
-        }
-
-        if(result == undefined || result.rows == undefined){
-          return next({status: 400, message: 'invalid input'})
-        }
-        res.status(201)
-        res.send()
-
-        client.query('COMMIT', function(err){
-          done()
-        })
-      })
-    })
-  })
-}
-
-//PATCH pour changer like en dislike et vice versa
-app.patch('/like/:id',patchLike)
-app.patch('/dislike/:id',patchDislike)
-
-function patchLike(req, res, next){
-
-  if(!req.signedIn){
-    return next({status: 403, message: 'Pas Authorisé'})
-  }
-
-  let q = `UPDATE carte_like set aime = true WHERE carte_id= $1 AND user_id = $2`
-
-  let par = [req.params.id, req.signedCookies.user_id]
-
-  pool.connect(function (err, client, done){
-
-    const shouldAbort = function(err){
-      if (err) {
-        client.query('ROLLBACK', function (err) {
-          done()
-        })
-      }
-      return !!err
-    }
-
-    client.query('BEGIN', function(err){
-      if (shouldAbort(err)){
-        return next({status: 500, message: 'Problem of transaction'})
-      }
-
-      client.query( q, par, function(err,result) {  
-
-        if (shouldAbort(err)){
-          return next({status: 500, message: 'Problem of insert'})
-        }
-
-        if(result == undefined || result.rows == undefined){
-          return next({status: 400, message: 'invalid input'})
-        }
-        res.status(201)
-        res.send()
-
-        client.query('COMMIT', function(err){
-          done()
-        })
-      })
-    })
-  })
-}
-function patchDislike(req, res, next){
-
-  if(!req.signedIn){
-    return next({status: 403, message: 'Pas Authorisé'})
-  }
-
-  let q = `UPDATE carte_like set aime = false WHERE carte_id= $1 AND user_id = $2`
-
-  let par = [req.params.id, req.signedCookies.user_id]
-
-  pool.connect(function (err, client, done){
-
-    const shouldAbort = function(err){
-      if (err) {
-        client.query('ROLLBACK', function (err) {
-          done()
-        })
-      }
-      return !!err
-    }
-
-    client.query('BEGIN', function(err){
-      if(shouldAbort(err)) {
         return next({status: 500, message: 'Problem of transaction'})
       }
 
@@ -635,6 +541,7 @@ function deleteVar(req, res, next){
     })
   })
 }
+
 function deleteModele(req, res, next){
 
   if(!req.signedInAdmin){
