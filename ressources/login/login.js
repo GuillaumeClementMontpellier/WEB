@@ -208,17 +208,17 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 
 
 function logout(req, res, next){ //get avec cookies auth et user_id	
-
-	res.clearCookie('auth', { signed: true, secure: true})
-	res.clearCookie('user_id', { signed: true, secure: true})
+	
 
 	if(req.signedCookie.user_id){
 
 		clearAuth(req.signedCookie.user_id)
 
-		res.redirect('/')
-
 	}
+
+	res.clearCookie('auth', { signed: true, secure: true})
+	res.clearCookie('user_id', { signed: true, secure: true})
+	res.clearCookie('user_name', { signed: true, secure: true})
 
 	res.redirect('/users')
 
