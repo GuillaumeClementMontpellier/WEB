@@ -212,10 +212,6 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 	}
 }
 
-
-
-
-
 function putAuth(user_id, auth_code){
 
 	let q = `UPDATE user_profile SET code_auth = $1 WHERE id_user = $2`
@@ -252,7 +248,8 @@ function putAuth(user_id, auth_code){
 	})
 }
 
-const clearAuth = function(user_id){
+
+function clearAuth(user_id){
 
 	console.log("Nettoyage 2 ")
 
@@ -304,11 +301,9 @@ const clearAuth = function(user_id){
 
 function logout(req, res, next){ //get avec cookies auth et user_id	
 
-	console.log("Nettoyage 0 ")
-
 	if(req.signedCookies.user_id){
 
-		console.log("Nettoyage 1 ")
+		console.log("Nettoyage 1 "+req.signedCookie.user_id+" clearAuth : "+clearAuth)
 
 		clearAuth(req.signedCookie.user_id)
 
