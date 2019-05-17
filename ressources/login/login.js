@@ -208,7 +208,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 
 
 function logout(req, res, next){ //get avec cookies auth et user_id	
-	
+
 
 	if(req.signedCookie.user_id){
 
@@ -266,7 +266,7 @@ function clearAuth(user_id){
 
 	let q = `UPDATE user_profile SET code_auth = $1 WHERE id_user = $2`
 
-	let par = [null, user_id]
+	let par = ['null', user_id]
 
 	pool.connect(function (err, client, done){
 
