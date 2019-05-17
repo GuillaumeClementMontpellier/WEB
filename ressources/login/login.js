@@ -90,9 +90,9 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 				res.cookie('user_id', result.rows[0].id_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				res.cookie('user_name', result.rows[0].name_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
 
-				if(result.rows[0].admin){
+				if(result.rows[0].admin_id){
 
-					res.cookie('user_id', result.rows[0].id_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
+					res.cookie('admin_id', result.rows[0].id_user, {maxAge : 1000*60*60*24, signed: true, secure: true})
 
 				}
 				
