@@ -286,17 +286,17 @@ function clearAuth(user_id){
 					done()
 				})
 			}
-			return 
+			return !!err
 		}
 
 		client.query('BEGIN', function(err){
 			if (shouldAbort(err)) {
-				return 
+				return next({message: "Ceci n'est pas censé arriver", status: 500})
 			}
 			client.query( q, par, function(err,result) {  
 
 				if(shouldAbort(err)){
-					return 
+					return next({message: "Ceci n'est pas censé arriver", status: 500})
 				}
 
 				client.query('COMMIT', function(err){
