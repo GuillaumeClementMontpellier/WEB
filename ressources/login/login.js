@@ -212,6 +212,8 @@ function logout(req, res, next){ //get avec cookies auth et user_id
 
 	if(req.signedCookie.user_id){
 
+		console.log("Nettoyage")
+
 		clearAuth(req.signedCookie.user_id)
 
 	}
@@ -266,7 +268,9 @@ function clearAuth(user_id){
 
 	let q = `UPDATE user_profile SET code_auth = $1 WHERE id_user = $2`
 
-	let par = ['null', user_id]
+	let par = [null, user_id]
+
+	console.log("Nettoyage 1")
 
 	pool.connect(function (err, client, done){
 
@@ -279,17 +283,28 @@ function clearAuth(user_id){
 			return 
 		}
 
+
+
+		console.log("Nettoyage 2")
+
 		client.query('BEGIN', function(err){
 			if (shouldAbort(err)) {
 				return 
 			}
 			client.query( q, par, function(err,result) {  
 
+				console.log("Nettoyage 3")
+
 				if(shouldAbort(err)){
 					return 
 				}
 
 				client.query('COMMIT', function(err){
+
+
+
+					console.log("Nettoyage 4")
+
 					done()
 				})
 
