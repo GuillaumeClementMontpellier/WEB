@@ -8,10 +8,10 @@ Vue.component('carte-preview',{
 		}
 	},
 	template:`
-	<div class="w3-container w3-card">
+	<div class="w3-container w3-margin w3-card">
 
 	<a :href="'/carte/' + carte.var_id"> 
-	<img :src="carte.image_url" alt="Carte" class="w3-image w3-border">
+	<img :src="carte.image_url" alt="Carte" class="w3-image">
 	</a>
 
 	<div class="w3-row">
@@ -73,11 +73,11 @@ Vue.component('comment-preview',{
 		}
 	},
 	template:`
-	<div class="w3-container w3-card w3-margin-bottom">
+	<div class="w3-container w3-card w3-margin-bottom w3-left-align">
 
-	<p> <a :href="url_user"> {{comm.name_user}} </a> dit le {{comm.created}} <span v-if="comm.edited">(edité le : {{comm.edited}})</span></p> 
+	<p> <a :href="url_user"> {{comm.name_user}} </a> dit le {{comm.created}} <span v-if="comm.edited">(edité le : {{comm.edited}})</span> : </p> 
 
-	<div>
+	<div class="w3-card">
 
 	<p> {{comm.contenu}} </p>
 
