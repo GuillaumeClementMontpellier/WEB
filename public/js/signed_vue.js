@@ -172,6 +172,8 @@ let app = new Vue({
 
 			this.comments_preview = res
 
+			let c
+
 			for (c in this.comments_preview){
 
 				this.comments_preview[c].created = (new Date(this.comments_preview[c].created)).toLocaleDateString()
@@ -180,7 +182,7 @@ let app = new Vue({
 				}
 
 			}
-			
+
 		} )
 		.catch( function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)
@@ -193,6 +195,8 @@ let app = new Vue({
 		.then( (res) => {
 
 			this.replys_preview = res
+
+			let c
 
 			for (c in this.replys_preview){
 
