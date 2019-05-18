@@ -13,6 +13,13 @@ const pool = new Pool({
 	ssl: true
 })
 
+function escapeHtml(text) {
+  return text.replace(/[\"&<>]/g, function (a) {
+    return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a];
+  });
+}
+
+
 /* GET home page. */
 router.get('/login', function(req, res, next) {
 
@@ -130,6 +137,8 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 		let q1 = 'Select count(*) as n from user_profile where name_user = $1'
 
 		let par1 = [escapeHtml(req.body.user_name)]
+
+		console.log(par1)
 
 		pool.connect(function (err, client, done){
 

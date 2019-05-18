@@ -11,6 +11,12 @@ const pool = new Pool({
 	ssl: true
 })
 
+function escapeHtml(text) {
+  return text.replace(/[\"&<>]/g, function (a) {
+    return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a];
+  });
+}
+
 /* GET users listing. */
 function checkAuth() {
 
@@ -27,7 +33,7 @@ function checkAuth() {
 
 			let q = 'SELECT code_auth FROM user_profile, admin WHERE id_user=$1 AND user_id = admin_id'
 
-			pool.query(q, [req.signedCookies.admin_id], function(err,result) { 
+			pool.query(q, [escapeHtml(req.signedCookies.admin_id)], function(err,result) { 
 
 				if(err || result == undefined || result.rows == undefined){
 					return next()
@@ -51,7 +57,7 @@ function checkAuth() {
 
 			let q = 'SELECT code_auth FROM user_profile WHERE id_user=$1'
 
-			pool.query(q, [req.signedCookies.user_id], function(err,result) { 
+			pool.query(q, [ escapeHtml(req.signedCookies.user_id)], function(err,result) { 
 
 				if(err || result == undefined || result.rows == undefined){
 					return next()
