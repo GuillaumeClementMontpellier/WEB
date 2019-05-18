@@ -28,9 +28,13 @@ function userByName(req, res, next) {
 
 //get specifiques infos
 app.get('/comments/:id', commentsOfUser)
+app.get('/comments', commentsOfUser)
 app.get('/likes/:id', likesOfUser)
+app.get('/likes', likesOfUser)
 app.get('/replys/:id', replyToUser)
+app.get('/replys', replyToUser)
 app.get('/likedcomments/:id', likedComments)
+app.get('/likedcomments', likedComments)
 
 function commentsOfUser(req, res, next) { //  avec nbr, limit et offset
 
@@ -74,10 +78,10 @@ function commentsOfUser(req, res, next) { //  avec nbr, limit et offset
 
 function likesOfUser(req, res, next) { //retourne les cartes liked par cet user
 	if(!req.query) {
-		return next({status: 400, message: 'invalid input 1'})
+		return next({status: 400, message: 'invalid input'})
 	}
 	if(typeof req.query.nbr !== 'string') {
-		return next({status: 400, message: 'invalid input 2'})
+		return next({status: 400, message: 'invalid input'})
 	}
 	if(typeof req.params.id !== 'string') {
 		if(!req.signedIn){
@@ -103,7 +107,7 @@ function likesOfUser(req, res, next) { //retourne les cartes liked par cet user
 
 	pool.query(q, par, function(err,result) {    
 		if(err || result == undefined || result.rows == undefined){
-			return next({status: 400, message: 'invalid input 3'})
+			return next({status: 400, message: 'invalid input'})
 		}
 		res.status(200)
 		res.json(result.rows)
