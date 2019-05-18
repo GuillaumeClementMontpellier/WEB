@@ -175,7 +175,7 @@ let app = new Vue({
 			for (c in this.comments_preview){
 
 				this.comments_preview[c].created = (new Date(this.comments_preview[c].created)).toLocaleDateString()
-				if (c.edited){
+				if (this.comments_preview[c].edited){
 					this.comments_preview[c].edited = (new Date(this.comments_preview[c].edited)).toLocaleDateString()
 				}
 
@@ -197,7 +197,7 @@ let app = new Vue({
 			for (c in this.replys_preview){
 
 				this.replys_preview[c].created = (new Date(this.replys_preview[c].created)).toLocaleDateString()
-				if (c.edited){
+				if (this.comments_preview[c].edited){
 					this.replys_preview[c].edited = (new Date(this.replys_preview[c].edited)).toLocaleDateString()
 				}
 
