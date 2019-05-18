@@ -8,13 +8,13 @@ Vue.component('carte-preview',{
 		}
 	},
 	template:`
-	<div class="w3-container w3-margin w3-card">
+	<div class="w3-margin w3-card">
 
 	<a :href="'/carte/' + carte.var_id"> 
-	<img :src="carte.image_url" alt="Carte" class="w3-image">
+	<img :src="carte.image_url" alt="Carte" class="w3-image  w3-margin-bottom">
 	</a>
 
-	<div class="w3-row">
+	<div class="w3-row  w3-margin-bottom">
 
 	<div class="w3-col s1" style="visibility: hidden">LEFT</div>
 
@@ -36,7 +36,7 @@ Vue.component('carte-preview',{
 
 	</div>
 
-	<div class="w3-row">
+	<div class="w3-row  w3-margin-bottom">
 
 	<div class="w3-col s1" style="visibility: hidden">LEFT</div>
 
@@ -83,15 +83,15 @@ Vue.component('comment-preview',{
 
 	</div>
 
-	<button class="w3-button w3-btn w3-border" @click="fetchReply()"> Voir plus de reponses </button>
+	<button class="w3-button w3-btn w3-border w3-margin-bottom" @click="fetchReply()"> Voir plus de reponses </button>
 
 	<div class="reply_section w3-row">
 
-	<div style="visibility: hidden" class="w3-col s1 m1 l2">
+	<div style="visibility: hidden" class="w3-col m1 l1">
 	LEFT
 	</div>
 
-	<div class="w3-col s11 m11 l10">
+	<div class="w3-col s12 m11 l11">
 
 	<comment-preview v-for="repl in replys" :key="repl.comment_id" :comm="repl" @liked="liked_fils(repl)" @disliked="disliked_fils(repl)"> </comment-preview>
 
