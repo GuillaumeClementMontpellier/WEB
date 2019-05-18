@@ -118,7 +118,7 @@ let app = new Vue({
 		.then( (res) => {
 			this.comments_preview = res
 		} )
-		.catch(function(error) {
+		.catch( function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)
 		})
 
@@ -129,7 +129,7 @@ let app = new Vue({
 		.then( (res) => {
 			this.replys_preview = res
 		} )
-		.catch(function(error) {
+		.catch( function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)
 		})
 
