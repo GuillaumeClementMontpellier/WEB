@@ -8,15 +8,15 @@ Vue.component('carte-preview',{
 		}
 	},
 	template:`
-	<div class="w3-container">
+	<div class="w3-container w3-card">
 
 	<a :href="'/carte/' + carte.var_id"> 
-	<img :src="carte.image_url" alt="Carte" class="w3-image w3-btn w3-border">
+	<img :src="carte.image_url" alt="Carte" class="w3-image w3-border">
 	</a>
 
 	<div class="w3-row">
 
-	<div class="w3-col s1" style="visibility: hidden">POS</div>
+	<div class="w3-col s1" style="visibility: hidden">LEFT</div>
 
 	<div class="w3-col s4">
 
@@ -24,7 +24,7 @@ Vue.component('carte-preview',{
 
 	</div>
 
-	<div class="w3-col s2" style="visibility: hidden">POS</div>
+	<div class="w3-col s2" style="visibility: hidden">MIDDLE</div>
 
 	<div class="w3-col s4">
 
@@ -32,13 +32,13 @@ Vue.component('carte-preview',{
 
 	</div>
 
-	<div class="w3-col s1" style="visibility: hidden">POS</div>
+	<div class="w3-col s1" style="visibility: hidden">RIGHT</div>
 
 	</div>
 
 	<div class="w3-row">
 
-	<div class="w3-col s1" style="visibility: hidden">POS</div>
+	<div class="w3-col s1" style="visibility: hidden">LEFT</div>
 
 	<div class="w3-col s10">
 
@@ -48,7 +48,7 @@ Vue.component('carte-preview',{
 
 	</div>
 
-	<div class="w3-col s1" style="visibility: hidden">POS</div>
+	<div class="w3-col s1" style="visibility: hidden">RIGHT</div>
 
 	</div>
 
@@ -73,23 +73,25 @@ Vue.component('comment-preview',{
 		}
 	},
 	template:`
-	<div class="w3-container w3-card">
+	<div class="w3-container w3-card w3-margin-bottom">
 
-	 <p> <a :href="url_user"> {{comm.name_user}} </a> dit le {{comm.created}} <span v-if="comm.edited">(edité le : {{comm.edited}})</span></p> 
+	<p> <a :href="url_user"> {{comm.name_user}} </a> dit le {{comm.created}} <span v-if="comm.edited">(edité le : {{comm.edited}})</span></p> 
+
+	<div>
 
 	<p> {{comm.contenu}} </p>
 
+	</div>
 
-
-	<button class="w3-button w3-btn" @click="fetchReply()"> Voir plus de reponses </button>
+	<button class="w3-button w3-btn w3-border" @click="fetchReply()"> Voir plus de reponses </button>
 
 	<div class="reply_section w3-row">
 
-	<div style="visibility: hidden" class="w3-col s1 m2 l3">
+	<div style="visibility: hidden" class="w3-col s1 m1 l2">
 	LEFT
 	</div>
 
-	<div class="w3-col s11 m10 l9">
+	<div class="w3-col s11 m11 l10">
 
 	<comment-preview v-for="repl in replys" :key="repl.comment_id" :comm="repl" @liked="liked_fils(repl)" @disliked="disliked_fils(repl)"> </comment-preview>
 

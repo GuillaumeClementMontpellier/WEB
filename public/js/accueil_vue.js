@@ -8,15 +8,15 @@ Vue.component('carte-preview',{
 		}
 	},
 	template:`
-	<div class="w3-container">
+	<div class="w3-container w3-margin-bottom w3-card">
 
 	<a href="/login/login"> 
-	<img :src="carte.image_url" alt="Carte" class="w3-image w3-btn">
+	<img :src="carte.image_url" alt="Carte" class="w3-image">
 	</a>
 
 	<div class="w3-row">
 
-	<div class="w3-col s1" style="visibility: hidden">POS</div>
+	<div class="w3-col s1" style="visibility: hidden">LEFT</div>
 
 	<div class="w3-col s4">
 
@@ -24,7 +24,7 @@ Vue.component('carte-preview',{
 
 	</div>
 
-	<div class="w3-col s2" style="visibility: hidden">POS</div>
+	<div class="w3-col s2" style="visibility: hidden">MIDDLE</div>
 
 	<div class="w3-col s4">
 
@@ -32,13 +32,13 @@ Vue.component('carte-preview',{
 
 	</div>
 
-	<div class="w3-col s1" style="visibility: hidden">POS</div>
+	<div class="w3-col s1" style="visibility: hidden">RIGHT</div>
 
 	</div>
 
 	<div class="w3-row">
 
-	<div class="w3-col s1" style="visibility: hidden">POS</div>
+	<div class="w3-col s1" style="visibility: hidden">LEFT</div>
 
 	<div class="w3-col s10">
 
@@ -48,7 +48,7 @@ Vue.component('carte-preview',{
 
 	</div>
 
-	<div class="w3-col s1" style="visibility: hidden">POS</div>
+	<div class="w3-col s1" style="visibility: hidden">RIGHT</div>
 
 	</div>
 
