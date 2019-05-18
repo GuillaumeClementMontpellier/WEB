@@ -148,6 +148,7 @@ let app = new Vue({
 	data: {
 		cartes_preview : [],
 		comments_preview : [],
+		perso_comments_preview : [],
 		replys_preview : []
 	},
 
@@ -164,25 +165,37 @@ let app = new Vue({
 			console.log('There has been a problem with initial fetch operation: ', error.message)
 		})
 		
+		fetch("/api/comment/perstop?nbr=6", { credentials: 'same-origin'})
+		.then( (res) => {
+			return res.json()
+		} )
+		.then( (res) => {
+			this.perso_comments_preview = res
+			let c
+			for (c in this.perso_comments_preview){
+				this.perso_comments_preview[c].created = (new Date(this.perso_comments_preview[c].created)).toLocaleDateString()
+				if (this.perso_comments_preview[c].edited){
+					this.perso_comments_preview[c].edited = (new Date(this.perso_comments_preview[c].edited)).toLocaleDateString()
+				}
+			}
+		} )
+		.catch( function(error) {
+			console.log('There has been a problem with initial fetch operation: ', error.message)
+		})
+		
 		fetch("/api/comment/top?nbr=6", { credentials: 'same-origin'})
 		.then( (res) => {
 			return res.json()
 		} )
 		.then( (res) => {
-
 			this.comments_preview = res
-
 			let c
-
 			for (c in this.comments_preview){
-
 				this.comments_preview[c].created = (new Date(this.comments_preview[c].created)).toLocaleDateString()
 				if (this.comments_preview[c].edited){
 					this.comments_preview[c].edited = (new Date(this.comments_preview[c].edited)).toLocaleDateString()
 				}
-
 			}
-
 		} )
 		.catch( function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)
@@ -193,20 +206,14 @@ let app = new Vue({
 			return res.json()
 		} )
 		.then( (res) => {
-
 			this.replys_preview = res
-
 			let c
-
 			for (c in this.replys_preview){
-
 				this.replys_preview[c].created = (new Date(this.replys_preview[c].created)).toLocaleDateString()
 				if (this.comments_preview[c].edited){
 					this.replys_preview[c].edited = (new Date(this.replys_preview[c].edited)).toLocaleDateString()
 				}
-
 			}
-
 		} )
 		.catch( function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)

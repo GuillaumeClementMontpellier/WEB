@@ -84,6 +84,7 @@ function listeReply(req, res, next) { //  avec nbr et offset et desc
 
 //Top
 app.get('/top',topReqComm)
+app.get('/perstop',topReqCommPers)
 
 function topReqComm(req, res, next) {
 
@@ -118,6 +119,41 @@ function topReqComm(req, res, next) {
     res.json(result.rows)
   })
 }
+
+function topReqComm(req, res, next) {
+
+  if(!req.query) {
+    return next({status: 400, message: 'invalid input'})
+  }
+  if(typeof req.query.nbr !== 'string') {
+    return next({status: 400, message: 'invalid input'})
+  }
+
+  let q = `SELECT comment_id, contenu, created, edited, carte_id, author_id, name_user FROM commentaire, user_profile 
+  WHERE author_id=id_user ORDER BY score(comment_like_count(comment_id)+1,comment_dislike_count(comment_id)) LIMIT $1`
+
+  let par = [escapeHtml(req.query.nbr)]
+
+  if(typeof req.query.offset === 'string'){
+    q += 'OFFSET $2'
+    par.push(escapeHtml(req.query.offset))
+  }
+
+  if(req.query.desc){
+    q.replace('LIMIT', 'DESC LIMIT')
+  }
+
+  pool.query(q, par, function(err,result) {    
+
+    if(err || result == undefined || result.rows == undefined){
+      return next({status: 400, message: 'invalid input'})
+    }
+
+    res.status(200)
+    res.json(result.rows)
+  })
+}
+
 
 
 //POST
