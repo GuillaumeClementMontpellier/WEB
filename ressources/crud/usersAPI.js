@@ -116,6 +116,8 @@ function likesOfUser(req, res, next) { //retourne les cartes liked par cet user
 
 function replyToUser(req, res, next) { //  avec nbr, limit et offset
 
+	console.log(req.params.id)
+
 	if(!req.query) {
 		return next({status: 400, message: 'invalid input'})
 	}
