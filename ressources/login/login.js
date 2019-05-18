@@ -169,7 +169,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 					const auth_code_bits = sjcl.random.randomWords(8)
 					const auth_code = sjcl.codec.base64.fromBits(auth_code_bits)
 
-					const bday = new Date(escapeHtml(req.body.birth_date)
+					const bday = new Date(escapeHtml(req.body.birth_date))
 
 						//req
 						let q = `INSERT INTO user_profile (name_user, enc_pass, salt, code_auth, birth_date) VALUES($1, $2, $3, $4, $5) RETURNING id_user`
