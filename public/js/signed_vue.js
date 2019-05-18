@@ -126,6 +126,13 @@ Vue.component('comment-preview',{
 				return res.json()
 			} )
 			.then( (res) => {
+				let c
+				for (c in res){
+					res[c].created = (new Date(res[c].created)).toLocaleDateString()
+					if (res[c].edited){
+						res[c].edited = (new Date(res[c].edited)).toLocaleDateString()
+					}
+				}
 				this.replys = this.replys.concat(res)
 			} )
 			.catch( function(error) {
