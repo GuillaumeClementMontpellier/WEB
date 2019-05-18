@@ -12,7 +12,7 @@ const pool = new Pool({
 })
 
 function escapeHtml(text) {
-	if(typeof text != string){
+	if(typeof text != 'string'){
 		return text
 	}
   return text.replace(/[\"&<>]/g, function (a) {
