@@ -125,8 +125,6 @@ function likesOfUser(req, res, next) { //retourne les cartes liked par cet user
 
 function replyToUser(req, res, next) { //  avec nbr, limit et offset
 
-	console.log(req.params.id)
-
 	if(!req.query) {
 		return next({status: 400, message: 'invalid input'})
 	}
@@ -140,7 +138,7 @@ function replyToUser(req, res, next) { //  avec nbr, limit et offset
 			req.params.id = req.signedCookies.user_id
 		}
 	}
-	
+
 	console.log(req.params.id)
 
 	let q = `SELECT c_r.comment_id, c_r.contenu, c_r.created, c_r.edited, c_r.author_id, name_user FROM commentaire c_u, reply_to, commentaire c_r, user_profile
@@ -162,6 +160,7 @@ function replyToUser(req, res, next) { //  avec nbr, limit et offset
 		if(err || result == undefined || result.rows == undefined){
 			return next({status: 400, message: 'invalid input'})
 		}
+		console.log(result)
 		res.status(200)
 		res.json(result.rows)
 	})
