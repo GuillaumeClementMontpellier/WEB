@@ -87,6 +87,7 @@ function topReqComm(req, res, next) {
 
   let q = `SELECT comment_id, contenu, created, edited, carte_id, author_id, name_user FROM commentaire, user_profile 
   WHERE author_id=id_user ORDER BY score(comment_like_count(comment_id)+1,comment_dislike_count(comment_id)) LIMIT $1`
+  
   let par = [req.query.nbr]
 
   if(typeof req.query.offset === 'string'){
