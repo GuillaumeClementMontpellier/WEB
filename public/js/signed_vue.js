@@ -137,7 +137,7 @@ Vue.component('comment-preview',{
 	computed : {
 		url_user (){
 			return '/user/' + this.comm.author_id
-		}
+		},
 		date(){
 			let d = new Date(comm.created)
 			return d.toLocaleDateTime()
