@@ -75,7 +75,7 @@ Vue.component('comment-preview',{
 	template:`
 	<div class="w3-container w3-card w3-margin-bottom w3-left-align">
 
-	<p> <a :href="url_user"> {{comm.name_user}} </a> dit le {{comm.created}} <span v-if="comm.edited">(edité le : {{comm.edited}})</span> : </p> 
+	<p> <a :href="url_user"> {{comm.name_user}} </a> dit le {{date}} <span v-if="comm.edited">(edité le : {{dateEdit}})</span> : </p> 
 
 	<div class="w3-card">
 
@@ -137,6 +137,14 @@ Vue.component('comment-preview',{
 	computed : {
 		url_user (){
 			return '/user/' + this.comm.author_id
+		}
+		date(){
+			let d = new Date(comm.created)
+			return d.toLocaleDateTime()
+		},		
+		dateEdit(){
+			let d = new Date(comm.edited)
+			return d.toLocaleDateTime()
 		}
 	}
 })
