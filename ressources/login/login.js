@@ -154,6 +154,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 					}
 
 					if(result == undefined || result.rows == undefined || result.rows[0] == undefined){
+						done()
 						return res.redirect('/login/signin/err')
 					}
 

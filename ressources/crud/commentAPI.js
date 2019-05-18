@@ -117,50 +117,8 @@ function postComm(req, res, next){ // Req avec comme body contenu, carte_id, et 
   if(!req.signedIn){
     return next({status: 403, message: 'Pas Authorisé'})
   }
-
-  let q = `INSERT INTO commentaire (contenu, created, carte_id, author_id) VALUES($1, now(), $2, $3)`
-
-  let par = [req.body.contenu, req.body.carte_id, req.signedCookies.user_id]
-
-  pool.connect(function (err, client, done){
-
-    const shouldAbort = function(err){
-      if (err) {
-        client.query('ROLLBACK', function (err) {
-          done()
-        })
-      }
-      return !!err
-    }
-
-    client.query('BEGIN', function(err){
-      if (shouldAbort(err)) {
-        return next({status: 500, message: 'Problem of transaction'})
-      }
-      client.query( q, par, function(err,result) {  
-
-        if (shouldAbort(err)){
-          return next({status: 500, message: 'Problem of insert'})
-        }
-
-        if(result == undefined || result.rows == undefined){
-          return next({status: 400, message: 'invalid input'})
-        }
-        res.status(201)
-        res.send()
-
-        client.query('COMMIT', function(err){
-          done()
-        })
-      })
-    })
-  })
-}
-
-function postReply(req, res, next){ // Req avec comme body contenu, carte_id, et author_id dans cookies
-
-  if(!req.signedIn){
-    return next({status: 403, message: 'Pas Authorisé'})
+  if(!req.body.contenu || !req.body.carte_id){
+    return next({status: 400, message: 'Bad Request'})
   }
 
   let q = `INSERT INTO commentaire (contenu, created, carte_id, author_id) VALUES($1, now(), $2, $3)`
@@ -189,6 +147,7 @@ function postReply(req, res, next){ // Req avec comme body contenu, carte_id, et
         }
 
         if(result == undefined || result.rows == undefined){
+          done()
           return next({status: 400, message: 'invalid input'})
         }
         res.status(201)
@@ -201,6 +160,125 @@ function postReply(req, res, next){ // Req avec comme body contenu, carte_id, et
     })
   })
 }
+
+function postReply(req, res, next){ // Req avec comme body contenu, carte_id, et author_id dans cookies, et pere
+
+  if(!req.signedIn){
+    return next({status: 403, message: 'Pas Authorisé'})
+  }
+  if(!req.body.contenu || !req.body.carte_id || !req.body.pere){
+    return next({status: 400, message: 'Bad Request'})
+  }
+
+  let q = `INSERT INTO commentaire (contenu, created, carte_id, author_id) VALUES($1, now(), $2, $3) RETURNING comment_id`
+
+  let par = [req.body.contenu, req.body.carte_id, req.signedCookies.user_id]
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done()
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+      client.query( q, par, function(err,result) {  
+
+        if (shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          done()
+          return next({status: 400, message: 'invalid input'})
+        }
+
+        let q1 = `INSERT INTO reply_to VALUES($1,$2)`
+
+        let par1 = [result.rows[0].comment_id, req.body.pere]
+
+        client.query( q1, par1, function(err,result) {  
+
+          if (shouldAbort(err)){
+            return next({status: 500, message: 'Problem of insert'})
+          }
+
+          if(result == undefined || result.rows == undefined){
+            done()
+            return next({status: 400, message: 'invalid input'})
+          }
+          res.status(201)
+          res.send()
+
+          client.query('COMMIT', function(err){
+            done()
+          })
+        })
+      })
+    })
+  })
+}
+
+//PATCH COMMENT : change contenu => contenu est donné dans body
+app.patch('/:id',patchComm)
+
+function patchComm(req, res, next){
+
+  if(!req.signedIn){
+    return next({status: 403, message: 'Pas logged in'})
+  }
+  if(typeof req.params.id !== 'string') {
+    return next({status: 400, message: 'invalid input param'})
+  }
+
+  let q = `UPDATE commentaire SET edited = now() AND ($1, $2, $3)`
+
+  let par = [req.params.id, req.signedCookies.user_name, true]
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done()
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+      
+      client.query( q, par, function(err,result) {  
+
+        if(shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          done()
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201)
+        res.send()
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
+
 
 //PUT
 app.put('/like/:id', likeComm)
@@ -243,6 +321,7 @@ function likeComm(req, res, next){
         }
 
         if(result == undefined || result.rows == undefined){
+          done()
           return next({status: 400, message: 'invalid input'})
         }
         res.status(201)
@@ -292,6 +371,7 @@ function dislikeComm(req, res, next){
         }
 
         if(result == undefined || result.rows == undefined){
+          done()
           return next({status: 400, message: 'invalid input'})
         }
         res.status(201)
@@ -307,7 +387,58 @@ function dislikeComm(req, res, next){
 
 //DELETE
 //comment
-app.delete('/', )
+app.delete('/:id', deleteComm)
+
+
+function deleteComm(req, res, next){
+
+  if(!req.signedIn){
+    return next({status: 403, message: 'Pas logged in'})
+  }
+  if(typeof req.params.id !== 'string') {
+    return next({status: 400, message: 'invalid input param'})
+  }
+
+  let q = `UPDATE commentaire SET author_id = 0 AND contenu = "DELETED" AND edited = now() WHERE author_id = $1 AND comment_id = $2`
+
+  let par = [req.signedCookies.user_id, req.params.id]
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done()
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+      
+      client.query( q, par, function(err,result) {  
+
+        if(shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(result == undefined || result.rows == undefined){
+          done()
+          return next({status: 400, message: 'invalid input'})
+        }
+        res.status(201)
+        res.send()
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
 
 
 

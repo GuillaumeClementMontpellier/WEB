@@ -17,7 +17,7 @@ app.get('/bytop', topReq)
 app.get('/bynbrcomment', nbrReq)
 app.get('/modeles',modeleReq)
 
-//req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset[, desc]])
+//req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset][, desc])
 function topReq(req, res, next) {
   if(!req.query) {
     return next({status: 400, message: 'invalid input'})
@@ -289,6 +289,7 @@ function likePut(req, res, next){
         }
 
         if(result == undefined || result.rows == undefined){
+          done()
           return next({status: 400, message: 'invalid input'})
         }
         res.status(201)
@@ -337,6 +338,7 @@ function dislikePut(req, res, next){
         }
 
         if(result == undefined || result.rows == undefined){
+          done()
           return next({status: 400, message: 'invalid input'})
         }
         res.status(201)
@@ -386,6 +388,7 @@ function putCarteVar(req, res, next){
         }
 
         if(result == undefined || result.rows == undefined){
+          done()
           return next({status: 400, message: 'invalid input'})
         }
         res.status(201)
@@ -432,6 +435,7 @@ function putCarteType(req, res, next){ //dans body
         }
 
         if(result == undefined || result.rows == undefined){
+          done()
           return next({status: 400, message: 'invalid input'})
         }
         res.status(201)
@@ -480,6 +484,7 @@ function deleteLike(req, res, next){
         }
 
         if(result == undefined || result.rows == undefined){
+          done()
           return next({status: 400, message: 'invalid input'})
         }
         res.status(201)
@@ -529,6 +534,7 @@ function deleteVar(req, res, next){
         }
 
         if(result == undefined || result.rows == undefined){
+          done()
           return next({status: 400, message: 'invalid input'})
         }
         res.status(201)
@@ -575,6 +581,7 @@ function deleteModele(req, res, next){
         }
 
         if(result == undefined || result.rows == undefined){
+          done()
           return next({status: 400, message: 'invalid input'})
         }
         res.status(201)
