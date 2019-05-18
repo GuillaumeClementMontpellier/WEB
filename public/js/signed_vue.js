@@ -73,15 +73,15 @@ Vue.component('comment-preview',{
 		}
 	},
 	template:`
-	<div class="w3-container">
+	<div class="w3-container w3-card">
 
-	<a :href="url_user">  <p>{{comm.name_user}} dit le {{comm.created}} <span v-if="comm.edited">(edité le : {{comm.edited}})</span> </p> </a>
+	 <p> <a :href="url_user"> {{comm.name_user}} </a> dit le {{comm.created}} <span v-if="comm.edited">(edité le : {{comm.edited}})</span></p> 
 
 	<p> {{comm.contenu}} </p>
 
 
 
-	<button> Voir plus de reponses </button>
+	<button class="w3-button w3-btn" @click="fetchReply()"> Voir plus de reponses </button>
 
 	<div class="reply_section w3-row">
 

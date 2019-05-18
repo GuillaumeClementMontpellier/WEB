@@ -8,7 +8,7 @@
 
 	<div class="w3-container w3-center w3-border-bottom">
 
-		<h2>Magic-Project v1 </h2>
+		<h2> Magic-Project v1 </h2>
 
 		<p> Bienvenue, <%= name %> </p>
 
@@ -32,7 +32,7 @@
 
 		<div class="w3-row">
 
-			<comment-preview class="w3-col s12" v-for="comm in comments_preview" :key="comm.comment_id" @liked='liked_comm(comm)' @disliked='disliked_comm(comm)' :comm="comm"> </comment-preview> 
+			<comment-preview class="w3-col s12" v-for="comm in comments_preview" :key="comm.comment_id" @liked='liked_comm(comm)' @disliked='disliked_comm(comm)' :comm="comm"> </comment-preview>
 
 		</div>
 
@@ -45,6 +45,8 @@
 		<div class="w3-row">
 
 			<comment-preview class="w3-col s12" v-for="repl in replys_preview" :key="repl.comment_id" @liked='liked_comm(repl)' @disliked='disliked_comm(repl)' :comm="repl"> </comment-preview> 
+
+			<p v-if="replys_preview.length==0">Il n'y a pas encore de reponses a un commentaire que vous avez posté</p>
 
 		</div>
 
