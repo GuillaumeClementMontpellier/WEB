@@ -138,11 +138,10 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 
 		let par1 = [escapeHtml(req.body.user_name)]
 
-		console.log(par1)
-
 		pool.connect(function (err, client, done){
 
 			const shouldAbort = function(err){
+				console.log(err)
 				if (err) {
 					client.query('ROLLBACK', function (err) {
 						done()
