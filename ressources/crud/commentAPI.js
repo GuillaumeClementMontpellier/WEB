@@ -78,10 +78,10 @@ app.get('/top',topReqComm)
 function topReqComm(req, res, next) {
 
   if(!req.query) {
-    return next({status: 400, message: 'invalid input 1'})
+    return next({status: 400, message: 'invalid input'})
   }
   if(typeof req.query.nbr !== 'string') {
-    return next({status: 400, message: 'invalid input 2'})
+    return next({status: 400, message: 'invalid input'})
   }
 
   let q = `SELECT comment_id, contenu, created, edited, carte_id, author_id, name_user FROM commentaire, user_profile 
@@ -101,7 +101,7 @@ function topReqComm(req, res, next) {
   pool.query(q, par, function(err,result) {    
 
     if(err || result == undefined || result.rows == undefined){
-      return next({status: 400, message: 'invalid input 3'})
+      return next({status: 400, message: 'invalid input'})
     }
 
     res.status(200)

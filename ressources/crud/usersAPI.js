@@ -74,16 +74,18 @@ function commentsOfUser(req, res, next) { //  avec nbr, limit et offset
 
 function likesOfUser(req, res, next) { //retourne les cartes liked par cet user
 	if(!req.query) {
-		return next({status: 400, message: 'invalid input'})
+		return next({status: 400, message: 'invalid input 1'})
 	}
 	if(typeof req.query.nbr !== 'string') {
-		return next({status: 400, message: 'invalid input'})
+		return next({status: 400, message: 'invalid input 2'})
 	}
 	if(typeof req.params.id !== 'string') {
 		if(!req.signedIn){
 			return next({status: 400, message: 'invalid input param'})
 		} else {
+
 			req.params.id = req.signedCookies.user_id
+
 		}
 	}
 
@@ -101,7 +103,7 @@ function likesOfUser(req, res, next) { //retourne les cartes liked par cet user
 
 	pool.query(q, par, function(err,result) {    
 		if(err || result == undefined || result.rows == undefined){
-			return next({status: 400, message: 'invalid input'})
+			return next({status: 400, message: 'invalid input 3'})
 		}
 		res.status(200)
 		res.json(result.rows)
