@@ -3,6 +3,15 @@
 const express = require('express')
 const app = express.Router()
 
+const { Pool } = require('pg')
+
+//connection a la BD
+const pool = new Pool({
+	connectionString: process.env.DATABASE_URL,
+	ssl: true
+})
+
+
 //get database demands
 app.get('/name/:name', userByName)
 
@@ -131,6 +140,8 @@ function replyToUser(req, res, next) { //  avec nbr, limit et offset
 			req.params.id = req.signedCookies.user_id
 		}
 	}
+	
+	console.log(req.params.id)
 
 	let q = `SELECT c_r.comment_id, c_r.contenu, c_r.created, c_r.edited, c_r.author_id, name_user FROM commentaire c_u, reply_to, commentaire c_r, user_profile
 	WHERE c_r.author_id=id_user AND c_u.author_id = $1 AND c_r.comment_id = id_reply AND c_u.comment_id = id_comment
