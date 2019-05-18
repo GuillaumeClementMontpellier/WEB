@@ -32,7 +32,7 @@
 
 		<div class="w3-row">
 
-			<comment-preview class="w3-col s12" v-for="comm in comments_preview" :key="comm.comment_id" @liked='liked_comm' @disliked='disliked_comm' :comm="comm"> </comment-preview> 
+			<comment-preview class="w3-col s12" v-for="comm in comments_preview" :key="comm.comment_id" @liked='liked_comm(comm)' @disliked='disliked_comm(comm)' :comm="comm"> </comment-preview> 
 
 		</div>
 
@@ -44,7 +44,7 @@
 
 		<div class="w3-row">
 
-			<comment-preview class="w3-col s12" v-for="repl in replys_preview" :key="repl.comment_id" @liked='liked_comm' @disliked='disliked_comm' :comm="repl"> </comment-preview> 
+			<comment-preview class="w3-col s12" v-for="repl in replys_preview" :key="repl.comment_id" @liked='liked_comm(repl)' @disliked='disliked_comm(repl)' :comm="repl"> </comment-preview> 
 
 		</div>
 

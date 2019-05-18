@@ -11,6 +11,12 @@ const pool = new Pool({
 	ssl: true
 })
 
+function escapeHtml(text) {
+  return text.replace(/[\"&<>]/g, function (a) {
+    return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a];
+  });
+}
+
 //GET -------------------------
 //toutes les cartes ----------
 app.get('/bytop', topReq)
@@ -19,6 +25,7 @@ app.get('/modeles',modeleReq)
 
 //req un certains nombre de cartes, qui ont meilleur score de wilson (params : nbr[, offset][, desc])
 function topReq(req, res, next) {
+
   if(!req.query) {
     return next({status: 400, message: 'invalid input'})
   }
@@ -27,11 +34,11 @@ function topReq(req, res, next) {
   }
 
   let q = 'SELECT var_id, image_url FROM carte_var ORDER BY score(carte_like_count(var_id)+1,carte_dislike_count(var_id)) LIMIT $1'
-  let par = [req.query.nbr]
+  let par = [escapeHtml(req.query.nbr)]
 
   if(typeof req.query.offset === 'string'){
     q += 'OFFSET $2'
-    par.push(req.query.offset)
+    par.push(escapeHtml(req.query.offset))
   }
 
   if(req.query.desc){
@@ -58,11 +65,11 @@ function nbrReq(req, res, next) {
   }
 
   let q = 'SELECT carte_var.var_id, image_url, count(*) as nbr FROM carte_var, commentaire WHERE commentaire.carte_id = carte_var.var_id GROUP BY carte_var.var_id, image_url ORDER BY nbr LIMIT $1'
-  let par = [req.query.nbr]
+  let par = [escapeHtml(req.query.nbr)]
 
   if(typeof req.query.offset === 'string'){
     q += 'OFFSET $2'
-    par.push(req.query.offset)
+    par.push(escapeHtml(req.query.offset))
   }
 
   if(req.query.desc){
@@ -89,11 +96,11 @@ function modeleReq(req, res, next) {
   }
 
   let q = 'SELECT carte_id, carte_name FROM carte_type ORDER BY carte_id LIMIT $1'
-  let par = [req.query.nbr]
+  let par = [escapeHtml(req.query.nbr)]
 
   if(typeof req.query.offset === 'string'){
     q += 'OFFSET $2'
-    par.push(req.query.offset)
+    par.push(escapeHtml(req.query.offset))
   }
 
   if(req.query.desc){
@@ -139,11 +146,11 @@ function sTypesReq(req, res, next) {
   }
 
   let q = 'SELECT name_type FROM sub_type_c ORDER BY name_type LIMIT $1'
-  let par = [req.query.nbr]
+  let par = [escapeHtml(req.query.nbr)]
 
   if(typeof req.query.offset === 'string'){
     q += 'OFFSET $2'
-    par.push(req.query.offset)
+    par.push(escapeHtml(req.query.offset))
   }
 
   if(req.query.desc){
@@ -168,11 +175,11 @@ function editionReq(req, res, next) {
   }
 
   let q = 'SELECT code, edition_name FROM edition ORDER BY code LIMIT $1'
-  let par = [req.query.nbr]
+  let par = [escapeHtml(req.query.nbr)]
 
   if(typeof req.query.offset === 'string'){
     q += 'OFFSET $2'
-    par.push(req.query.offset)
+    par.push(escapeHtml(req.query.offset))
   }
 
   if(req.query.desc){
@@ -201,7 +208,7 @@ function carteInfoReq(req, res, next) {
   let q = `SELECT var_id, carte_name, mana_cost, cmc, image_url, oracle, flavor, scry_url, gath_url, edition_name 
   FROM carte_var, edition, carte_type WHERE edition_code=code AND carte_var.carte_id=carte_type.carte_id AND var_id=$1`
 
-  let par = [req.params.id_carte]
+  let par = [escapeHtml(req.params.id_carte)]
 
   pool.query(q, par, function(err,result) {    
     if(err || result == undefined || result.rows == undefined){
@@ -229,11 +236,11 @@ function commentsReq(req, res, next) {
   WHERE author_id=id_user AND comment_id NOT IN (select id_reply from reply_to) AND var_id=$1 
   ORDER BY score(comment_like_count(comment_id)+1,comment_dislike_count(comment_id))LIMIT $2`
 
-  let par = [req.params.id_carte,req.query.nbr]
+  let par = [escapeHtml(req.params.id_carte),escapeHtml(req.query.nbr)]
 
   if(typeof req.query.offset === 'string'){
     q += 'OFFSET $3'
-    par.push(req.query.offset)
+    par.push(escapeHtml(req.query.offset))
   }
 
   if(req.query.desc){
@@ -265,7 +272,7 @@ function likePut(req, res, next){
 
   let q = `INSERT INTO carte_like VALUES($1, $2, $3)`
 
-  let par = [req.params.id, req.signedCookies.user_name, true]
+  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_name), true]
 
   pool.connect(function (err, client, done){
 
@@ -314,7 +321,7 @@ function dislikePut(req, res, next){
 
   let q = `INSERT INTO carte_like VALUES($1, $2, $3)`
 
-  let par = [req.params.id, req.signedCookies.user_name, false]
+  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_name), false]
 
   pool.connect(function (err, client, done){
 
@@ -364,7 +371,7 @@ function putCarteVar(req, res, next){
 
   let q = `INSERT INTO carte_var (image_url, flavor, scry_url, gath_url, edition_code, carte_id) VALUES($1, $2, $3, $4, $5, $6)`
 
-  let par = [req.body.image_url, req.body.flavor, req.body.scry_url, req.body.gath_url, req.body.edition_code, req.body.carte_id]
+  let par = [req.body.image_url, escapeHtml(req.body.flavor), req.body.scry_url, req.body.gath_url, escapeHtml(req.body.edition_code), escapeHtml(req.body.carte_id)]
 
   pool.connect(function (err, client, done){
 
@@ -410,7 +417,7 @@ function putCarteType(req, res, next){ //dans body
 
   let q = `INSERT INTO carte_type (carte_name, oracle, mana_cost, cmc) VALUES($1, $2, $3, $4)`
 
-  let par = [req.body.carte_name, req.body.oracle, req.body.mana_cost, req.body.cmc]
+  let par = [escapeHtml(req.body.carte_name),escapeHtml( req.body.oracle), escapeHtml(req.body.mana_cost), escapeHtml(req.body.cmc)]
 
   pool.connect(function (err, client, done){
 
@@ -459,7 +466,7 @@ function deleteLike(req, res, next){
 
   let q = `DELETE FROM carte_like WHERE carte_id= $1 AND user_id = $2`
 
-  let par = [req.params.id, req.signedCookies.user_id]
+  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_id)]
 
   pool.connect(function (err, client, done){
 
@@ -509,7 +516,7 @@ function deleteVar(req, res, next){
 
   let q = `DELETE FROM carte_var WHERE var_id = $1`
 
-  let par = [req.params.id]
+  let par = [escapeHtml(req.params.id)]
 
   pool.connect(function (err, client, done){
 
@@ -556,7 +563,7 @@ function deleteModele(req, res, next){
 
   let q = `DELETE FROM carte_type WHERE carte_id = $1`
 
-  let par = [req.params.id]
+  let par = [escapeHtml(req.params.id)]
 
   pool.connect(function (err, client, done){
 

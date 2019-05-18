@@ -11,8 +11,15 @@ const pool = new Pool({
 	ssl: true
 })
 
+function escapeHtml(text) {
+  return text.replace(/[\"&<>]/g, function (a) {
+    return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a];
+  });
+}
+
 //GET
 //Specifique
+// /:id mis a la fin pour detailsComm
 app.get('/reply/:id',listeReply)
 
 function detailsComm(req, res, next) {
@@ -23,7 +30,7 @@ function detailsComm(req, res, next) {
 
   let q = `SELECT comment_id, contenu, created, edited, carte_id, author_id, name_user FROM commentaire, user_profile WHERE comment_id = $1 AND author_id=id_user`
 
-  let par = [req.params.id]
+  let par = [escapeHtml(req.params.id)]
 
   pool.query(q, par, function(err,result) {    
     if(err || result == undefined || result.rows == undefined){
@@ -34,7 +41,7 @@ function detailsComm(req, res, next) {
   })
 }
 
-function listeReply(req, res, next) { //  avec nbr, limit et offset
+function listeReply(req, res, next) { //  avec nbr et offset et desc
 
   if(!req.query) {
     return next({status: 400, message: 'invalid input'})
@@ -50,11 +57,11 @@ function listeReply(req, res, next) { //  avec nbr, limit et offset
   WHERE author_id=id_user AND comment_id = id_reply AND id_comment = $1 
   ORDER BY score(comment_like_count(comment_id)+1,comment_dislike_count(comment_id)) LIMIT $2`
 
-  let par = [req.params.id,req.query.nbr]
+  let par = [escapeHtml(req.params.id),escapeHtml(req.query.nbr)]
 
   if(typeof req.query.offset === 'string'){
     q += 'OFFSET $3'
-    par.push(req.query.offset)
+    par.push(escapeHtml(req.query.offset))
   }
 
   if(req.query.desc){
@@ -87,11 +94,11 @@ function topReqComm(req, res, next) {
   let q = `SELECT comment_id, contenu, created, edited, carte_id, author_id, name_user FROM commentaire, user_profile 
   WHERE author_id=id_user ORDER BY score(comment_like_count(comment_id)+1,comment_dislike_count(comment_id)) LIMIT $1`
 
-  let par = [req.query.nbr]
+  let par = [escapeHtml(req.query.nbr)]
 
   if(typeof req.query.offset === 'string'){
     q += 'OFFSET $2'
-    par.push(req.query.offset)
+    par.push(escapeHtml(req.query.offset))
   }
 
   if(req.query.desc){
@@ -126,7 +133,7 @@ function postComm(req, res, next){ // Req avec comme body contenu, carte_id, et 
 
   let q = `INSERT INTO commentaire (contenu, created, carte_id, author_id) VALUES($1, now(), $2, $3)`
 
-  let par = [req.body.contenu, req.body.carte_id, req.signedCookies.user_id]
+  let par = [escapeHtml(req.body.contenu), escapeHtml(req.body.carte_id), escapeHtml(req.signedCookies.user_id)]
 
   pool.connect(function (err, client, done){
 
@@ -164,7 +171,7 @@ function postComm(req, res, next){ // Req avec comme body contenu, carte_id, et 
   })
 }
 
-function postReply(req, res, next){ // Req avec comme body contenu, carte_id, et author_id dans cookies, et pere
+function postReply(req, res, next){ // Req avec comme body contenu, carte_id, et author_id dans cookies, et pere : id du comment pere
 
   if(!req.signedIn){
     return next({status: 403, message: 'Pas Authorisé'})
@@ -175,7 +182,7 @@ function postReply(req, res, next){ // Req avec comme body contenu, carte_id, et
 
   let q = `INSERT INTO commentaire (contenu, created, carte_id, author_id) VALUES($1, now(), $2, $3) RETURNING comment_id`
 
-  let par = [req.body.contenu, req.body.carte_id, req.signedCookies.user_id]
+  let par = [escapeHtml(req.body.contenu), escapeHtml(req.body.carte_id), escapeHtml(req.signedCookies.user_id)]
 
   pool.connect(function (err, client, done){
 
@@ -205,7 +212,7 @@ function postReply(req, res, next){ // Req avec comme body contenu, carte_id, et
 
         let q1 = `INSERT INTO reply_to VALUES($1,$2)`
 
-        let par1 = [result.rows[0].comment_id, req.body.pere]
+        let par1 = [escapeHtml(result.rows[0].comment_id), escapeHtml(req.body.pere)]
 
         client.query( q1, par1, function(err,result) {  
 
@@ -243,7 +250,7 @@ function patchComm(req, res, next){
 
   let q = `UPDATE commentaire SET edited = now() AND ($1, $2, $3)`
 
-  let par = [req.params.id, req.signedCookies.user_name, true]
+  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_name), true]
 
   pool.connect(function (err, client, done){
 
@@ -299,7 +306,7 @@ function likeComm(req, res, next){
 
   let q = `INSERT INTO comment_like VALUES($1, $2, $3)`
 
-  let par = [req.params.id, req.signedCookies.user_name, true]
+  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_name), true]
 
   pool.connect(function (err, client, done){
 
@@ -349,7 +356,7 @@ function dislikeComm(req, res, next){
 
   let q = `INSERT INTO comment_like VALUES($1, $2, $3)`
 
-  let par = [req.params.id, req.signedCookies.user_name, false]
+  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_name), false]
 
   pool.connect(function (err, client, done){
 
@@ -404,7 +411,7 @@ function deleteComm(req, res, next){
 
   let q = `UPDATE commentaire SET author_id = 0 AND contenu = "DELETED" AND edited = now() WHERE author_id = $1 AND comment_id = $2`
 
-  let par = [req.signedCookies.user_id, req.params.id]
+  let par = [escapeHtml(req.signedCookies.user_id), escapeHtml(req.params.id)]
 
   pool.connect(function (err, client, done){
 

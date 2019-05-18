@@ -45,7 +45,7 @@ app.use(auth())
 //routing pour les ressources -------------------------
 app.use('/api', apiRouter)
 app.use('/', accueilRouter) 
-app.use('/users', usersRouter)
+app.use('/user', usersRouter)
 app.use('/carte', carteRouter)
 app.use('/login', loginRouter)
 

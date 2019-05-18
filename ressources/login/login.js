@@ -68,7 +68,7 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 		//request enc_pass et salt
 		let q = 'SELECT enc_pass, salt, id_user, name_user FROM user_profile LEFT OUTER JOIN admin ON admin_id = id_user WHERE name_user=$1 '
 
-		pool.query(q, [req.body.user_name], function(err,result) { 
+		pool.query(q, [escapeHtml(req.body.user_name)], function(err,result) { 
 
 			if(err || result == undefined || result.rows == undefined || result.rows[0] == undefined){
 				return res.redirect('/login/login/err')
@@ -80,7 +80,7 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 			const key = sjcl.codec.base64.fromBits(derivedKey)
 
 			//comparaison
-			if(result.rows[0].enc_pass = key){
+			if(result.rows[0].enc_pass == key){
 
 				//genere randoms bits
 				const auth = sjcl.random.randomWords(8)
@@ -129,7 +129,7 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 
 		let q1 = 'Select count(*) as n from user_profile where name_user = $1'
 
-		let par1 = [req.body.user_name]
+		let par1 = [escapeHtml(req.body.user_name)]
 
 		pool.connect(function (err, client, done){
 
@@ -169,12 +169,12 @@ function sign(req, res, next){ //post username, mot de passe, date de naissance 
 					const auth_code_bits = sjcl.random.randomWords(8)
 					const auth_code = sjcl.codec.base64.fromBits(auth_code_bits)
 
-					const bday = new Date(req.body.birth_date)
+					const bday = new Date(escapeHtml(req.body.birth_date)
 
 						//req
 						let q = `INSERT INTO user_profile (name_user, enc_pass, salt, code_auth, birth_date) VALUES($1, $2, $3, $4, $5) RETURNING id_user`
 
-						let par = [req.body.user_name, key, salt, auth_code ,bday]
+						let par = [escapeHtml(req.body.user_name), key, salt, auth_code, bday]
 
 						client.query( q, par, function(err,result) {
 
@@ -217,7 +217,7 @@ function putAuth(user_id, auth_code){
 
 	let q = `UPDATE user_profile SET code_auth = $1 WHERE id_user = $2`
 
-	let par = [auth_code, user_id]
+	let par = [auth_code, escapeHtml(user_id)]
 
 	pool.connect(function (err, client, done){
 
@@ -254,7 +254,7 @@ function clearAuth(user_id){
 
 	let q = `UPDATE user_profile SET code_auth = $1 WHERE id_user = $2`
 
-	let par = [null, user_id]
+	let par = [null, escapeHtml(user_id)]
 
 	pool.connect(function (err, client, done){
 

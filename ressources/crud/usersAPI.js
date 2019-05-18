@@ -11,6 +11,12 @@ const pool = new Pool({
 	ssl: true
 })
 
+function escapeHtml(text) {
+  return text.replace(/[\"&<>]/g, function (a) {
+    return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a];
+  });
+}
+
 
 //get database demands
 app.get('/name/:name', userByName)
@@ -23,7 +29,7 @@ function userByName(req, res, next) {
 
 	let q = `SELECT id_user FROM user_profile WHERE name_user=$1`
 
-	let par = [req.params.name]
+	let par = [escapeHtml(req.params.name)]
 
 	pool.query(q, par, function(err,result) {    
 		if(err || result == undefined || result.rows == undefined){
@@ -65,11 +71,11 @@ function commentsOfUser(req, res, next) { //  avec nbr, limit et offset
 	WHERE author_id=id_user AND author_id = $1 AND comment_id NOT IN (select id_reply from reply_to)
 	ORDER BY score(comment_like_count(comment_id)+1,comment_dislike_count(comment_id)) LIMIT $2`
 
-	let par = [req.params.id,req.query.nbr]
+	let par = [escapeHtml(req.params.id),escapeHtml(req.query.nbr)]
 
 	if(typeof req.query.offset === 'string'){
 		q += 'OFFSET $3'
-		par.push(req.query.offset)
+		par.push(escapeHtml(req.query.offset))
 	}
 
 	if(req.query.desc){
@@ -103,11 +109,11 @@ function likesOfUser(req, res, next) { //retourne les cartes liked par cet user
 	}
 
 	let q = 'SELECT var_id, image_url FROM carte_var, carte_like WHERE var_id = carte_id AND user_id = $1 AND aime=true ORDER BY score(carte_like_count(var_id)+1,carte_dislike_count(var_id)) LIMIT $2'
-	let par = [req.params.id,req.query.nbr]
+	let par = [escapeHtml(req.params.id),escapeHtml(req.query.nbr)]
 
 	if(typeof req.query.offset === 'string'){
 		q += 'OFFSET $3'
-		par.push(req.query.offset)
+		par.push(escapeHtml(req.query.offset))
 	}
 
 	if(req.query.desc){
@@ -139,17 +145,15 @@ function replyToUser(req, res, next) { //  avec nbr, limit et offset
 		}
 	}
 
-	console.log(req.params.id)
-
 	let q = `SELECT c_r.comment_id, c_r.contenu, c_r.created, c_r.edited, c_r.author_id, name_user FROM commentaire c_u, reply_to, commentaire c_r, user_profile
 	WHERE c_r.author_id=id_user AND c_u.author_id = $1 AND c_r.comment_id = id_reply AND c_u.comment_id = id_comment
 	ORDER BY score(comment_like_count(c_r.comment_id)+1,comment_dislike_count(c_r.comment_id)) LIMIT $2`
 
-	let par = [req.params.id,req.query.nbr]
+	let par = [escapeHtml(req.params.id),escapeHtml(req.query.nbr)]
 
 	if(typeof req.query.offset === 'string'){
 		q += 'OFFSET $3'
-		par.push(req.query.offset)
+		par.push(escapeHtml(req.query.offset))
 	}
 
 	if(req.query.desc){
@@ -160,7 +164,6 @@ function replyToUser(req, res, next) { //  avec nbr, limit et offset
 		if(err || result == undefined || result.rows == undefined){
 			return next({status: 400, message: 'invalid input'})
 		}
-		console.log(result)
 		res.status(200)
 		res.json(result.rows)
 	})
@@ -185,12 +188,12 @@ function likedComments(req, res, next) { //retourne les comments liked par cet u
 	let q = `SELECT c.comment_id, contenu, created, edited, author_id, name_user FROM commentaire c, user_profile, comment_like cl
 	WHERE author_id=id_user AND c.comment_id = cl.comment_id AND user_id = $1 AND aime=true
 	ORDER BY score(c.comment_like_count(comment_id)+1,comment_dislike_count(c.comment_id)) LIMIT $2`
-	let par = [req.params.id,req.query.nbr]
+	let par = [escapeHtml(req.params.id),escapeHtml(req.query.nbr)]
 
 
 	if(typeof req.query.offset === 'string'){
 		q += 'OFFSET $3'
-		par.push(req.query.offset)
+		par.push(escapeHtml(req.query.offset))
 	}
 
 	if(req.query.desc){
@@ -224,19 +227,19 @@ function deleteUser(req, res, next){
 	}	
 
 	let q1 = `UPDATE commentaire SET author_id = 0 AND contenu = "DELETED" AND edited = now() WHERE author_id = $1`
-	let par1 = [req.params.id]
+	let par1 = [escapeHtml(req.params.id)]
 
 	let q2 = `DELETE FROM carte_like where user_id = $1 AND $1 != 0`
-	let par2 = [req.params.id]
+	let par2 = [escapeHtml(req.params.id)]
 
 	let q3 = `DELETE FROM comment_like where user_id = $1 AND $1 != 0`
-	let par3 = [req.params.id]
+	let par3 = [escapeHtml(req.params.id)]
 
 	let q3 = `DELETE FROM admin where admin_id = $1 AND $1 != 0 `
-	let par3 = [req.params.id]
+	let par3 = [escapeHtml(req.params.id)]
 
 	let q4 = `DELETE FROM user_profile where id_user = $1 AND $1 != 0 `
-	let par4 = [req.params.id]
+	let par4 = [escapeHtml(req.params.id)]
 
 	pool.connect(function (err, client, done){
 

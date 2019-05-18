@@ -75,8 +75,35 @@ Vue.component('comment-preview',{
 	template:`
 	<div class="w3-container">
 
+	<a :href="url_user">  <p>{{comm.name_user}} dit le {{comm.created}} <span v-if="comm.edited">(edité le : {{comm.edited}})</span> </p> </a>
+
+	<p> {{comm.contenu}} </p>
+
+
+
+	<button> Voir plus de reponses </button>
+
+	<div class="reply_section w3-row">
+
+	<div style="visibility: hidden" class="w3-col s1 m2 l3">
+	LEFT
+	</div>
+
+	<div class="w3-col s11 m10 l9">
+
+	<comment-preview v-for="repl in replys" :key="repl.comment_id" :comm="repl" @liked="liked_fils(repl)" @disliked="disliked_fils(repl)"> </comment-preview>
+
+	</div>
+	
+	</div>
+
 	</div>
 	`,
+	data(){
+		return {
+			replys : []
+		}
+	}
 	methods: {
 		like() {
 			this.$emit('liked', this.comm)
@@ -84,7 +111,35 @@ Vue.component('comment-preview',{
 		dislike() {
 			this.$emit('disliked', this.comm)
 		},
+		liked_fils(repl) {
+			this.$emit('liked', repl)
+		},
+		dislike(repl) {
+			this.$emit('disliked', repl)
+		},
+		fetchReply(){			
+
+			fetch("/api/comment/reply/" + this.comm.comment_id +"?nbr=6&offset=" this.replys.length, { credentials: 'same-origin'})
+			.then( (res) => {
+				return res.json()
+			} )
+			.then( (res) => {
+				this.replys = this.replys.concat(res)
+			} )
+			.catch( function(error) {
+				console.log('There has been a problem with reply fetch operation: ', error.message)
+			})
+
+		}
 	},
+
+	computed : {
+		url_user (){
+			return '/user/' + this.comm.author_id
+		}
+
+	}
+
 
 })
 
@@ -135,16 +190,20 @@ let app = new Vue({
 
 	}, 
 	methods : {
-		liked_carte(carte) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete
+		liked_carte(carte) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete TODO
+			console.log(carte)
 			return 
 		},
 		disliked_carte(carte) {
+			console.log(carte)
 			return
 		},		
 		liked_comm(comm) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete
+			console.log(comm)
 			return 
 		},
 		disliked_comm(comm) {
+			console.log(comm)
 			return
 		}
 
