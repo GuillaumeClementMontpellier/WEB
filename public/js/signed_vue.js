@@ -132,14 +132,6 @@ Vue.component('comment-preview',{
 				console.log('There has been a problem with reply fetch operation: ', error.message)
 			})
 
-		},
-		date(){
-			let d = new Date(comm.created)
-			return d.toLocaleDateTime()
-		},		
-		dateEdit(){
-			let d = new Date(comm.edited)
-			return d.toLocaleDateTime()
 		}
 	},
 	computed : {
@@ -178,6 +170,12 @@ let app = new Vue({
 		} )
 		.then( (res) => {
 			this.comments_preview = res
+			for (c in this.comments_preview){
+				this.comments_preview[c].created = (new Date(c.created)).toLocaleDateString()
+				if (c.edited){
+					this.comments_preview[c].edited = (new Date(c.edited)).toLocaleDateString()
+				}
+			}
 		} )
 		.catch( function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)
@@ -189,6 +187,12 @@ let app = new Vue({
 		} )
 		.then( (res) => {
 			this.replys_preview = res
+			for (c in this.replys_preview){
+				this.replys_preview[c].created = (new Date(c.created)).toLocaleDateString()
+				if (c.edited){
+					this.replys_preview[c].edited = (new Date(c.edited)).toLocaleDateString()
+				}
+			}
 		} )
 		.catch( function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)
