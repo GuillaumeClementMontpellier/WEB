@@ -103,7 +103,7 @@ Vue.component('comment-preview',{
 		return {
 			replys : []
 		}
-	}
+	},
 	methods: {
 		like() {
 			this.$emit('liked', this.comm)
@@ -132,15 +132,11 @@ Vue.component('comment-preview',{
 
 		}
 	},
-
 	computed : {
 		url_user (){
 			return '/user/' + this.comm.author_id
 		}
-
 	}
-
-
 })
 
 
