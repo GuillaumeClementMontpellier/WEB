@@ -111,7 +111,7 @@ let app = new Vue({
 		.catch(function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)
 		})
-		/*
+		
 		fetch("/api/comment/top?nbr=6", { credentials: 'same-origin'})
 		.then( (res) => {
 			return res.json()
@@ -121,7 +121,7 @@ let app = new Vue({
 		} )
 		.catch(function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)
-		})*/
+		})
 
 	}, 
 	methods : {

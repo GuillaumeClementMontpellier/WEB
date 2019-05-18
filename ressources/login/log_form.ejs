@@ -6,20 +6,20 @@
 <div class="w3-container w3-row ">
 
 	<div class="w3-col m2 l3" style="visibility: hidden">
-		CENTER
+		LEFT
 	</div>
 
 	<div class="w3-container w3-center w3-col s12 m8 l6">
 
 		<h2>Log In </h2>
 
-<% if(message) {%>
+		<% if(message) {%>
 
 		<div class="w3-panel w3-pale-red">
 			<p>Ce couple utilisateur / mot de passe n'existent pas, veuillez reessayer</p>
 		</div>
 
-<% } %>
+		<% } %>
 
 		<form action="/login/login" method="post" name="Log">
 			
@@ -36,7 +36,7 @@
 	</div>
 
 	<div class="w3-col m2 l3" style="visibility: hidden">
-		CENTER
+		RIGHT
 	</div>
 
 
@@ -48,4 +48,4 @@
 
 </div>
 
-<%- include('../layout/foot',{vue: vue}) %>
+<%- include('../layout/foot',{vue: vue, logged: false}) %>

@@ -6,10 +6,12 @@
 		<p>Some footer infos</p>
 	</div>
 
-	<div class="w3-col s6 w3-right-align">
-		<p><a href="/">Supprimer compte</a></p>
-	</div>
+<% if (logged) {%>
 
+	<div class="w3-col s6 w3-right-align">
+		<p><a href="/api/users/delete/">Supprimer compte</a></p>
+	</div>
+<%}%>
 </div>
 
 </div>
