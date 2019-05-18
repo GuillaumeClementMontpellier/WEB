@@ -48,7 +48,7 @@
 
 			<comment-preview class="w3-col s12" v-for="comm in perso_comments_preview" :key="comm.comment_id" @liked='liked_comm(comm)' @disliked='disliked_comm(comm)' :comm="comm"> </comment-preview>
 
-			<p v-if="perso_comments_preview.length==0">Il n'y a pas encore de reponses a un commentaire que vous avez posté</p>
+			<p v-if="perso_comments_preview.length==0">Vous n'avez pas encore posté de commentaire</p>
 
 		</div>
 
