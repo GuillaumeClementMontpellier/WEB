@@ -75,7 +75,7 @@ Vue.component('comment-preview',{
 	template:`
 	<div class="w3-container w3-card w3-margin-bottom w3-left-align">
 
-	<p> <a :href="url_user"> {{comm.name_user}} </a> dit le {{date}} <span v-if="comm.edited">(edité le : {{dateEdit}})</span> : </p> 
+	<p> <a :href="url_user"> {{comm.name_user}} </a> dit le {{date()}} <span v-if="comm.edited">(edité le : {{dateEdit()}})</span> : </p> 
 
 	<div class="w3-card">
 
@@ -132,11 +132,6 @@ Vue.component('comment-preview',{
 				console.log('There has been a problem with reply fetch operation: ', error.message)
 			})
 
-		}
-	},
-	computed : {
-		url_user (){
-			return '/user/' + this.comm.author_id
 		},
 		date(){
 			let d = new Date(comm.created)
@@ -145,6 +140,11 @@ Vue.component('comment-preview',{
 		dateEdit(){
 			let d = new Date(comm.edited)
 			return d.toLocaleDateTime()
+		}
+	},
+	computed : {
+		url_user (){
+			return '/user/' + this.comm.author_id
 		}
 	}
 })
