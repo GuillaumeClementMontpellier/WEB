@@ -8,7 +8,7 @@ Vue.component('carte-preview',{
 		}
 	},
 	template:`
-	<div class="w3-margin w3-card">
+	<div class="w3-card">
 
 	<a :href="'/carte/' + carte.var_id"> 
 	<img :src="carte.image_url" alt="Carte" class="w3-image  w3-margin-bottom">
