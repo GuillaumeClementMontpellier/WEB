@@ -120,7 +120,7 @@ function topReqComm(req, res, next) {
   })
 }
 
-function topReqComm(req, res, next) {
+function topReqCommPers(req, res, next) {
 
   if(!req.query) {
     return next({status: 400, message: 'invalid input'})
@@ -128,14 +128,17 @@ function topReqComm(req, res, next) {
   if(typeof req.query.nbr !== 'string') {
     return next({status: 400, message: 'invalid input'})
   }
+  if(!req.signedIn){
+    return next({status: 401, message: 'Uknown User'})
+  }
 
   let q = `SELECT comment_id, contenu, created, edited, carte_id, author_id, name_user FROM commentaire, user_profile 
-  WHERE author_id=id_user ORDER BY score(comment_like_count(comment_id)+1,comment_dislike_count(comment_id)) LIMIT $1`
+  WHERE author_id=id_user AND id_user=$1 ORDER BY score(comment_like_count(comment_id)+1,comment_dislike_count(comment_id)) LIMIT $2`
 
-  let par = [escapeHtml(req.query.nbr)]
+  let par = [escapeHtml(req.signedCookies.user_id),escapeHtml(req.query.nbr)]
 
   if(typeof req.query.offset === 'string'){
-    q += 'OFFSET $2'
+    q += 'OFFSET $3'
     par.push(escapeHtml(req.query.offset))
   }
 
