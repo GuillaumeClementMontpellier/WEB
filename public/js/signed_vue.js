@@ -102,7 +102,6 @@ let app = new Vue({
 
 		fetch("/api/carte/bytop?nbr=12", { credentials: 'same-origin'})
 		.then( (res) => {
-			console.log(res)
 			return res.json()
 		} )
 		.then( (res) => {
@@ -117,7 +116,18 @@ let app = new Vue({
 			return res.json()
 		} )
 		.then( (res) => {
-			this.cartes_preview = res
+			this.comments_preview = res
+		} )
+		.catch(function(error) {
+			console.log('There has been a problem with initial fetch operation: ', error.message)
+		})
+
+		fetch("/api/users/replys?nbr=6", { credentials: 'same-origin'})
+		.then( (res) => {
+			return res.json()
+		} )
+		.then( (res) => {
+			this.replys_preview = res
 		} )
 		.catch(function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)

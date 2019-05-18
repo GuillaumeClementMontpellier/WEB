@@ -10,6 +10,8 @@
 
 		<h2>Magic-Project v1 </h2>
 
+		<p> Bienvenue, <%= name %> </p>
+
 	</div>
 
 	<div class="w3-container w3-center w3-border-bottom">
@@ -30,7 +32,19 @@
 
 		<div class="w3-row">
 
-			<comment-preview class="w3-col s12" v-for="comm in comments_preview" :key="comm.var_id" @liked='liked_comm' @disliked='disliked_comm' :comm="comm"> </comment-preview> 
+			<comment-preview class="w3-col s12" v-for="comm in comments_preview" :key="comm.comment_id" @liked='liked_comm' @disliked='disliked_comm' :comm="comm"> </comment-preview> 
+
+		</div>
+
+	</div>
+
+	<div class="w3-container w3-center w3-border-bottom">
+
+		<h3> Meilleures reponses à vos commentaires </h3>
+
+		<div class="w3-row">
+
+			<comment-preview class="w3-col s12" v-for="repl in reply_preview" :key="repl.comment_id" @liked='liked_comm' @disliked='disliked_comm' :comm="repl"> </comment-preview> 
 
 		</div>
 
