@@ -119,7 +119,7 @@ Vue.component('comment-preview',{
 		},
 		fetchReply(){			
 
-			fetch("/api/comment/reply/" + this.comm.comment_id +"?nbr=6&offset=" this.replys.length, { credentials: 'same-origin'})
+			fetch( "/api/comment/reply/" + this.comm.comment_id +"?nbr=6&offset=" + this.replys.length, { credentials: 'same-origin'})
 			.then( (res) => {
 				return res.json()
 			} )
