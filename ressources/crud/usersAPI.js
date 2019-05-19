@@ -237,8 +237,6 @@ app.delete('/',deleteUser)
 
 function deleteUser(req, res, next){
 
-	console.log('voila--------------------------')
-
 	if(!req.signedIn){
 		return next({status: 403, message: 'Pas logged in'})
 	}	
@@ -310,7 +308,11 @@ function deleteUser(req, res, next){
 
 								if(shouldAbort(err)){
 									return next({status: 500, message: 'Problem of transaction'})
-								}
+								}								
+
+								res.clearCookie('auth', { signed: true, secure: true})
+								res.clearCookie('user_id', { signed: true, secure: true})
+								res.clearCookie('user_name', { signed: true, secure: true})
 
 								res.status(201)
 								res.send()

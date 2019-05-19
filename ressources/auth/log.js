@@ -62,7 +62,7 @@ function checkAuth() {
 
 			pool.query(q, [ escapeHtml(req.signedCookies.user_id)], function(err,result) { 
 
-				if(err || result == undefined || result.rows == undefined){
+				if(err || result == undefined || result.rows == undefined || result.rows[0] == undefined){
 					return next()
 				}
 
