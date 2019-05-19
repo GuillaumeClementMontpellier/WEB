@@ -47,6 +47,9 @@ function home(req, res, next) {
 	if(!req.signedIn){
 		return res.redirect('/')
 	}
+	if(isNaN(req.params.id)){
+		return res.redirect('/')
+	}
 	if(typeof req.params.id !== 'string'){
 		req.params.id = req.signedCookies.user_id
 	}

@@ -15,9 +15,9 @@ function escapeHtml(text) {
 	if(typeof text != 'string'){
 		return text
 	}
-  return text.replace(/[\"&<>]/g, function (a) {
-    return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a]
-  })
+	return text.replace(/[\"&<>]/g, function (a) {
+		return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a]
+	})
 }
 
 
