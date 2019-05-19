@@ -251,7 +251,7 @@ function postReply(req, res, next){ // Req avec comme body contenu, carte_id, et
 
         if(result == undefined || result.rows == undefined){
           done()
-          return next({status: 400, message: 'invalid input'})
+          return next({status: 401, message: 'invalid input'})
         }
 
         let q1 = `INSERT INTO reply_to VALUES($1,$2)`
@@ -266,7 +266,7 @@ function postReply(req, res, next){ // Req avec comme body contenu, carte_id, et
 
           if(result == undefined || result.rows == undefined){
             done()
-            return next({status: 400, message: 'invalid input'})
+            return next({status: 402, message: 'invalid input'})
           }
           res.status(201)
           res.send()
