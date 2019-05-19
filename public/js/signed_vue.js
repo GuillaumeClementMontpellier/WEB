@@ -233,20 +233,28 @@ let app = new Vue({
 	}, 
 	methods : {
 		liked_carte(carte) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete TODO
-			console.log(carte)
-			return 
+			fetch("/api/carte/like/"+carte.var_id, { credentials: 'same-origin', method : 'PUT'})
+			.then((res)=>{
+				console.log(res)
+			})
 		},
 		disliked_carte(carte) {
-			console.log(carte)
-			return
+			fetch("/api/carte/dislike/"+carte.var_id, { credentials: 'same-origin', method : 'PUT'})
+			.then((res)=>{
+				console.log(res)
+			})
 		},		
 		liked_comm(comm) {//prend une carte et si la personne a deja (dis)like cette carte, et patch / put le like en requete
-			console.log(comm)
-			return 
+			fetch("/api/comment/like/"+comm.comment_id, { credentials: 'same-origin', method : 'PUT'})
+			.then((res)=>{
+				console.log(res)
+			})
 		},
 		disliked_comm(comm) {
-			console.log(comm)
-			return
+			fetch("/api/comment/dislike/"+comm.comment_id, { credentials: 'same-origin', method : 'PUT'})
+			.then((res)=>{
+				console.log(res)
+			})
 		},
 		fetch_cartes(){
 
