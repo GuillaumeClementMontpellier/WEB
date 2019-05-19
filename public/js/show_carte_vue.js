@@ -220,6 +220,9 @@ let app = new Vue({
 				carte_id: this.carte.id
 			}
 
+			console.log(data)
+			console.log(JSON.stringify(data))
+
 			fetch('/api/comment/', { 
 				credentials: 'same-origin', 
 				method : 'POST',
