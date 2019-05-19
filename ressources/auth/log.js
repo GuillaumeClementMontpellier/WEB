@@ -36,7 +36,7 @@ function checkAuth() {
 
 			console.log('test admin')
 
-			let q = 'SELECT code_auth FROM user_profile, admin WHERE id_user=$1 AND user_id = admin_id'
+			let q = 'SELECT code_auth FROM user_profile, admin WHERE id_user=$1 AND id_user = admin_id'
 
 			pool.query(q, [escapeHtml(req.signedCookies.admin_id)], function(err,result) { 
 
