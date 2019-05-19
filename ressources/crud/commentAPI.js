@@ -292,7 +292,7 @@ function patchComm(req, res, next){
     return next({status: 400, message: 'invalid input param'})
   }
 
-  let q = `UPDATE commentaire SET edited = now() AND contenu = $2 WHERE comment_id = $1 AND author_id = $3`
+  let q = `UPDATE commentaire SET edited = now(), contenu = $2 WHERE comment_id = $1 AND author_id = $3`
 
   let par = [escapeHtml(req.params.id), escapeHtml(req.body.contenu), escapeHtml(req.signedCookies.user_id)]
 
