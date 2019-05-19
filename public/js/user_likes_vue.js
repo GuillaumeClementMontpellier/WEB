@@ -79,7 +79,7 @@ let app = new Vue({
 
 	created: function(){
 
-		this.id = document.getElementById("user_id").innerHTML
+		this.id = document.getElementById("id_user").innerHTML
 
 		fetch("/api/users/likes/"+this.id+"?nbr=6", { credentials: 'same-origin'}) //fetch les comm de user
 		.then( (res) => {
