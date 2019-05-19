@@ -25,31 +25,33 @@ Vue.component('comment',{
 
 	<div class="w3-row">
 
-	<button class="w3-button w3-btn w3-border" @click="like()"> Like </button>
+	<button class="w3-button w3-btn w3-border w3-light-blue" @click="like()"> Like </button>
 
-	<button class="w3-button w3-btn w3-border" @click="dislike()"> Dislike </button>
+	<button class="w3-button w3-btn w3-border w3-pale-red" @click="dislike()"> Dislike </button>
 
 	</div>
 
-	<div class="w3-row">
+	<div>
 
-	<button class="w3-button w3-btn w3-border w3-block w3-col s12 m4 l3" @click="flipArea()">Repondre</button>
+	<button class="w3-button w3-btn w3-border w3-block w3-light-green" @click="flipArea()">Repondre</button>
 
 	<textarea v-show="reponse" id="comment" v-model="contenu" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
 
+	<button v-show="reponse" class="w3-button w3-btn w3-border w3-light-green" @click="replyTo()">Valider</button>
+
 	</div>
 
-	<button v-show="reponse" class="w3-button w3-btn w3-border" @click="replyTo()">Valider</button>
+	<div v-if="comm.author_id == user_id">
 
-	<div v-if="comm.author_id == user_id" class="w3-row">
+	<button class="w3-button w3-btn w3-border w3-block w3-pale-red" @click="supprimerComment()">Supprimer commentaire</button>
 
-	<button class="w3-button w3-btn w3-border w3-block w3-col s12 m4 l3" @click="flipAreaModif()">Modifier</button>
+	<button class="w3-button w3-btn w3-border w3-block w3-light-green" @click="flipAreaModif()">Modifier</button>
 
 	<textarea v-show="modif" id="comment" v-model="contenuModif" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
 
-	</div>
+	<button v-show="modif" class="w3-button w3-btn w3-border w3-light-green" @click="modifComment()">Valider</button>
 
-	<button v-show="modif" class="w3-button w3-btn w3-border" @click="modifComment()">Valider</button>
+	</div>
 
 	<button class="w3-button w3-btn w3-border" @click="fetchReply()"> Voir plus de reponses </button>
 
@@ -156,6 +158,16 @@ Vue.component('comment',{
 			})
 			.catch( function(error) {
 				console.log('There has been a problem with reply post operation: ', error.message)
+			})
+		},
+		supprimerComment(){
+
+			fetch('/api/comment/'+this.comm.comment_id, { 
+				credentials: 'same-origin', 
+				method : 'DELETE'
+			})
+			.catch( function(error) {
+				console.log('There has been a problem with DELETE operation: ', error.message)
 			})
 		},
 		flipArea(){
