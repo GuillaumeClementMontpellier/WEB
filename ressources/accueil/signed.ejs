@@ -22,9 +22,9 @@
 
 			<carte-preview class="w3-col s12 m6 l4" v-for="carte in cartes_preview" :key="carte.var_id" @liked='liked_carte' @disliked='disliked_carte' :carte="carte"> </carte-preview> 
 
-			<button class="w3-button w3-btn w3-border" @click="fetch_cartes">Plus de cartes</button>
-
 		</div>
+
+		<button class="w3-button w3-btn w3-border" @click="fetch_cartes">Plus de cartes</button>
 
 	</div>
 
