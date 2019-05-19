@@ -45,11 +45,11 @@ Vue.component('comment',{
 
 	<button class="w3-button w3-btn w3-border w3-block w3-col s12 m4 l3" @click="flipAreaModif()">Modifier</button>
 
-	<textarea v-show:"modif" id="comment" v-model="contenuModif" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
+	<textarea v-show="modif" id="comment" v-model="contenuModif" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
 
 	</div>
 
-	<button v-show:"modif" class="w3-button w3-btn w3-border" @click="modifComment()">Valider</button>
+	<button v-show="modif" class="w3-button w3-btn w3-border" @click="modifComment()">Valider</button>
 
 	<button class="w3-button w3-btn w3-border" @click="fetchReply()"> Voir plus de reponses </button>
 
