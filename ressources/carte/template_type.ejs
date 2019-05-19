@@ -16,25 +16,25 @@
 		<form action="/api/carte/modele" method="post" name="carte" id="carte">
 			
 			<label name="carte_name">Nom de la carte</label>
-			<input class="w3-input w3-border w3-round-large" type="text" name="carte_name" required>
+			<input class="w3-input w3-border w3-round-large" type="text" placeholder="Nom" name="carte_name" required>
 
 			<label name="oracle">Texte Oracle</label>
-			<textarea class="w3-input w3-border w3-round-large" name="oracle" form="carte"></textarea> 
+			<textarea class="w3-input w3-border w3-round-large" name="oracle" placeholder="Effets" form="carte"></textarea> 
 			
 			<label name="mana_cost">Cout de mana</label>
-			<input class="w3-input w3-border w3-round-large" type="text" name="mana_cost" >
+			<input class="w3-input w3-border w3-round-large" type="text" placeholder="Cost" name="mana_cost" >
 			
 			<label name="cmc">Cout converti de mana</label>
-			<input class="w3-input w3-border w3-round-large" type="number" name="cmc" required>
+			<input class="w3-input w3-border w3-round-large" type="number" placeholder="CMC" name="cmc" required>
 			
 			<label name="type">Type</label>
-			<input class="w3-input w3-border w3-round-large" type="text" name="type" required>
+			<input class="w3-input w3-border w3-round-large" type="text" placeholder="Types" name="type" required>
 			
 			<label name="sub_types">Sous-types</label>
-			<input class="w3-input w3-border w3-round-large" type="text" name="sub_type" >
+			<input class="w3-input w3-border w3-round-large" type="text" placeholder="Sub types" name="sub_type" >
 			
 			<label name="color">Couleurs</label>
-			<input class="w3-input w3-border w3-round-large" type="text" name="color" >
+			<input class="w3-input w3-border w3-round-large" type="text" placeholder="Couleurs" name="color" >
 
 			<input type="submit" class="w3-button w3-light-green" value="Valider">
 

@@ -35,7 +35,7 @@ Vue.component('comment',{
 
 	<button class="w3-button w3-btn w3-border w3-light-green" @click="flipArea()">Repondre</button>
 
-	<textarea v-show="reponse" id="comment" v-model="contenu" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
+	<textarea placeholder="Reponse" v-show="reponse" id="comment" v-model="contenu" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
 
 	<button v-show="reponse" class="w3-button w3-btn w3-border w3-light-green" @click="replyTo()">Valider</button>
 
@@ -47,7 +47,7 @@ Vue.component('comment',{
 
 	<button class="w3-button w3-btn w3-border w3-light-green" @click="flipAreaModif()">Modifier</button>
 
-	<textarea v-show="modif" id="comment" v-model="contenuModif" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
+	<textarea placeholder="Commentaire modifié" v-show="modif" id="comment" v-model="contenuModif" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
 
 	<button v-show="modif" class="w3-button w3-btn w3-border w3-light-green" @click="modifComment()">Valider</button>
 

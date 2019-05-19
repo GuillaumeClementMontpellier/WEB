@@ -16,26 +16,26 @@
 		<form action="/api/carte/var" method="post" name="carte" id="carte">
 			
 			<label name="image_url">URL de l'image</label>
-			<input class="w3-input w3-border w3-round-large" type="text" name="image_url" required>
+			<input class="w3-input w3-border w3-round-large" type="text" name="image_url" placeholder="URL" required>
 			
 			<label name="flavor">Texte d'ambience</label>
-			<input class="w3-input w3-border w3-round-large" type="text" name="flavor" >
+			<input class="w3-input w3-border w3-round-large" type="text" name="flavor" placeholder="Il y a longtemps, ..." >
 			
 			<label name="scry_url">URL de scryfall</label>
-			<input class="w3-input w3-border w3-round-large" type="text" name="scry_url" required>
+			<input class="w3-input w3-border w3-round-large" type="text" name="scry_url" placeholder="URL" required>
 			
 			<label name="gath_url">URL de gatherer</label>
-			<input class="w3-input w3-border w3-round-large" type="text" name="gath_url" required>
+			<input class="w3-input w3-border w3-round-large" type="text" name="gath_url" placeholder="URL" required>
 
 
 			
 			<label name="edition_code">Edition</label>
 			<div class="w3-row">
 
-				<input class="w3-input w3-border w3-round-large w3-col s12 m4 l3" v-model="code_edition" type="text">
-				<input class="w3-input w3-border w3-round-large w3-col s12 m8 l7" v-model="nom_edition" type="text">
+				<input class="w3-input w3-border w3-round-large w3-col s12 m4 l3" v-model="code_edition" placeholder="CODE" type="text">
+				<input class="w3-input w3-border w3-round-large w3-col s12 m8 l7" v-model="nom_edition" placeholder="Nom" type="text">
 
-				<button class="w3-button w3-btn w3-border w3-block w3-col s12 m12 l2" @click.prevent="ajouter_edition()">Ajouter une edition</button>
+				<button class="w3-button w3-btn w3-border w3-block w3-col s12 m12 l2" @click.prevent="ajouter_edition()">Ajouter</button>
 
 			</div>
 			<select size="3" class="w3-select w3-border w3-round-large" :required="true" name="edition_code" >		
@@ -51,7 +51,7 @@
 
 			<div class="w3-row">
 
-				<input class="w3-input w3-border w3-round-large w3-col s12 m12 l8" v-model="nom_carte" type="text">
+				<input class="w3-input w3-border w3-round-large w3-col s12 m12 l8" placeholder="Recherche" v-model="nom_carte" type="text">
 
 				<button class="w3-button w3-btn w3-border w3-block w3-col s12 m12 l4" @click.prevent="rechercher_carte()">Rechercher</button>
 
