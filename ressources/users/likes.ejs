@@ -12,7 +12,7 @@
 
 		<carte-preview class="w3-col s12 m6 l4" v-for="carte in cartes_preview" :key="carte.var_id" @liked='liked_carte' @disliked='disliked_carte' :carte="carte"> </carte-preview> 
 
-		<p v-if="perso_comments_preview.length==0">{{name}} n'a pas encore aimé de cartes</p>
+		<p v-if="cartes_preview.length==0">{{name}} n'a pas encore aimé de cartes</p>
 
 		<button v-else class="w3-button w3-btn w3-border" @click="fetch_carte">Plus de cartes</button>
 
