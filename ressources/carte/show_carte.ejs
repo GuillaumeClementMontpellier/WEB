@@ -1,0 +1,87 @@
+
+<%- include('../layout/head') %>
+<%- include('../layout/header_logged') %>
+
+<span id="id_carte" style="visibility: hidden"><%=id%></span>
+
+<div class="w3-container w3-center">
+
+
+	<div class="w3-container w3-center w3-border-bottom">
+
+		<div class="w3-row">
+
+			<div class="w3-col s12 m6 l4">
+				<img :src="carte.imgURL">
+			</div>
+
+			<div class="w3-col s12 m6 l8">
+
+				<p> {{carte.name}} </p>
+
+				<p> {{carte.cmc}} </p>
+
+				<p> {{carte.types}} : {{carte.stypes}} </p>
+
+				<p> {{carte.oracle}} </p>
+
+				<p> {{carte.flavor}} </p>
+
+				<p> {{carte.edition_name}} </p>
+
+				<p><a :href="carte.gathURL">Gatherer</a>, <a href="carte.scryURL">ScryFall</a></p>
+				
+			</div>			
+
+		</div>
+		
+		<div class="w3-margin-bottom">
+
+			<div>
+
+				<button @click="like()" class="w3-button w3-btn w3-border"> Like </button>
+
+			</div>
+
+			<div>
+
+				<button @click="dislike()" class="w3-button w3-btn w3-border"> Dislike </button>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div>
+		
+		<h3> Poster un commentaire </h3>
+
+		<form @submit.prevent="submitComm" name="Commentaire">
+
+			<textarea id="comment" v-model="contenuComm" class="w3-input w3-border w3-round-large"></textarea>
+
+			<input type="submit" class="w3-button w3-light-green" value="Valider">
+			
+		</form>
+
+	</div>
+
+	<div class="w3-container w3-center w3-margin-bottom">
+
+		<h3>Commentaires au Top</h3>
+
+		<div class="w3-row">
+
+			<comment class="w3-col s12" v-for="comm in comments_preview" :key="comm.comment_id" @liked='liked_comm(comm)' @disliked='disliked_comm(comm)' :comm="comm"> </comment>
+
+			<button class="w3-button w3-btn w3-border" @click="fetch_comm">Plus de commentaires</button>
+
+		</div>
+
+	</div>
+
+
+</div>
+
+<%- include('../layout/foot',{vue: vue, logged: true}) %>

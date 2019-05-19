@@ -28,7 +28,7 @@ Vue.component('carte-preview',{
 
 	<div class="w3-col s4">
 
-	<button @click="dislike()" class="w3-button w3-btn w3-border"> Disike </button>
+	<button @click="dislike()" class="w3-button w3-btn w3-border"> Dislike </button>
 
 	</div>
 
@@ -168,10 +168,14 @@ let app = new Vue({
 		cartes_preview : [],
 		comments_preview : [],
 		perso_comments_preview : [],
-		replys_preview : []
+		replys_preview : [],
+		name: '',
+		id:-1
 	},
 
 	created: function(){
+
+		this.id = document.getElementById("id_user").innerHTML
 
 		fetch("/api/carte/bytop?nbr=12", { credentials: 'same-origin'}) //fetch les meilleures cartes
 		.then( (res) => {
@@ -233,6 +237,19 @@ let app = new Vue({
 					this.replys_preview[c].edited = (new Date(this.replys_preview[c].edited)).toLocaleDateString()
 				}
 			}
+		} )
+		.catch( function(error) {
+			console.log('There has been a problem with initial fetch operation: ', error.message)
+		})
+
+		fetch("/api/users/id/"+this.id, { credentials: 'same-origin'})
+		.then((res) => {
+			return res.json()
+		})
+		.then( (res) => {
+
+			this.name = res.name_user
+
 		} )
 		.catch( function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)

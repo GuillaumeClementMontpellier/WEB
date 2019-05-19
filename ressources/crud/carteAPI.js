@@ -154,8 +154,8 @@ function editionReq(req, res, next) {
 }
 
 //infos sur une certaine carte (de la carte, ou ses comments) -----------------
-app.get('/:id_carte',carteInfoReq)
 app.get('/comments/:id_carte', commentsReq)
+
 //cherche infos de base de la carte
 function carteInfoReq(req, res, next) {
 
@@ -561,5 +561,6 @@ function deleteModele(req, res, next){
   })
 }
 
+app.get('/:id_carte',carteInfoReq)
 
 module.exports = app

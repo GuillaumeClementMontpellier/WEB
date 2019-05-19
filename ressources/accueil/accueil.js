@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 	if (req.signedIn){
 
-		res.render('accueil/signed',{ vue: '<script src="/ressource/js/signed_vue.js"></script>', name: req.signedCookies.user_name})
+		res.render('accueil/signed',{ vue: '<script src="/ressource/js/signed_vue.js"></script>', id: req.signedCookies.user_id})
 
 	} else {
 

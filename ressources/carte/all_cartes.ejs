@@ -1,0 +1,32 @@
+<%- include('../layout/head') %>
+<%- include('../layout/header_logged') %>
+
+<div class="w3-container w3-border-bottom">
+
+	<h2>Cartes au Top !</h2>
+
+	<div class="w3-row">
+
+		<carte-preview class="w3-col s12 m6 l4" v-for="carte in cartes_preview_top" :key="carte.var_id" @liked='liked_carte' @disliked='disliked_carte' :carte="carte"> </carte-preview> 
+
+	</div>
+
+	<button class="w3-button w3-btn w3-border" @click="fetch_cartes_top">Plus de cartes</button>
+
+</div>
+
+<div class="w3-container">
+
+	<h2>Cartes les plus discutées</h2>
+
+	<div class="w3-row">
+
+		<carte-preview class="w3-col s12 m6 l4" v-for="carte in cartes_preview_comm" :key="carte.var_id" @liked='liked_carte' @disliked='disliked_carte' :carte="carte"> </carte-preview> 
+
+	</div>
+
+	<button class="w3-button w3-btn w3-border" @click="fetch_cartes_comm">Plus de cartes</button>
+
+</div>
+
+<%- include('../layout/foot',{vue: vue, logged: true}) %>

@@ -28,7 +28,7 @@ Vue.component('carte-preview',{
 
 	<div class="w3-col s4">
 
-	<a href="/login/login"><button class="w3-button w3-border w3-btn w3-block"> Disike </button></a>
+	<a href="/login/login"><button class="w3-button w3-border w3-btn w3-block"> Dislike </button></a>
 
 	</div>
 
