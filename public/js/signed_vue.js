@@ -85,6 +85,10 @@ Vue.component('comment-preview',{
 
 	<button class="w3-button w3-btn w3-border" @click="fetchReply()"> Voir plus de reponses </button>
 
+	<button class="w3-button w3-btn w3-border" @click="like()"> Like </button>
+
+	<button class="w3-button w3-btn w3-border" @click="dislike()"> Dislike </button>
+
 	<div class="reply_section w3-row">
 
 	<div style="visibility: hidden" class="w3-col m1 l1">
@@ -116,7 +120,7 @@ Vue.component('comment-preview',{
 		liked_fils(repl) {
 			this.$emit('liked', repl)
 		},
-		dislike(repl) {
+		dislike_fils(repl) {
 			this.$emit('disliked', repl)
 		},
 		fetchReply(){			
