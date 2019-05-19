@@ -312,8 +312,6 @@ function putCarteVar(req, res, next){//URL, flavor, scry, gath, codeEdition, idM
 
     const shouldAbort = function(err){
       if (err) {
-
-        console.log(err)
         client.query('ROLLBACK', function (err) {
           done()
         })

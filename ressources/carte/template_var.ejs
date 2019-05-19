@@ -39,11 +39,11 @@
 			
 			<label name="carte_id">Carte Type correspondant</label>
 
-			<div>
+			<div class="w3-row">
 
-				<input class="w3-input w3-border w3-round-large" v-model="nom_carte" type="text">
+				<input class="w3-input w3-border w3-round-large w3-col s12 m12 l8" v-model="nom_carte" type="text">
 
-				<button @click.prevent="rechercher_carte()">Rechercher Cette carte</button>
+				<button class="w3-button w3-btn w3-border w3-block w3-col s12 m12 l4" @click.prevent="rechercher_carte()">Rechercher ce modele</button>
 
 			</div>
 
@@ -53,6 +53,8 @@
 				<option v-for="c in carte_t" :key="c.carte_id" :value="c.carte_id">{{c.carte_name}}</option>
 
 			</select>
+
+			<p>Vous ne trouvez pas un modele de carte ? <a href="/carte/template/type">Créez-en un !</a></p>
 
 			<input type="submit" class="w3-button w3-light-green" value="Valider">
 
