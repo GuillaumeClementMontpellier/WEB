@@ -275,7 +275,9 @@ function deleteUser(req, res, next){
 		}
 
 		client.query('BEGIN', function(err){
+
 			if (shouldAbort(err)) {
+				console.log(err)
 				return next({status: 500, message: 'Problem of transaction'})
 			}
 
