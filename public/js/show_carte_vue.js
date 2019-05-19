@@ -226,7 +226,7 @@ let app = new Vue({
 			fetch('/api/comment/', { 
 				credentials: 'same-origin', 
 				method : 'POST',
-				body: JSON.stringify(data)
+				body: data
 			})
 			.then( (res) =>{
 
