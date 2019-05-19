@@ -141,25 +141,28 @@ let app = new Vue({
 				}
 			}
 		} )
-		.catch( function(error) {
-			console.log('There has been a problem with initial fetch operation: ', error.message)
-		})
+		.then(() => {
 
-		fetch("/api/carte/"+this.carte.id, { credentials: 'same-origin'})
-		.then((res) => {
-			return res.json()
+			fetch("/api/carte/"+this.carte.id, { credentials: 'same-origin'})
+			.then((res) => {
+				return res.json()
+			})
+			.then( (res) => {
+				this.carte.name = res.carte_name
+				this.carte.imgURL = res.image_url
+				this.carte.scryURL = res.scry_url
+				this.carte.gathURL = res.gath_url
+				this.carte.mana_cost = res.mana_cost
+				this.carte.cmc = res.cmc
+				this.carte.oracle = res.oracle
+				this.carte.flavor = res.flavor
+				this.carte.edition_name = res.edition_name
+			} )
+			.catch( function(error) {
+				console.log('There has been a problem with initial fetch operation: ', error.message)
+			})
+			
 		})
-		.then( (res) => {
-			this.carte.name = res.carte_name
-			this.carte.imgURL = res.image_url
-			this.carte.scryURL = res.scry_url
-			this.carte.gathURL = res.gath_url
-			this.carte.mana_cost = res.mana_cost
-			this.carte.cmc = res.cmc
-			this.carte.oracle = res.oracle
-			this.carte.flavor = res.flavor
-			this.carte.edition_name = res.edition_name
-		} )
 		.catch( function(error) {
 			console.log('There has been a problem with initial fetch operation: ', error.message)
 		})
