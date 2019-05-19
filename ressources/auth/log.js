@@ -42,13 +42,9 @@ function checkAuth() {
 					return next()
 				}
 
-				console.log('test tente admin')
-
 				if(result.rows[0].code_auth == req.signedCookies.auth){
 					req.signedInAdmin = true
 					req.signedIn = true
-
-					console.log('test reussi admin')
 
 					res.cookie('auth',  req.signedCookies.auth, {maxAge : 1000*60*60*24, signed: true, secure: true})
 					res.cookie('admin_id', req.signedCookies.admin_id, {maxAge : 1000*60*60*24, signed: true, secure: true})
