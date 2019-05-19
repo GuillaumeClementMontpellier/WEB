@@ -173,7 +173,7 @@ function carteInfoReq(req, res, next) {
       return next({status: 400, message: 'invalid input'})
     }
     res.status(200)
-    res.json(result.rows)
+    res.json(result.rows[0])
   })
 }
 
