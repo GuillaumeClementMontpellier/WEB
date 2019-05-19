@@ -282,25 +282,25 @@ function deleteUser(req, res, next){
 			client.query( q1, par1, function(err,result) {  
 
 				if(shouldAbort(err)){
-					return next({status: 500, message: 'Problem of transaction'})
+					return next({status: 501, message: 'Problem of transaction'})
 				}
 
 				client.query( q2, par2, function(err,result) {  
 
 					if(shouldAbort(err)){
-						return next({status: 500, message: 'Problem of transaction'})
+						return next({status: 502, message: 'Problem of transaction'})
 					}
 
 					client.query( q3, par3, function(err,result) {  
 
 						if(shouldAbort(err)){
-							return next({status: 500, message: 'Problem of transaction'})
+							return next({status: 503, message: 'Problem of transaction'})
 						}
 
 						client.query( q3, par3, function(err,result) {  
 
 							if(shouldAbort(err)){
-								return next({status: 500, message: 'Problem of transaction'})
+								return next({status: 504, message: 'Problem of transaction'})
 							}
 
 							res.status(201)
