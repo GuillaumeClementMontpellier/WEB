@@ -142,7 +142,7 @@ let app = new Vue({
 
 		},
 
-		suppimerCompte(){
+		supprimerCompte(){
 
 			fetch("/api/users/"+carte.var_id, { credentials: 'same-origin', method : 'DELETE'})
 			.then((res)=>{
