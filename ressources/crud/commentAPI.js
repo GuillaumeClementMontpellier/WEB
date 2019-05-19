@@ -453,7 +453,7 @@ function deleteComm(req, res, next){
     return next({status: 400, message: 'invalid input param'})
   }
 
-  let q = `UPDATE commentaire SET author_id = 0 AND contenu = "DELETED" AND edited = now() WHERE author_id = $1 AND comment_id = $2`
+  let q = `UPDATE commentaire SET author_id = 0, contenu = 'DELETED', edited = now() WHERE author_id = $1 AND comment_id = $2`
 
   let par = [escapeHtml(req.signedCookies.user_id), escapeHtml(req.params.id)]
 
@@ -476,7 +476,7 @@ function deleteComm(req, res, next){
       client.query( q, par, function(err,result) {  
 
         if(shouldAbort(err)){
-          return next({status: 501, message: 'Problem of update'})
+          return next({status: 500, message: 'Problem of update'})
         }
 
         if(result == undefined || result.rows == undefined){
