@@ -14,9 +14,9 @@
 
 		<p v-if="comments_preview.length==0">{{name}} n'a pas encore posté de commentaires</p>
 
-		<button v-else class="w3-button w3-btn w3-border" @click="fetch_comm">Plus de commentaires</button>
-
 	</div>
+
+	<button v-if="comments_preview.length!=0" class="w3-button w3-btn w3-border" @click="fetch_comm">Plus de commentaires</button>
 
 </div>
 

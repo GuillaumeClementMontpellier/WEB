@@ -16,8 +16,8 @@ function escapeHtml(text) {
     return text
   }
   return text.replace(/[\"&<>]/g, function (a) {
-    return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a];
-  });
+    return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a]
+  })
 }
 
 //GET -------------------------
@@ -121,54 +121,9 @@ function modeleReq(req, res, next) {
 
 
 //tout les types/soustypes/modeles/editions de cartes -------------
-app.get('/types',typesReq)
-app.get('/sub_types',sTypesReq)
 app.get('/editions',editionReq)
 
-//tout les types de carte (creature, enchant, ephemere, rituel, ...) SANS LIMITES
-function typesReq(req, res, next) {
-
-  let q = 'SELECT name_type FROM type_c'
-
-  pool.query(q, [], function(err,result) {    
-    if(err || result == undefined || result.rows == undefined){
-      return next({status: 400, message: 'invalid input'})
-    }
-    res.status(200)
-    res.json(result.rows)
-  })
-}
-
-//tout les sub types de carte (loups, humain, guerrier, soldat, elfe, dinosaure, shaman, arcane, cartouche, dieu, ...) AVEC LIMITES ET OFFSET ET ORDRE
-function sTypesReq(req, res, next) {
-  if(!req.query) {
-    return next({status: 400, message: 'invalid input'})
-  }
-  if(typeof req.query.nbr !== 'string') {
-    return next({status: 400, message: 'invalid input'})
-  }
-
-  let q = 'SELECT name_type FROM sub_type_c ORDER BY name_type LIMIT $1'
-  let par = [escapeHtml(req.query.nbr)]
-
-  if(typeof req.query.offset === 'string'){
-    q += 'OFFSET $2'
-    par.push(escapeHtml(req.query.offset))
-  }
-
-  if(req.query.desc){
-    q.replace('LIMIT', 'DESC LIMIT')
-  }
-
-  pool.query(q, par, function(err,result) {    
-    if(err || result == undefined || result.rows == undefined){
-      return next({status: 400, message: 'invalid input'})
-    }
-    res.status(200)
-    res.json(result.rows)
-  })
-}
-//toutes les editions de carte (WAR, M19, DAM, RNA, GRN, IXL, RIX, ...) AVEC LIMITES ET OFFSET ET ORDRE
+//toutes les editions de carte (WAR, M19, DAM, RNA, GRN, IXL, RIX, ...) AVEC LIMITES ET OFFSET ET ORDRE ALPHABETIQUE
 function editionReq(req, res, next) {
   if(!req.query) {
     return next({status: 400, message: 'invalid input'})
@@ -208,7 +163,7 @@ function carteInfoReq(req, res, next) {
     return next({status: 400, message: 'invalid input'})
   }
 
-  let q = `SELECT var_id, carte_name, mana_cost, cmc, image_url, oracle, flavor, scry_url, gath_url, edition_name 
+  let q = `SELECT var_id, carte_name, mana_cost, cmc, image_url, oracle, flavor, scry_url, gath_url, edition_name, type, sub_type
   FROM carte_var, edition, carte_type WHERE edition_code=code AND carte_var.carte_id=carte_type.carte_id AND var_id=$1`
 
   let par = [escapeHtml(req.params.id_carte)]
@@ -367,7 +322,7 @@ function dislikePut(req, res, next){
 app.post('/var',putCarteVar)
 app.post('/modele',putCarteType)
 
-function putCarteVar(req, res, next){
+function putCarteVar(req, res, next){//URL, flavor, scry, gath, codeEdition, idModele
 
   if(!req.signedInAdmin){
     return next({status: 403, message: 'Pas Authorisé'})
@@ -413,15 +368,15 @@ function putCarteVar(req, res, next){
   })
 }
 
-function putCarteType(req, res, next){ //dans body
+function putCarteType(req, res, next){ //dans body : carte_name, oracle, mana_costn cmc, types, sub_types
 
   if(!req.signedInAdmin){
     return next({status: 403, message: 'Pas Authorisé'})
   }
 
-  let q = `INSERT INTO carte_type (carte_name, oracle, mana_cost, cmc) VALUES($1, $2, $3, $4)`
+  let q = `INSERT INTO carte_type (carte_name, oracle, mana_cost, cmc, type, sub_type) VALUES($1, $2, $3, $4, ^5, $6)`
 
-  let par = [escapeHtml(req.body.carte_name),escapeHtml( req.body.oracle), escapeHtml(req.body.mana_cost), escapeHtml(req.body.cmc)]
+  let par = [escapeHtml(req.body.carte_name),escapeHtml( req.body.oracle), escapeHtml(req.body.mana_cost), escapeHtml(req.body.cmc), escapeHtml(req.body.type), escapeHtml(req.body.sub_type)]
 
   pool.connect(function (err, client, done){
 

@@ -16,7 +16,7 @@
 
 	</div>
 
-	<button v-else class="w3-button w3-btn w3-border" @click="fetch_carte">Plus de cartes</button>
+	<button v-if="cartes_preview.length!=0" class="w3-button w3-btn w3-border" @click="fetch_carte">Plus de cartes</button>
 
 </div>
 
@@ -30,9 +30,9 @@
 
 		<p v-if="comments_preview.length==0">{{name}} n'a pas encore posté de commentaires</p>
 
-		<button v-else class="w3-button w3-btn w3-border" @click="fetch_comm">Plus de commentaires</button>
-
 	</div>
+
+	<button v-if="comments_preview.length!=0" class="w3-button w3-btn w3-border" @click="fetch_comm">Plus de commentaires</button>
 
 </div>
 
