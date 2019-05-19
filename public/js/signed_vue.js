@@ -120,7 +120,7 @@ Vue.component('comment-preview',{
 		liked_fils(repl) {
 			this.$emit('liked', repl)
 		},
-		dislike_fils(repl) {
+		disliked_fils(repl) {
 			this.$emit('disliked', repl)
 		},
 		fetchReply(){			

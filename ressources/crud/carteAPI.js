@@ -262,7 +262,7 @@ function commentsReq(req, res, next) {
 
 //PUT a besoin de transaction
 app.put('/like/:id',likePut)
-app.put('/dislike/:id',likePut)
+app.put('/dislike/:id',dislikePut)
 
 function likePut(req, res, next){
 
