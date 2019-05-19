@@ -374,9 +374,9 @@ function putCarteType(req, res, next){ //dans body : carte_name, oracle, mana_co
     return next({status: 403, message: 'Pas Authorisé'})
   }
 
-  let q = `INSERT INTO carte_type (carte_name, oracle, mana_cost, cmc, type, sub_type) VALUES($1, $2, $3, $4, $5, $6)`
+  let q = `INSERT INTO carte_type (carte_name, oracle, mana_cost, cmc, type, sub_type, color) VALUES($1, $2, $3, $4, $5, $6, $7)`
 
-  let par = [escapeHtml(req.body.carte_name),escapeHtml( req.body.oracle), escapeHtml(req.body.mana_cost), escapeHtml(req.body.cmc), escapeHtml(req.body.type), escapeHtml(req.body.sub_type)]
+  let par = [escapeHtml(req.body.carte_name),escapeHtml( req.body.oracle), escapeHtml(req.body.mana_cost), escapeHtml(req.body.cmc), escapeHtml(req.body.type), escapeHtml(req.body.sub_type),escapeHtml(req.body.color)]
 
   pool.connect(function (err, client, done){
 
