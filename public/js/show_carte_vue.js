@@ -15,7 +15,7 @@ Vue.component('comment',{
 	template:`
 	<div class="w3-container w3-card w3-margin-bottom w3-left-align">
 
-	<p> <a :href="url_user"> {{comm.name_user}} </a> dit le {{comm.created}} <span v-if="comm.edited">(edité le : {{comm.edited}})</span> sur <a :href="carte">cette carte</a>: </p> 
+	<p> <a :href="url_user"> {{comm.name_user}}</a> dit le {{comm.created}} <span v-if="comm.edited">(edité le : {{comm.edited}})</span> sur <a :href="carte">cette carte</a>: </p> 
 
 	<div class="w3-card">
 
