@@ -120,7 +120,7 @@ let app = new Vue({
 				return res.json()
 			} )
 			.then( (res) => {
-				this.cartes_preview_top = this.carte_preview_top.concat(res)
+				this.cartes_preview_top = this.cartes_preview_top.concat(res)
 			} )
 			.catch( function(error) {
 				console.log('There has been a problem with initial fetch operation: ', error.message)
@@ -134,7 +134,7 @@ let app = new Vue({
 				return res.json()
 			} )
 			.then( (res) => {
-				this.cartes_preview_comm = this.carte_preview_comm.concat(res)
+				this.cartes_preview_comm = this.cartes_preview_comm.concat(res)
 			} )
 			.catch( function(error) {
 				console.log('There has been a problem with initial fetch operation: ', error.message)
