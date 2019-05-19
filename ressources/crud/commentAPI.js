@@ -166,6 +166,8 @@ app.post('/reply', postReply )
 
 function postComm(req, res, next){ // Req avec comme body contenu, carte_id, et author_id dans cookies
 
+  console.log(req.body)
+
   if(!req.signedIn){
     return next({status: 403, message: 'Pas Authorisé'})
   }
