@@ -3,6 +3,7 @@
 <%- include('../layout/header_logged') %>
 
 <span id="id_carte" style="visibility: hidden"><%=id%></span>
+<span id="id_user" style="visibility: hidden"><%=usId%></span>
 
 <div class="w3-container w3-center">
 
@@ -73,7 +74,7 @@
 
 		<div class="w3-row">
 
-			<comment class="w3-col s12" v-for="comm in comments_preview" :key="comm.comment_id" @liked='liked_comm(comm)' @disliked='disliked_comm(comm)' :comm="comm"> </comment>
+			<comment class="w3-col s12" v-for="comm in comments_preview" :key="comm.comment_id" @liked='liked_comm(comm)' @disliked='disliked_comm(comm)' :comm="comm" :userId="user_id"> </comment>
 
 			<button class="w3-button w3-btn w3-border" @click="fetch_comm">Plus de commentaires</button>
 

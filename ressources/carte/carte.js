@@ -51,7 +51,7 @@ function showCarte(req, res, next){
 		return res.redirect('/carte')
 	}
 
-  res.render('carte/show_carte', {vue : '<script src="/ressource/js/show_carte_vue.js"></script>', id : req.params.id})
+  res.render('carte/show_carte', {vue : '<script src="/ressource/js/show_carte_vue.js"></script>', id : req.params.id, usId : req.signedCookies.user_id})
 
 
 }

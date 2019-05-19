@@ -315,7 +315,7 @@ function patchComm(req, res, next){
       client.query( q, par, function(err,result) {  
 
         if(shouldAbort(err)){
-          return next({status: 500, message: 'Problem of insert'})
+          return next({status: 500, message: 'Problem of update'})
         }
 
         if(result == undefined || result.rows == undefined){

@@ -6,7 +6,8 @@ Vue.component('comment',{
 		comm:{
 			required: true,
 			type: Object
-		}
+		},
+		userId
 	},
 	template:`
 	<div class="w3-container w3-card w3-margin-bottom w3-left-align">
@@ -27,9 +28,25 @@ Vue.component('comment',{
 
 	</div>
 
-	<div>
+	<div class="w3-row">
+
+	<button class="w3-button w3-btn w3-border w3-block w3-col s12 m4 l3" @click="flipArea()">Repondre</button>
+
+	<textarea v-show:"reponse" id="comment" v-model="contenu" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
 
 	</div>
+
+	<button v-show:"reponse" class="w3-button w3-btn w3-border" @click="replyTo()">Valider</button>
+
+	<div v-if="comm.author_id == userId" class="w3-row">
+
+	<button class="w3-button w3-btn w3-border w3-block w3-col s12 m4 l3" @click="flipAreaModif()">Modifier</button>
+
+	<textarea v-show:"modif" id="comment" v-model="contenuModif" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
+
+	</div>
+
+	<button v-show:"modif" class="w3-button w3-btn w3-border" @click="modifComment()">Valider</button>
 
 	<button class="w3-button w3-btn w3-border" @click="fetchReply()"> Voir plus de reponses </button>
 
@@ -41,7 +58,7 @@ Vue.component('comment',{
 
 	<div class="w3-col s12 m11 l11">
 
-	<comment v-for="repl in replys" :key="repl.comment_id" :comm="repl" @liked="liked_fils(repl)" @disliked="disliked_fils(repl)"> </comment>
+	<comment v-for="repl in replys" :key="repl.comment_id" :userId="userId" :comm="repl" @liked="liked_fils(repl)" @disliked="disliked_fils(repl)"> </comment>
 
 	</div>
 	
@@ -51,7 +68,11 @@ Vue.component('comment',{
 	`,
 	data(){
 		return {
-			replys : []
+			replys : [],
+			reponse : false,
+			modif: false,
+			contenu: "",
+			contenuModif: ""
 		}
 	},
 	methods: {
@@ -87,6 +108,58 @@ Vue.component('comment',{
 				console.log('There has been a problem with reply fetch operation: ', error.message)
 			})
 
+		},
+		replyTo(){
+			let data = {
+				contenu: this.contenu,
+				carte_id: this.carte_id,
+				pere: comm.comment_id
+			}
+
+			fetch('/api/comment/reply', { 
+				credentials: 'same-origin', 
+				method : 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+			.then( (res) =>{
+
+				this.contenu = '';
+
+			})
+			.catch( function(error) {
+				console.log('There has been a problem with reply post operation: ', error.message)
+			})
+		},
+		modifComment(){
+			let data = {
+				contenu: this.contenuModif,
+			}
+
+			fetch('/api/comment/'+comm.comment_id, { 
+				credentials: 'same-origin', 
+				method : 'PATCH',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+			.then( (res) =>{
+
+				this.contenuModif = '';
+
+			})
+			.catch( function(error) {
+				console.log('There has been a problem with reply post operation: ', error.message)
+			})
+		},
+		flipArea(){
+			this.reponse = !this.reponse
+		},
+		flipAreaModif(){
+			this.reponse = !this.reponse
 		}
 	},
 	computed : {
@@ -120,12 +193,15 @@ let app = new Vue({
 			stypes:"",
 			edition_name: ""
 		},
-		contenuComm: ""
+		contenuComm: "",
+		user_id: ""
 	},
 
 	created: function(){
 
 		this.carte.id = document.getElementById("id_carte").innerHTML
+
+		this.user_id = document.getElementById("id_user").innerHTML
 		
 		fetch("/api/carte/comments/"+this.carte.id+"?nbr=6", { credentials: 'same-origin'})
 		.then( (res) => {
