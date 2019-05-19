@@ -259,11 +259,11 @@ function deleteUser(req, res, next){
 	let q3 = `DELETE FROM comment_like where user_id = $1 AND $1 != 0`
 	let par3 = [escapeHtml(req.params.id)]
 
-	let q3 = `DELETE FROM admin where admin_id = $1 AND $1 != 0 `
-	let par3 = [escapeHtml(req.params.id)]
-
-	let q4 = `DELETE FROM user_profile where id_user = $1 AND $1 != 0 `
+	let q4 = `DELETE FROM admin where admin_id = $1 AND $1 != 0 `
 	let par4 = [escapeHtml(req.params.id)]
+
+	let q5 = `DELETE FROM user_profile where id_user = $1 AND $1 != 0 `
+	let par5 = [escapeHtml(req.params.id)]
 
 	pool.connect(function (err, client, done){
 
@@ -300,19 +300,25 @@ function deleteUser(req, res, next){
 							return next({status: 500, message: 'Problem of transaction'})
 						}
 
-						client.query( q3, par3, function(err,result) {  
+						client.query( q4, par4, function(err,result) {  
 
 							if(shouldAbort(err)){
 								return next({status: 500, message: 'Problem of transaction'})
 							}
 
-							res.status(201)
-							res.send()
+							client.query( q5, par5, function(err,result) {  
 
-							client.query('COMMIT', function(err){
-								done()
+								if(shouldAbort(err)){
+									return next({status: 500, message: 'Problem of transaction'})
+								}
+
+								res.status(201)
+								res.send()
+
+								client.query('COMMIT', function(err){
+									done()
+								})
 							})
-
 						})
 					})
 				})
