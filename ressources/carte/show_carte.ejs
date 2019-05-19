@@ -17,19 +17,23 @@
 
 			<div class="w3-col s12 m6 l8 w3-left-align">
 
-				<p> Nom : {{carte.name}} </p>
+				<div class="w3-container">
 
-				<p> Cout de mana : {{carte.mana_cost}} </p>
+					<h3> Nom : {{carte.name}} </h3>
 
-				<p> Type : {{carte.types}} <span v-if="carte.stypes">: {{carte.stypes}} </span> </p>
+					<p> Cout de mana : {{carte.mana_cost}} </p>
 
-				<p> Effet : {{carte.oracle}} </p>
+					<p> Type : {{carte.types}} <span v-if="carte.stypes">: {{carte.stypes}} </span> </p>
 
-				<p> Ambience : <span style="font-style: italic">{{carte.flavor}}</span> </p>
+					<p> Effet : {{carte.oracle}} </p>
 
-				<p> Edition : {{carte.edition_name}} </p>
+					<p> Ambience : <span style="font-style: italic">{{carte.flavor}}</span> </p>
 
-				<p>Liens : <a :href="carte.gathURL">Gatherer</a> et <a :href="carte.scryURL">ScryFall</a></p>
+					<p> Edition : {{carte.edition_name}} </p>
+
+					<p>Liens : <a :href="carte.gathURL">Gatherer</a> et <a :href="carte.scryURL">ScryFall</a></p>
+
+				</div>
 				
 			</div>			
 
