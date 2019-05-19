@@ -295,6 +295,7 @@ function likePut(req, res, next){
       client.query( q, par, function(err,result) {  
 
         if(shouldAbort(err)){
+          console.log(err)
           return next({status: 501, message: 'Problem of insert'})
         }
 
