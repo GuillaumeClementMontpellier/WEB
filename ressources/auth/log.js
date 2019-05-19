@@ -34,9 +34,13 @@ function checkAuth() {
 
 		if(req.signedCookies.auth && req.signedCookies.admin_id){
 
+			console.log('test admin')
+
 			let q = 'SELECT code_auth FROM user_profile, admin WHERE id_user=$1 AND user_id = admin_id'
 
 			pool.query(q, [escapeHtml(req.signedCookies.admin_id)], function(err,result) { 
+
+				console.log('test tente admin')
 
 				if(err || result == undefined || result.rows == undefined){
 					return next()
@@ -46,7 +50,7 @@ function checkAuth() {
 					req.signedInAdmin = true
 					req.signedIn = true
 
-					console.log('test admin')
+					console.log('test reussi admin')
 
 					res.cookie('auth',  req.signedCookies.auth, {maxAge : 1000*60*60*24, signed: true, secure: true})
 					res.cookie('admin_id', req.signedCookies.admin_id, {maxAge : 1000*60*60*24, signed: true, secure: true})
