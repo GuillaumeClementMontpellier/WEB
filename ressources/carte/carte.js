@@ -37,7 +37,7 @@ function createVar(req, res, next){
 		return res.redirect('/')
 	}
 
-  res.render('carte/template_var', {vue : ''})
+  res.render('carte/template_var', {vue : '<script src="/ressource/js/carte_template_vue.js"></script>'})
 
 }
 

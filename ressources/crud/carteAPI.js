@@ -88,27 +88,18 @@ function nbrReq(req, res, next) {
   })
 }
 
-//Tout les modeles de carte, selon query
+//Tout les modeles de carte, selon query LIKE %nom%
 function modeleReq(req, res, next) {
 
   if(!req.query) {
     return next({status: 400, message: 'invalid input'})
   }
-  if(typeof req.query.nbr !== 'string') {
+  if(typeof req.query.nom !== 'string') {
     return next({status: 400, message: 'invalid input'})
   }
 
-  let q = 'SELECT carte_id, carte_name FROM carte_type ORDER BY carte_id LIMIT $1'
-  let par = [escapeHtml(req.query.nbr)]
-
-  if(typeof req.query.offset === 'string'){
-    q += 'OFFSET $2'
-    par.push(escapeHtml(req.query.offset))
-  }
-
-  if(req.query.desc){
-    q.replace('LIMIT', 'DESC LIMIT')
-  }
+  let q = 'SELECT carte_id, carte_name FROM carte_type WHERE carte_name LIKE $1 ORDER BY carte_id'
+  let par = ['%'+escapeHtml(req.query.nom)+'%']
 
   pool.query(q, par, function(err,result) {    
     if(err || result == undefined || result.rows == undefined){
@@ -123,26 +114,11 @@ function modeleReq(req, res, next) {
 //tout les types/soustypes/modeles/editions de cartes -------------
 app.get('/editions',editionReq)
 
-//toutes les editions de carte (WAR, M19, DAM, RNA, GRN, IXL, RIX, ...) AVEC LIMITES ET OFFSET ET ORDRE ALPHABETIQUE
+//toutes les editions de carte (WAR, M19, DAM, RNA, GRN, IXL, RIX, ...) 
 function editionReq(req, res, next) {
-  if(!req.query) {
-    return next({status: 400, message: 'invalid input'})
-  }
-  if(typeof req.query.nbr !== 'string') {
-    return next({status: 400, message: 'invalid input'})
-  }
 
-  let q = 'SELECT code, edition_name FROM edition ORDER BY code LIMIT $1'
-  let par = [escapeHtml(req.query.nbr)]
-
-  if(typeof req.query.offset === 'string'){
-    q += 'OFFSET $2'
-    par.push(escapeHtml(req.query.offset))
-  }
-
-  if(req.query.desc){
-    q.replace('LIMIT', 'DESC LIMIT')
-  }
+  let q = 'SELECT code, edition_name FROM edition ORDER BY code'
+  let par = []
 
   pool.query(q, par, function(err,result) {    
     if(err || result == undefined || result.rows == undefined){
