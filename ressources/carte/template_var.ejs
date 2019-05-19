@@ -31,21 +31,26 @@
 			
 			<label name="edition_code">Edition</label>
 			<select class="w3-select w3-border w3-round-large" :required="true" name="edition_code" >			
-          <option :selected="true">Choisir une edition</option>		
-					<option v-for="ed in editions" :key="ed.code" :value="ed.code">{{ed.edition_name}}</option>
+				<option :selected="true">Choisir une edition</option>		
+				<option v-for="ed in editions" :key="ed.code" :value="ed.code">{{ed.edition_name}}</option>
 			</select>
 
 
 			
 			<label name="carte_id">Carte Type correspondant</label>
 
-			<input class="w3-input w3-border w3-round-large" v-model="nom_carte" type="text">
-			<button @click="rechercher_carte()">Rechercher Cette carte</button>
+			<div>
 
-			<select class="w3-input w3-border w3-round-large" :required="true" name="edition_code" >
+				<input class="w3-input w3-border w3-round-large" v-model="nom_carte" type="text">
 
-          <option :selected="true">Choisir une carte</option>
-					<option v-for="c in carte_t" :key="c.carte_id" :value="c.carte_id">{{c.carte_name}}</option>
+				<button @click="rechercher_carte()">Rechercher Cette carte</button>
+
+			</div>
+
+			<select class="w3-input w3-border w3-round-large" :required="true" name="carte_id" >
+
+				<option :selected="true">Choisir une carte</option>
+				<option v-for="c in carte_t" :key="c.carte_id" :value="c.carte_id">{{c.carte_name}}</option>
 
 			</select>
 

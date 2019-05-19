@@ -300,6 +300,8 @@ app.post('/modele',putCarteType)
 
 function putCarteVar(req, res, next){//URL, flavor, scry, gath, codeEdition, idModele
 
+  console.log(req.body)
+
   if(!req.signedInAdmin){
     return next({status: 403, message: 'Pas Authorisé'})
   }
@@ -333,8 +335,7 @@ function putCarteVar(req, res, next){//URL, flavor, scry, gath, codeEdition, idM
           done()
           return next({status: 400, message: 'invalid input'})
         }
-        res.status(201)
-        res.send()
+        res.redirect('/')
 
         client.query('COMMIT', function(err){
           done()
