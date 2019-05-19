@@ -297,6 +297,52 @@ function dislikePut(req, res, next){
 //PUT admin only
 app.post('/var',putCarteVar)
 app.post('/modele',putCarteType)
+app.post('/edition',putEdition)
+
+function putEdition(req, res, next) {
+
+  if(!req.signedInAdmin){
+    return next({status: 403, message: 'Pas Authorisé'})
+  }
+
+  let q = 'Insert into edition Values ($1, $2)'
+  let par = [ escapeHtml(req.body.code), escapeHtml(req.body.edition_name)]
+
+  pool.connect(function (err, client, done){
+
+    const shouldAbort = function(err){
+      if (err) {
+        client.query('ROLLBACK', function (err) {
+          done()
+        })
+      }
+      return !!err
+    }
+
+    client.query('BEGIN', function(err){
+      if (shouldAbort(err)) {
+        return next({status: 500, message: 'Problem of transaction'})
+      }
+      client.query(q, par, function(err,result) {  
+
+        if (shouldAbort(err)){
+          return next({status: 500, message: 'Problem of insert'})
+        }
+
+        if(err || result == undefined || result.rows == undefined){
+          return next({status: 400, message: 'invalid input'})
+        }
+        
+        res.status(201)
+        res.send()
+
+        client.query('COMMIT', function(err){
+          done()
+        })
+      })
+    })
+  })
+}
 
 function putCarteVar(req, res, next){//URL, flavor, scry, gath, codeEdition, idModele
 
