@@ -35,11 +35,11 @@ Vue.component('comment',{
 
 	<button class="w3-button w3-btn w3-border w3-block w3-col s12 m4 l3" @click="flipArea()">Repondre</button>
 
-	<textarea v-show:"reponse" id="comment" v-model="contenu" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
+	<textarea v-show="reponse" id="comment" v-model="contenu" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
 
 	</div>
 
-	<button v-show:"reponse" class="w3-button w3-btn w3-border" @click="replyTo()">Valider</button>
+	<button v-show="reponse" class="w3-button w3-btn w3-border" @click="replyTo()">Valider</button>
 
 	<div v-if="comm.author_id == user_id" class="w3-row">
 
