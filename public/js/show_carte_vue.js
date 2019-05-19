@@ -41,7 +41,7 @@ Vue.component('comment',{
 
 	<button v-show:"reponse" class="w3-button w3-btn w3-border" @click="replyTo()">Valider</button>
 
-	<div v-if="comm.author_id == userId" class="w3-row">
+	<div v-if="comm.author_id == user_id" class="w3-row">
 
 	<button class="w3-button w3-btn w3-border w3-block w3-col s12 m4 l3" @click="flipAreaModif()">Modifier</button>
 
