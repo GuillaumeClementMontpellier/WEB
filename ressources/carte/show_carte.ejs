@@ -15,21 +15,21 @@
 				<img :src="carte.imgURL" class="w3-image">
 			</div>
 
-			<div class="w3-col s12 m6 l8">
+			<div class="w3-col s12 m6 l8 w3-left-align">
 
-				<p> {{carte.name}} </p>
+				<p> Nom : {{carte.name}} </p>
 
-				<p> {{carte.cmc}} </p>
+				<p> Cout de mana : {{carte.mana_cost}} </p>
 
-				<p> {{carte.types}} : {{carte.stypes}} </p>
+				<p> Type : {{carte.types}} <span v-if="carte.stypes">: {{carte.stypes}} </span> </p>
 
-				<p> {{carte.oracle}} </p>
+				<p> Effet : {{carte.oracle}} </p>
 
-				<p> {{carte.flavor}} </p>
+				<p> Ambience : <span style="font-style: italic">{{carte.flavor}}</span> </p>
 
-				<p> {{carte.edition_name}} </p>
+				<p> Edition : {{carte.edition_name}} </p>
 
-				<p><a :href="carte.gathURL">Gatherer</a>, <a :href="carte.scryURL">ScryFall</a></p>
+				<p>Liens : <a :href="carte.gathURL">Gatherer</a> et <a :href="carte.scryURL">ScryFall</a></p>
 				
 			</div>			
 
@@ -40,10 +40,6 @@
 			<div>
 
 				<button @click="like()" class="w3-button w3-btn w3-border"> Like </button>
-
-			</div>
-
-			<div>
 
 				<button @click="dislike()" class="w3-button w3-btn w3-border"> Dislike </button>
 
