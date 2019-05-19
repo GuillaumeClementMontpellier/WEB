@@ -20,9 +20,9 @@ Vue.component('comment-preview',{
 
 	<div class="w3-row">
 
-	<button class="w3-button w3-btn w3-border" @click="like()"> Like </button>
+	<button class="w3-button w3-btn w3-border w3-light-blue" @click="like()"> Like </button>
 
-	<button class="w3-button w3-btn w3-border" @click="dislike()"> Dislike </button>
+	<button class="w3-button w3-btn w3-border w3-pale-red" @click="dislike()"> Dislike </button>
 
 	</div>
 

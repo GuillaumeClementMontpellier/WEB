@@ -20,7 +20,7 @@ Vue.component('carte-preview',{
 
 	<div class="w3-col s4">
 
-	<button @click="like()" class="w3-button w3-btn w3-border"> Like </button>
+	<button @click="like()" class="w3-button w3-btn w3-border w3-light-blue"> Like </button>
 
 	</div>
 
@@ -28,7 +28,7 @@ Vue.component('carte-preview',{
 
 	<div class="w3-col s4">
 
-	<button @click="dislike()" class="w3-button w3-btn w3-border"> Dislike </button>
+	<button @click="dislike()" class="w3-button w3-btn w3-border w3-pale-red"> Dislike </button>
 
 	</div>
 
@@ -43,7 +43,7 @@ Vue.component('carte-preview',{
 	<div class="w3-col s10">
 
 	<a :href="'/carte/' + carte.var_id">
-	<button class="w3-button w3-border w3-btn w3-block"> Voir les commentaires </button> 
+	<button class="w3-button w3-border w3-btn w3-block w3-light-green"> Voir les commentaires </button> 
 	</a>
 
 	</div>
@@ -85,9 +85,9 @@ Vue.component('comment-preview',{
 
 	<div class="w3-row">
 
-	<button class="w3-button w3-btn w3-border" @click="like()"> Like </button>
+	<button class="w3-button w3-btn w3-border w3-light-blue" @click="like()"> Like </button>
 
-	<button class="w3-button w3-btn w3-border" @click="dislike()"> Dislike </button>
+	<button class="w3-button w3-btn w3-border w3-pale-red" @click="dislike()"> Dislike </button>
 
 	</div>
 

@@ -20,7 +20,7 @@ Vue.component('carte-preview',{
 
 	<div class="w3-col s4">
 
-	<a href="/login/login"><button class="w3-button w3-border w3-btn w3-block"> Like </button></a>
+	<a href="/login/login"><button class="w3-button w3-border w3-btn w3-block w3-light-blue"> Like </button></a>
 
 	</div>
 
@@ -28,7 +28,7 @@ Vue.component('carte-preview',{
 
 	<div class="w3-col s4">
 
-	<a href="/login/login"><button class="w3-button w3-border w3-btn w3-block"> Dislike </button></a>
+	<a href="/login/login"><button class="w3-button w3-border w3-btn w3-block w3-pale-red"> Dislike </button></a>
 
 	</div>
 
@@ -43,7 +43,7 @@ Vue.component('carte-preview',{
 	<div class="w3-col s10">
 
 	<a href="/login/login">
-	<button class="w3-button w3-border w3-btn w3-block"> Commentaires </button> 
+	<button class="w3-button w3-border w3-btn w3-block w3-light-green"> Commentaires </button> 
 	</a>
 
 	</div>
