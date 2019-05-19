@@ -40,11 +40,11 @@ function checkAuth() {
 
 			pool.query(q, [escapeHtml(req.signedCookies.admin_id)], function(err,result) { 
 
-				console.log('test tente admin')
-
 				if(err || result == undefined || result.rows == undefined){
 					return next()
 				}
+
+				console.log('test tente admin')
 
 				if(result.rows[0] == req.signedCookies.auth){
 					req.signedInAdmin = true
