@@ -330,6 +330,15 @@ let app = new Vue({
 			})
 
 
+		},
+
+		supprimerCompte(){
+
+			fetch("/api/users/", { credentials: 'same-origin', method : 'DELETE'})
+			.then((res)=>{
+				console.log(res)
+			})
+
 		}
 
 	}

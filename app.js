@@ -4,7 +4,7 @@ const createError = require('http-errors')
 const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
-const logger = require('morgan')
+//const logger = require('morgan')
 const helmet = require('helmet')
 
 //middleware authorisations
@@ -24,7 +24,7 @@ app.set('views', path.join(__dirname, 'ressources'))
 app.set('view engine', 'ejs')
 
 //mets le logger
-app.use(logger('dev'))
+//app.use(logger('dev'))
 
 //helmet middleware, change les headers de la reponse pour securite TODO options
 app.use(helmet())

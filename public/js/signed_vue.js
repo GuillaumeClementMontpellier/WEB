@@ -363,6 +363,15 @@ let app = new Vue({
 				console.log('There has been a problem with reply fetch operation: ', error.message)
 			})
 
+		},
+
+		supprimerCompte(){
+
+			fetch("/api/users/", { credentials: 'same-origin', method : 'DELETE'})
+			.then((res)=>{
+				console.log(res)
+			})
+
 		}
 
 	}
