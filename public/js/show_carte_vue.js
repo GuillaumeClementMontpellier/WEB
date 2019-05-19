@@ -33,7 +33,7 @@ Vue.component('comment',{
 
 	<div>
 
-	<button class="w3-button w3-btn w3-border w3-block w3-light-green" @click="flipArea()">Repondre</button>
+	<button class="w3-button w3-btn w3-border w3-light-green" @click="flipArea()">Repondre</button>
 
 	<textarea v-show="reponse" id="comment" v-model="contenu" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
 
@@ -43,9 +43,9 @@ Vue.component('comment',{
 
 	<div v-if="comm.author_id == user_id">
 
-	<button class="w3-button w3-btn w3-border w3-block w3-pale-red" @click="supprimerComment()">Supprimer commentaire</button>
+	<button class="w3-button w3-btn w3-border w3-pale-red" @click="supprimerComment()">Supprimer commentaire</button>
 
-	<button class="w3-button w3-btn w3-border w3-block w3-light-green" @click="flipAreaModif()">Modifier</button>
+	<button class="w3-button w3-btn w3-border w3-light-green" @click="flipAreaModif()">Modifier</button>
 
 	<textarea v-show="modif" id="comment" v-model="contenuModif" class="w3-input w3-border w3-round-large w3-col s12 m8 l11"></textarea>
 
@@ -169,6 +169,7 @@ Vue.component('comment',{
 			.catch( function(error) {
 				console.log('There has been a problem with DELETE operation: ', error.message)
 			})
+
 		},
 		flipArea(){
 			this.reponse = !this.reponse
