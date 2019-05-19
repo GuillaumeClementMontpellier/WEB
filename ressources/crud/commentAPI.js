@@ -348,7 +348,7 @@ function likeComm(req, res, next){
 
   let q = `INSERT INTO comment_like VALUES($1, $2, $3)`
 
-  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_name), true]
+  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_id), true]
 
   pool.connect(function (err, client, done){
 
@@ -398,7 +398,7 @@ function dislikeComm(req, res, next){
 
   let q = `INSERT INTO comment_like VALUES($1, $2, $3)`
 
-  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_name), false]
+  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_id), false]
 
   pool.connect(function (err, client, done){
 

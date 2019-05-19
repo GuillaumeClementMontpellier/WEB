@@ -275,7 +275,7 @@ function likePut(req, res, next){
 
   let q = `INSERT INTO carte_like VALUES($1, $2, $3)`
 
-  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_name), true]
+  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_id), true]
 
   pool.connect(function (err, client, done){
 
@@ -325,7 +325,7 @@ function dislikePut(req, res, next){
 
   let q = `INSERT INTO carte_like VALUES($1, $2, $3)`
 
-  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_name), false]
+  let par = [escapeHtml(req.params.id), escapeHtml(req.signedCookies.user_id), false]
 
   pool.connect(function (err, client, done){
 
