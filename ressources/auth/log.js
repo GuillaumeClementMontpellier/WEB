@@ -15,9 +15,9 @@ function escapeHtml(text) {
 	if(typeof text != 'string'){
 		return text
 	}
-  return text.replace(/[\"&<>]/g, function (a) {
-    return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a];
-  });
+	return text.replace(/[\"&<>]/g, function (a) {
+		return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a];
+	});
 }
 
 /* GET users listing. */
@@ -34,8 +34,6 @@ function checkAuth() {
 
 		if(req.signedCookies.auth && req.signedCookies.admin_id){
 
-			console.log('test admin')
-
 			let q = 'SELECT code_auth FROM user_profile, admin WHERE id_user=$1 AND user_id = admin_id'
 
 			pool.query(q, [escapeHtml(req.signedCookies.admin_id)], function(err,result) { 
@@ -48,10 +46,12 @@ function checkAuth() {
 					req.signedInAdmin = true
 					req.signedIn = true
 
-			  	res.cookie('auth',  req.signedCookies.auth, {maxAge : 1000*60*60*24, signed: true, secure: true})
-		  		res.cookie('admin_id', req.signedCookies.admin_id, {maxAge : 1000*60*60*24, signed: true, secure: true})
-		  		res.cookie('user_id', req.signedCookies.user_id, {maxAge : 1000*60*60*24, signed: true, secure: true})
-  				res.cookie('user_name', req.signedCookies.user_name, {maxAge : 1000*60*60*24, signed: true, secure: true})
+					console.log('test admin')
+
+					res.cookie('auth',  req.signedCookies.auth, {maxAge : 1000*60*60*24, signed: true, secure: true})
+					res.cookie('admin_id', req.signedCookies.admin_id, {maxAge : 1000*60*60*24, signed: true, secure: true})
+					res.cookie('user_id', req.signedCookies.user_id, {maxAge : 1000*60*60*24, signed: true, secure: true})
+					res.cookie('user_name', req.signedCookies.user_name, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				}
 
 				return next()
@@ -71,9 +71,9 @@ function checkAuth() {
 				if(result.rows[0].code_auth == req.signedCookies.auth){
 					req.signedIn = true
 
-			  	res.cookie('auth',  req.signedCookies.auth, {maxAge : 1000*60*60*24, signed: true, secure: true})
-		  		res.cookie('user_id', req.signedCookies.user_id, {maxAge : 1000*60*60*24, signed: true, secure: true})
-  				res.cookie('user_name', req.signedCookies.user_name, {maxAge : 1000*60*60*24, signed: true, secure: true})
+					res.cookie('auth',  req.signedCookies.auth, {maxAge : 1000*60*60*24, signed: true, secure: true})
+					res.cookie('user_id', req.signedCookies.user_id, {maxAge : 1000*60*60*24, signed: true, secure: true})
+					res.cookie('user_name', req.signedCookies.user_name, {maxAge : 1000*60*60*24, signed: true, secure: true})
 				}
 
 				return next()
