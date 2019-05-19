@@ -125,13 +125,11 @@ function likesOfUser(req, res, next) { //retourne les cartes liked par cet user
 		if(!req.signedIn){
 			return next({status: 400, message: 'invalid input param'})
 		} else {
-
 			req.params.id = req.signedCookies.user_id
-
 		}
 	}
 
-	let q = 'SELECT var_id, image_url FROM carte_var, carte_like WHERE var_id = carte_id AND user_id = $1 AND aime=true ORDER BY score(carte_like_count(var_id)+1,carte_dislike_count(var_id)) LIMIT $2'
+	let q = 'SELECT var_id, image_url FROM carte_var, carte_like cl WHERE var_id = cl.carte_id AND user_id = $1 AND aime=true ORDER BY score(carte_like_count(var_id)+1,carte_dislike_count(var_id)) LIMIT $2'
 	let par = [escapeHtml(req.params.id),escapeHtml(req.query.nbr)]
 
 	if(typeof req.query.offset === 'string'){
