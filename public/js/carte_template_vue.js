@@ -2,6 +2,8 @@
 
 let app = new Vue({
 
+	el: '#app',
+
 	data: {
 		editions: [],
 		carte_t:[],
