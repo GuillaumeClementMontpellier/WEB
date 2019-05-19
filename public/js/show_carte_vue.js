@@ -115,7 +115,7 @@ Vue.component('comment',{
 		replyTo(){
 			let data = {
 				contenu: this.contenu,
-				carte_id: this.carte_id,
+				carte_id: this.comm.carte_id,
 				pere: this.comm.comment_id
 			}
 
