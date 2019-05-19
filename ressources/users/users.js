@@ -38,16 +38,21 @@ function lik(req, res, next) {
   
 }
 
-router.get('/:id', function(req, res, next) {
+router.get('/:id', home);
 
-  res.send('respond with a resource');
+router.get('/', home);
+
+function home(req, res, next) {
+
+	if(!req.signedIn){
+		return res.redirect('/')
+	}
+	if(typeof req.params.id !== 'string'){
+		req.params.id = req.signedCookies.user_id
+	}
+
+  res.render('users/home', {vue : '<script src="/ressource/js/user_vue.js"></script>', id: req.params.id});
   
-});
-
-router.get('/', function(req, res, next) {
-
-  res.send('respond with a resource');
-  
-});
+}
 
 module.exports = router;
