@@ -11,7 +11,7 @@ Vue.component('carte-preview',{
 	<div class="w3-card w3-margin-bottom">
 
 	<a :href="'/carte/' + carte.var_id"> 
-	<img :src="carte.image_url" alt="Carte" class="w3-image  w3-margin-bottom">
+	<img :src="carte.image_url" alt="Carte" class="w3-image w3-margin-bottom">
 	</a>
 
 	<div class="w3-row  w3-margin-bottom">
