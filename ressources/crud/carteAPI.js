@@ -374,7 +374,7 @@ function putCarteType(req, res, next){ //dans body : carte_name, oracle, mana_co
     return next({status: 403, message: 'Pas Authorisé'})
   }
 
-  let q = `INSERT INTO carte_type (carte_name, oracle, mana_cost, cmc, type, sub_type) VALUES($1, $2, $3, $4, ^5, $6)`
+  let q = `INSERT INTO carte_type (carte_name, oracle, mana_cost, cmc, type, sub_type) VALUES($1, $2, $3, $4, $5, $6)`
 
   let par = [escapeHtml(req.body.carte_name),escapeHtml( req.body.oracle), escapeHtml(req.body.mana_cost), escapeHtml(req.body.cmc), escapeHtml(req.body.type), escapeHtml(req.body.sub_type)]
 
@@ -404,8 +404,8 @@ function putCarteType(req, res, next){ //dans body : carte_name, oracle, mana_co
           done()
           return next({status: 400, message: 'invalid input'})
         }
-        res.status(201)
-        res.send()
+
+        res.redirect('/')
 
         client.query('COMMIT', function(err){
           done()

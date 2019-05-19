@@ -28,7 +28,7 @@ function createCarte(req, res, next){
 		return res.redirect('/')
 	}
 
-  res.render('carte/template_type', {vue : '<script src="/ressource/js/carte_template_vue.js"></script>'})
+  res.render('carte/template_type', {vue : ''})
 
 }
 function createVar(req, res, next){
@@ -37,7 +37,7 @@ function createVar(req, res, next){
 		return res.redirect('/')
 	}
 
-  res.render('carte/template_var', {vue : '<script src="/ressource/js/var_template_vue.js"></script>'})
+  res.render('carte/template_var', {vue : ''})
 
 }
 
