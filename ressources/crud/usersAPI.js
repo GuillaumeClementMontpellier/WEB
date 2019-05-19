@@ -232,6 +232,7 @@ function likedComments(req, res, next) { //retourne les comments liked par cet u
 
 //delete
 app.delete('/:id',deleteUser)
+app.delete('/',deleteUser)
 
 
 function deleteUser(req, res, next){
