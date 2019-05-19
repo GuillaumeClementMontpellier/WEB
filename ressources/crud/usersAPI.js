@@ -315,7 +315,7 @@ function deleteUser(req, res, next){
 								res.clearCookie('user_name', { signed: true, secure: true})
 
 								res.status(201)
-								res.send()
+								res.redirect('/')
 
 								client.query('COMMIT', function(err){
 									done()

@@ -115,7 +115,7 @@ let app = new Vue({
 		},		
 		fetch_cartes_top(){
 
-			fetch("/api/carte/bytop?nbr=6&offset="+cartes_preview_top.length, { credentials: 'same-origin'}) //fetch les comm de user
+			fetch("/api/carte/bytop?nbr=6&offset="+this.cartes_preview_top.length, { credentials: 'same-origin'}) //fetch les comm de user
 			.then( (res) => {
 				return res.json()
 			} )
@@ -129,7 +129,7 @@ let app = new Vue({
 		},		
 		fetch_cartes_comm(){
 
-			fetch("/api/carte/bynbrcomment?nbr=6&offset="+cartes_preview_comm.length, { credentials: 'same-origin'}) //fetch les comm de user
+			fetch("/api/carte/bynbrcomment?nbr=6&offset="+this.cartes_preview_comm.length, { credentials: 'same-origin'}) //fetch les comm de user
 			.then( (res) => {
 				return res.json()
 			} )
