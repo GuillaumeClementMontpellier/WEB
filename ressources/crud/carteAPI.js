@@ -190,7 +190,7 @@ function commentsReq(req, res, next) {
     return next({status: 400, message: 'invalid input param'})
   }
 
-  let q = `SELECT comment_id, contenu, created, edited, author_id, name_user FROM commentaire, user_profile
+  let q = `SELECT comment_id, contenu, created, edited, author_id, carte_id, name_user FROM commentaire, user_profile
   WHERE author_id=id_user AND comment_id NOT IN (select id_reply from reply_to) AND carte_id=$1 
   ORDER BY score(comment_like_count(comment_id)+1,comment_dislike_count(comment_id))LIMIT $2`
 
