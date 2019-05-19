@@ -116,7 +116,7 @@ Vue.component('comment',{
 			let data = {
 				contenu: this.contenu,
 				carte_id: this.carte_id,
-				pere: comm.comment_id
+				pere: this.comm.comment_id
 			}
 
 			fetch('/api/comment/reply', { 
@@ -141,7 +141,7 @@ Vue.component('comment',{
 				contenu: this.contenuModif,
 			}
 
-			fetch('/api/comment/'+comm.comment_id, { 
+			fetch('/api/comment/'+this.comm.comment_id, { 
 				credentials: 'same-origin', 
 				method : 'PATCH',
 				headers: {
