@@ -162,7 +162,7 @@ Vue.component('comment',{
 			this.reponse = !this.reponse
 		},
 		flipAreaModif(){
-			this.reponse = !this.reponse
+			this.modif = !this.modif
 		}
 	},
 	computed : {
