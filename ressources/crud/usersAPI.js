@@ -248,7 +248,7 @@ function deleteUser(req, res, next){
 		req.params.id = req.signedCookies.user_id		
 	}	
 
-	let q1 = `UPDATE commentaire SET author_id = 0, contenu = "DELETED", edited = now() WHERE author_id = $1`
+	let q1 = `UPDATE commentaire SET author_id = 0, contenu = 'DELETED', edited = now() WHERE author_id = $1`
 	let par1 = [escapeHtml(req.params.id)]
 
 	let q2 = `DELETE FROM carte_like where user_id = $1 AND $1 != 0`
