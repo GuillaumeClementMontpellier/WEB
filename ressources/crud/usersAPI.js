@@ -237,6 +237,8 @@ app.delete('/',deleteUser)
 
 function deleteUser(req, res, next){
 
+	console.log('voila--------------------------')
+
 	if(!req.signedIn){
 		return next({status: 403, message: 'Pas logged in'})
 	}	
