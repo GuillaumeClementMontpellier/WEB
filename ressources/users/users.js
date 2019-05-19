@@ -18,12 +18,12 @@ function comm(req, res, next) {
 		req.params.id = req.signedCookies.user_id
 	}
 
-  res.render('users/comment', {vue : '<script src="/ressource/js/user_comment_vue.js"></script>', id: req.params.id});
+  res.render('users/comment', {vue : '<script src="/ressource/js/user_comment_vue.js"></script>', id: req.params.id})
   
 }
 
-router.get('/likes/:id', lik);
-router.get('/likes', lik);
+router.get('/likes/:id', lik)
+router.get('/likes', lik)
 
 function lik(req, res, next) {
 
@@ -34,25 +34,28 @@ function lik(req, res, next) {
 		req.params.id = req.signedCookies.user_id
 	}
 
-  res.render('users/likes', {vue : '<script src="/ressource/js/user_likes_vue.js"></script>', id: req.params.id});
+  res.render('users/likes', {vue : '<script src="/ressource/js/user_likes_vue.js"></script>', id: req.params.id})
   
 }
 
-router.get('/:id', home);
+router.get('/', home)
 
-router.get('/', home);
+router.get('/:id', home)
 
 function home(req, res, next) {
 
 	if(!req.signedIn){
 		return res.redirect('/')
 	}
-	if(!isNaN(req.params.id)){
+	if(isNaN(req.params.id)){
+		req.params.id = req.signedCookies.user_id
+	}
+	if(typeof req.params.id !== 'string'){
 		req.params.id = req.signedCookies.user_id
 	}
 
-  res.render('users/home', {vue : '<script src="/ressource/js/user_vue.js"></script>', id: req.params.id});
+  res.render('users/home', {vue : '<script src="/ressource/js/user_vue.js"></script>', id: req.params.id})
   
 }
 
-module.exports = router;
+module.exports = router
