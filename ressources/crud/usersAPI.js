@@ -23,6 +23,7 @@ function escapeHtml(text) {
 
 //get database demands
 app.get('/name/:name', userByName)
+app.get('/id/:id', userById)
 
 function userByName(req, res, next) {
 
@@ -39,7 +40,26 @@ function userByName(req, res, next) {
 			return next({status: 400, message: 'invalid input'})
 		}
 		res.status(200)
-		res.json(result.rows)
+		res.json(result.rows[0])
+	})
+}
+
+function userById(req, res, next) {
+
+	if(typeof req.params.id !== 'string') {
+		return next({status: 400, message: 'invalid input'})
+	}
+
+	let q = `SELECT name_user FROM user_profile WHERE id_user=$1`
+
+	let par = [escapeHtml(req.params.id)]
+
+	pool.query(q, par, function(err,result) {    
+		if(err || result == undefined || result.rows == undefined){
+			return next({status: 400, message: 'invalid input'})
+		}
+		res.status(200)
+		res.json(result.rows[0])
 	})
 }
 

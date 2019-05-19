@@ -1,0 +1,23 @@
+
+<%- include('../layout/head') %>
+<%- include('../layout/header_logged') %>
+
+<span id="id_user" style="display: none"><%=id%></span>
+
+<div class="w3-container">
+
+	<h2>Commentaires de {{name}}</h2>
+
+	<div class="w3-row">
+
+		<comment-preview class="w3-col s12" v-for="comm in comments_preview" :key="comm.comment_id" @liked='liked_comm(comm)' @disliked='disliked_comm(comm)' :comm="comm"> </comment-preview>
+
+		<p v-if="comments_preview.length==0">{{name}} n'a pas encore posté de commentaires</p>
+
+		<button v-else class="w3-button w3-btn w3-border" @click="fetch_comm">Plus de commentaires</button>
+
+	</div>
+
+</div>
+
+<%- include('../layout/foot',{vue: vue, logged: true}) %>

@@ -83,11 +83,15 @@ Vue.component('comment-preview',{
 
 	</div>
 
-	<button class="w3-button w3-btn w3-border" @click="fetchReply()"> Voir plus de reponses </button>
+	<div class="w3-row">
 
 	<button class="w3-button w3-btn w3-border" @click="like()"> Like </button>
 
 	<button class="w3-button w3-btn w3-border" @click="dislike()"> Dislike </button>
+
+	</div>
+
+	<button class="w3-button w3-btn w3-border" @click="fetchReply()"> Voir plus de reponses </button>
 
 	<div class="reply_section w3-row">
 
