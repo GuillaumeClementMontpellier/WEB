@@ -7,7 +7,7 @@ Vue.component('comment',{
 			required: true,
 			type: Object
 		},
-		userId:{
+		user_id:{
 			required: true,
 			type: String			
 		}
@@ -61,7 +61,7 @@ Vue.component('comment',{
 
 	<div class="w3-col s12 m11 l11">
 
-	<comment v-for="repl in replys" :key="repl.comment_id" :userId="userId" :comm="repl" @liked="liked_fils(repl)" @disliked="disliked_fils(repl)"> </comment>
+	<comment v-for="repl in replys" :key="repl.comment_id" :user_id="user_id" :comm="repl" @liked="liked_fils(repl)" @disliked="disliked_fils(repl)"> </comment>
 
 	</div>
 	
