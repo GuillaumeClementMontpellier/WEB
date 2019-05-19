@@ -7,7 +7,10 @@ Vue.component('comment',{
 			required: true,
 			type: Object
 		},
-		userId
+		userId:{
+			required: true,
+			type: String			
+		}
 	},
 	template:`
 	<div class="w3-container w3-card w3-margin-bottom w3-left-align">
