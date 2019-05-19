@@ -140,6 +140,15 @@ let app = new Vue({
 				console.log('There has been a problem with initial fetch operation: ', error.message)
 			})
 
+		},
+
+		suppimerCompte(){
+
+			fetch("/api/users/"+carte.var_id, { credentials: 'same-origin', method : 'DELETE'})
+			.then((res)=>{
+				console.log(res)
+			})
+
 		}
 
 	}
