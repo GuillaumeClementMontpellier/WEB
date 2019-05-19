@@ -152,6 +152,7 @@ Vue.component('comment-preview',{
 })
 
 
+
 let app = new Vue({
 
 	el: '#app',
@@ -164,7 +165,7 @@ let app = new Vue({
 
 	created: function(){
 
-		fetch("/api/carte/bytop?nbr=12", { credentials: 'same-origin'})
+		fetch("/api/carte/bytop?nbr=12", { credentials: 'same-origin'}) //fetch les meilleures cartes
 		.then( (res) => {
 			return res.json()
 		} )
@@ -175,7 +176,7 @@ let app = new Vue({
 			console.log('There has been a problem with initial fetch operation: ', error.message)
 		})
 		
-		fetch("/api/comment/perstop?nbr=6", { credentials: 'same-origin'})
+		fetch("/api/comment/perstop?nbr=6", { credentials: 'same-origin'}) //fetch les meilleurs comm de moi
 		.then( (res) => {
 			return res.json()
 		} )
@@ -193,7 +194,7 @@ let app = new Vue({
 			console.log('There has been a problem with initial fetch operation: ', error.message)
 		})
 		
-		fetch("/api/comment/top?nbr=6", { credentials: 'same-origin'})
+		fetch("/api/comment/top?nbr=6", { credentials: 'same-origin'})//fetch les meilleurs comm general
 		.then( (res) => {
 			return res.json()
 		} )
@@ -211,7 +212,7 @@ let app = new Vue({
 			console.log('There has been a problem with initial fetch operation: ', error.message)
 		})
 
-		fetch("/api/users/replys?nbr=6", { credentials: 'same-origin'})
+		fetch("/api/users/replys?nbr=6", { credentials: 'same-origin'}) //fetch les repl a moi
 		.then( (res) => {
 			return res.json()
 		} )
@@ -246,6 +247,89 @@ let app = new Vue({
 		disliked_comm(comm) {
 			console.log(comm)
 			return
+		},
+		fetch_cartes(){
+
+			fetch( "/api/carte/bytop?nbr=12&offset=" + this.cartes_preview.length, { credentials: 'same-origin'})
+			.then( (res) => {
+				return res.json()
+			} )
+			.then( (res) => {
+				this.cartes_preview = this.cartes_preview.concat(res)
+			} )
+			.catch( function(error) {
+				console.log('There has been a problem with reply fetch operation: ', error.message)
+			})
+
+		},		
+		fetch_comm_repl(){
+
+			fetch( "/api/users/replys?nbr=6&offset=" + this.replys_preview.length, { credentials: 'same-origin'})
+			.then( (res) => {
+				return res.json()
+			} )
+			.then( (res) => {
+				
+				let c
+				for (c in res){
+					res[c].created = (new Date(res[c].created)).toLocaleDateString()
+					if (res[c].edited){
+						res[c].edited = (new Date(res[c].edited)).toLocaleDateString()
+					}
+				}
+				this.replys_preview = this.replys_preview.concat(res)
+
+			} )
+			.catch( function(error) {
+				console.log('There has been a problem with reply fetch operation: ', error.message)
+			})
+
+		},	
+		fetch_comm(){
+
+			fetch( "/api/comment/top?nbr=6&offset=" + this.comments_preview.length, { credentials: 'same-origin'})
+			.then( (res) => {
+				return res.json()
+			} )
+			.then( (res) => {
+				
+				let c
+				for (c in res){
+					res[c].created = (new Date(res[c].created)).toLocaleDateString()
+					if (res[c].edited){
+						res[c].edited = (new Date(res[c].edited)).toLocaleDateString()
+					}
+				}
+				this.comments_preview = this.comments_preview.concat(res)
+
+			} )
+			.catch( function(error) {
+				console.log('There has been a problem with reply fetch operation: ', error.message)
+			})
+
+		},
+		fetch_comm_perso(){
+
+			fetch( "/api/comment/top?nbr=6&offset=" + this.perso_comments_preview.length, { credentials: 'same-origin'})
+			.then( (res) => {
+				return res.json()
+			} )
+			.then( (res) => {
+				
+				let c
+				for (c in res){
+					res[c].created = (new Date(res[c].created)).toLocaleDateString()
+					if (res[c].edited){
+						res[c].edited = (new Date(res[c].edited)).toLocaleDateString()
+					}
+				}
+				this.perso_comments_preview = this.perso_comments_preview.concat(res)
+
+			} )
+			.catch( function(error) {
+				console.log('There has been a problem with reply fetch operation: ', error.message)
+			})
+
 		}
 
 	}

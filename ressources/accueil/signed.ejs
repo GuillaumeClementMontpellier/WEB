@@ -22,6 +22,8 @@
 
 			<carte-preview class="w3-col s12 m6 l4" v-for="carte in cartes_preview" :key="carte.var_id" @liked='liked_carte' @disliked='disliked_carte' :carte="carte"> </carte-preview> 
 
+			<button class="w3-button w3-btn w3-border" @click="fetch_cartes">Plus de cartes</button>
+
 		</div>
 
 	</div>
@@ -35,6 +37,8 @@
 			<comment-preview class="w3-col s12" v-for="repl in replys_preview" :key="repl.comment_id" @liked='liked_comm(repl)' @disliked='disliked_comm(repl)' :comm="repl"> </comment-preview> 
 
 			<p v-if="replys_preview.length==0">Il n'y a pas encore de reponses a un commentaire que vous avez posté</p>
+
+			<button v-else class="w3-button w3-btn w3-border" @click="fetch_comm_repl">Plus de commentaires</button>
 
 		</div>
 
@@ -50,6 +54,8 @@
 
 			<p v-if="perso_comments_preview.length==0">Vous n'avez pas encore posté de commentaire</p>
 
+			<button v-else class="w3-button w3-btn w3-border" @click="fetch_comm_perso">Plus de commentaires</button>
+
 		</div>
 
 	</div>
@@ -61,6 +67,8 @@
 		<div class="w3-row">
 
 			<comment-preview class="w3-col s12" v-for="comm in comments_preview" :key="comm.comment_id" @liked='liked_comm(comm)' @disliked='disliked_comm(comm)' :comm="comm"> </comment-preview>
+
+			<button class="w3-button w3-btn w3-border" @click="fetch_comm">Plus de commentaires</button>
 
 		</div>
 
