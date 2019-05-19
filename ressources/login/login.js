@@ -76,7 +76,7 @@ function login(req, res, next){ //post username, mot de passe, qui sont dans bod
 	if(req.body.user_name && req.body.pass){
 
 		//request enc_pass et salt
-		let q = 'SELECT enc_pass, salt, id_user, name_user FROM user_profile LEFT OUTER JOIN admin ON admin_id = id_user WHERE name_user=$1 '
+		let q = 'SELECT enc_pass, salt, id_user, name_user, admin_id FROM user_profile LEFT OUTER JOIN admin ON admin_id = id_user WHERE name_user=$1 '
 
 		pool.query(q, [escapeHtml(req.body.user_name)], function(err,result) { 
 

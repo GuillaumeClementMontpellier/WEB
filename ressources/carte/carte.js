@@ -19,8 +19,8 @@ function showAll(req, res, next){
 }
 
 //get template pour creer cartes (si admin)
-router.get('/template_type',createCarte)
-router.get('/template_var',createVar)
+router.get('/template/type',createCarte)
+router.get('/template/var',createVar)
 
 function createCarte(req, res, next){
 
