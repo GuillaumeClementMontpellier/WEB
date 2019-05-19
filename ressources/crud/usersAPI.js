@@ -248,7 +248,7 @@ function deleteUser(req, res, next){
 		req.params.id = req.signedCookies.user_id		
 	}	
 
-	let q1 = `UPDATE commentaire SET author_id = 0 AND contenu = "DELETED" AND edited = now() WHERE author_id = $1`
+	let q1 = `UPDATE commentaire SET author_id = 0, contenu = "DELETED", edited = now() WHERE author_id = $1`
 	let par1 = [escapeHtml(req.params.id)]
 
 	let q2 = `DELETE FROM carte_like where user_id = $1 AND $1 != 0`
@@ -282,25 +282,25 @@ function deleteUser(req, res, next){
 			client.query( q1, par1, function(err,result) {  
 
 				if(shouldAbort(err)){
-					return next({status: 501, message: 'Problem of transaction'})
+					return next({status: 500, message: 'Problem of transaction'})
 				}
 
 				client.query( q2, par2, function(err,result) {  
 
 					if(shouldAbort(err)){
-						return next({status: 502, message: 'Problem of transaction'})
+						return next({status: 500, message: 'Problem of transaction'})
 					}
 
 					client.query( q3, par3, function(err,result) {  
 
 						if(shouldAbort(err)){
-							return next({status: 503, message: 'Problem of transaction'})
+							return next({status: 500, message: 'Problem of transaction'})
 						}
 
 						client.query( q3, par3, function(err,result) {  
 
 							if(shouldAbort(err)){
-								return next({status: 504, message: 'Problem of transaction'})
+								return next({status: 500, message: 'Problem of transaction'})
 							}
 
 							res.status(201)
