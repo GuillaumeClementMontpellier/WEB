@@ -311,6 +311,7 @@ function logout(req, res, next){ //get avec cookies auth et user_id
 
 	res.clearCookie('auth', { signed: true, secure: true})
 	res.clearCookie('user_id', { signed: true, secure: true})
+	res.clearCookie('admin_id', { signed: true, secure: true})
 	res.clearCookie('user_name', { signed: true, secure: true})
 
 	res.redirect('/')
